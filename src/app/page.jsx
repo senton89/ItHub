@@ -1,7 +1,7 @@
 'use client';
 
-import { useState, useEffect, useCallback } from "react";
-import { Search, ExternalLink, Calendar, Plus, X, Loader2, Link2, BookOpen, Tag, Menu } from "lucide-react";
+import { useState, useEffect, useCallback, useRef } from "react";
+import { Search, ExternalLink, Calendar, Plus, X, Loader2, Link2, BookOpen, Tag, Menu, FileText, Folder, ArrowRight } from "lucide-react";
 import { motion, AnimatePresence } from "framer-motion";
 
 // ============ Header Component ============
@@ -78,10 +78,11 @@ function Header() {
 }
 
 // ============ Speed Dial Component ============
-function SpeedDial({ onAddResource, onAddTerm }) {
+function SpeedDial({ onAddResource, onAddTerm, onAddCategory }) {
   const [isOpen, setIsOpen] = useState(false);
 
   const items = [
+    { icon: Folder, label: "Добавить категорию", onClick: onAddCategory },
     { icon: Link2, label: "Добавить ресурс", onClick: onAddResource },
     { icon: BookOpen, label: "Добавить термин", onClick: onAddTerm },
   ];
@@ -140,9 +141,9 @@ function Modal({ isOpen, onClose, title, children }) {
             initial={{ opacity: 0, scale: 0.95, y: 20 }}
             animate={{ opacity: 1, scale: 1, y: 0 }}
             exit={{ opacity: 0, scale: 0.95, y: 20 }}
-            className="fixed top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 z-50 w-full max-w-lg bg-white rounded-xl shadow-2xl"
+            className="fixed top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 z-50 w-full max-w-lg bg-white rounded-xl shadow-2xl max-h-[90vh] overflow-y-auto"
           >
-            <div className="flex items-center justify-between p-6 border-b border-black/5">
+            <div className="flex items-center justify-between p-6 border-b border-black/5 sticky top-0 bg-white rounded-t-xl">
               <h2 className="text-lg font-medium">{title}</h2>
               <button onClick={onClose} className="p-1 hover:bg-stone-100 rounded">
                 <X className="w-5 h-5" />
@@ -153,6 +154,117 @@ function Modal({ isOpen, onClose, title, children }) {
         </>
       )}
     </AnimatePresence>
+  );
+}
+
+// ============ Add Category Modal ============
+function AddCategoryModal({ isOpen, onClose, onSuccess }) {
+  const [name, setName] = useState("");
+  const [description, setDescription] = useState("");
+  const [color, setColor] = useState("#64748b");
+  const [isLoading, setIsLoading] = useState(false);
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    if (!name) return;
+
+    setIsLoading(true);
+    try {
+      const response = await fetch("/api/categories", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          name,
+          description: description || null,
+          color,
+        }),
+      });
+
+      if (response.ok) {
+        setName("");
+        setDescription("");
+        setColor("#64748b");
+        onSuccess();
+        onClose();
+      } else {
+        const error = await response.json();
+        alert(error.error || "Ошибка при создании категории");
+      }
+    } catch (error) {
+      console.error("Error creating category:", error);
+      alert("Ошибка при создании категории");
+    } finally {
+      setIsLoading(false);
+    }
+  };
+
+  return (
+    <Modal isOpen={isOpen} onClose={onClose} title="Добавить категорию">
+      <form onSubmit={handleSubmit} className="p-6 space-y-4">
+        <div>
+          <label className="block text-sm font-medium text-stone-700 mb-1.5">Название *</label>
+          <input
+            value={name}
+            onChange={(e) => setName(e.target.value)}
+            placeholder="Например: Документация"
+            required
+            className="w-full px-3 py-2 border border-stone-200 rounded-md text-sm focus:outline-none focus:ring-2 focus:ring-rose-500"
+          />
+        </div>
+
+        <div>
+          <label className="block text-sm font-medium text-stone-700 mb-1.5">Описание</label>
+          <textarea
+            value={description}
+            onChange={(e) => setDescription(e.target.value)}
+            placeholder="Краткое описание категории"
+            rows={2}
+            className="w-full px-3 py-2 border border-stone-200 rounded-md text-sm focus:outline-none focus:ring-2 focus:ring-rose-500"
+          />
+        </div>
+
+        <div>
+          <label className="block text-sm font-medium text-stone-700 mb-1.5">Цвет</label>
+          <div className="flex items-center gap-3">
+            <input
+              type="color"
+              value={color}
+              onChange={(e) => setColor(e.target.value)}
+              className="w-10 h-10 rounded border border-stone-200 cursor-pointer"
+            />
+            <input
+              value={color}
+              onChange={(e) => setColor(e.target.value)}
+              className="flex-1 px-3 py-2 border border-stone-200 rounded-md text-sm focus:outline-none focus:ring-2 focus:ring-rose-500"
+            />
+          </div>
+        </div>
+
+        <div className="flex gap-3 pt-4">
+          <button
+            type="button"
+            onClick={onClose}
+            className="flex-1 py-2.5 border border-stone-200 rounded-md text-sm hover:bg-stone-50 transition-colors"
+          >
+            Отмена
+          </button>
+          <button
+            type="submit"
+            disabled={isLoading}
+            className="flex-1 py-2.5 bg-rose-600 text-white rounded-md text-sm hover:bg-rose-700 transition-colors disabled:opacity-50 flex items-center justify-center"
+          >
+            {isLoading ? (
+              <>
+                <Loader2 className="w-4 h-4 mr-2 animate-spin" />
+                Сохранение...
+              </>
+            ) : (
+              "Добавить"
+            )}
+          </button>
+        </div>
+      </form>
+    </Modal>
   );
 }
 
@@ -173,7 +285,10 @@ function AddResourceModal({ isOpen, onClose, categories, onSuccess }) {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    if (!name || !description || !categoryId) return;
+    if (!name || !description || !categoryId) {
+      alert("Заполните обязательные поля");
+      return;
+    }
 
     setIsLoading(true);
     try {
@@ -185,7 +300,7 @@ function AddResourceModal({ isOpen, onClose, categories, onSuccess }) {
           description,
           url: url || null,
           categoryId,
-          tags: tags ? tags.split(",").map((t) => t.trim()) : null,
+          tags: tags ? tags.split(",").map((t) => t.trim()).filter(Boolean) : null,
         }),
       });
 
@@ -196,9 +311,13 @@ function AddResourceModal({ isOpen, onClose, categories, onSuccess }) {
         setTags("");
         onSuccess();
         onClose();
+      } else {
+        const error = await response.json();
+        alert(error.error || "Ошибка при создании ресурса");
       }
     } catch (error) {
       console.error("Error creating resource:", error);
+      alert("Ошибка при создании ресурса");
     } finally {
       setIsLoading(false);
     }
@@ -208,7 +327,7 @@ function AddResourceModal({ isOpen, onClose, categories, onSuccess }) {
     <Modal isOpen={isOpen} onClose={onClose} title="Добавить ресурс">
       <form onSubmit={handleSubmit} className="p-6 space-y-4">
         <div>
-          <label className="block text-sm font-medium text-stone-700 mb-1.5">Название</label>
+          <label className="block text-sm font-medium text-stone-700 mb-1.5">Название *</label>
           <input
             value={name}
             onChange={(e) => setName(e.target.value)}
@@ -219,7 +338,7 @@ function AddResourceModal({ isOpen, onClose, categories, onSuccess }) {
         </div>
 
         <div>
-          <label className="block text-sm font-medium text-stone-700 mb-1.5">Описание</label>
+          <label className="block text-sm font-medium text-stone-700 mb-1.5">Описание *</label>
           <textarea
             value={description}
             onChange={(e) => setDescription(e.target.value)}
@@ -242,13 +361,14 @@ function AddResourceModal({ isOpen, onClose, categories, onSuccess }) {
         </div>
 
         <div>
-          <label className="block text-sm font-medium text-stone-700 mb-1.5">Категория</label>
+          <label className="block text-sm font-medium text-stone-700 mb-1.5">Категория *</label>
           <select
             value={categoryId}
             onChange={(e) => setCategoryId(e.target.value)}
             className="w-full px-3 py-2 border border-stone-200 rounded-md text-sm"
             required
           >
+            <option value="">Выберите категорию</option>
             {(categories || []).map((cat) => (
               <option key={cat.id} value={cat.id}>
                 {cat.name}
@@ -265,6 +385,7 @@ function AddResourceModal({ isOpen, onClose, categories, onSuccess }) {
             placeholder="теги, через, запятую"
             className="w-full px-3 py-2 border border-stone-200 rounded-md text-sm focus:outline-none focus:ring-2 focus:ring-rose-500"
           />
+          <p className="text-xs text-stone-400 mt-1">Введите теги через запятую</p>
         </div>
 
         <div className="flex gap-3 pt-4">
@@ -304,7 +425,10 @@ function AddTermModal({ isOpen, onClose, onSuccess }) {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    if (!term || !definition) return;
+    if (!term || !definition) {
+      alert("Заполните обязательные поля");
+      return;
+    }
 
     setIsLoading(true);
     try {
@@ -324,9 +448,13 @@ function AddTermModal({ isOpen, onClose, onSuccess }) {
         setExamples("");
         onSuccess();
         onClose();
+      } else {
+        const error = await response.json();
+        alert(error.error || "Ошибка при создании термина");
       }
     } catch (error) {
       console.error("Error creating term:", error);
+      alert("Ошибка при создании термина");
     } finally {
       setIsLoading(false);
     }
@@ -336,7 +464,7 @@ function AddTermModal({ isOpen, onClose, onSuccess }) {
     <Modal isOpen={isOpen} onClose={onClose} title="Добавить термин">
       <form onSubmit={handleSubmit} className="p-6 space-y-4">
         <div>
-          <label className="block text-sm font-medium text-stone-700 mb-1.5">Термин</label>
+          <label className="block text-sm font-medium text-stone-700 mb-1.5">Термин *</label>
           <input
             value={term}
             onChange={(e) => setTerm(e.target.value)}
@@ -347,7 +475,7 @@ function AddTermModal({ isOpen, onClose, onSuccess }) {
         </div>
 
         <div>
-          <label className="block text-sm font-medium text-stone-700 mb-1.5">Определение</label>
+          <label className="block text-sm font-medium text-stone-700 mb-1.5">Определение *</label>
           <textarea
             value={definition}
             onChange={(e) => setDefinition(e.target.value)}
@@ -367,6 +495,7 @@ function AddTermModal({ isOpen, onClose, onSuccess }) {
             rows={3}
             className="w-full px-3 py-2 border border-stone-200 rounded-md text-sm focus:outline-none focus:ring-2 focus:ring-rose-500"
           />
+          <p className="text-xs text-stone-400 mt-1">Каждый пример с новой строки</p>
         </div>
 
         <div className="flex gap-3 pt-4">
@@ -397,8 +526,200 @@ function AddTermModal({ isOpen, onClose, onSuccess }) {
   );
 }
 
+// ============ Global Search Component ============
+function GlobalSearch({ onSelectResource, onSelectTerm }) {
+  const [query, setQuery] = useState("");
+  const [results, setResults] = useState({ resources: [], terms: [], categories: [] });
+  const [isOpen, setIsOpen] = useState(false);
+  const [isLoading, setIsLoading] = useState(false);
+  const searchRef = useRef(null);
+  const inputRef = useRef(null);
+
+  // Debounce search
+  useEffect(() => {
+    const timeoutId = setTimeout(async () => {
+      if (query.trim().length >= 2) {
+        setIsLoading(true);
+        try {
+          const response = await fetch(`/api/search?q=${encodeURIComponent(query)}`);
+          const data = await response.json();
+          setResults(data);
+          setIsOpen(true);
+        } catch (error) {
+          console.error("Search error:", error);
+        } finally {
+          setIsLoading(false);
+        }
+      } else {
+        setResults({ resources: [], terms: [], categories: [] });
+        setIsOpen(false);
+      }
+    }, 300);
+
+    return () => clearTimeout(timeoutId);
+  }, [query]);
+
+  // Close on outside click
+  useEffect(() => {
+    const handleClickOutside = (e) => {
+      if (searchRef.current && !searchRef.current.contains(e.target)) {
+        setIsOpen(false);
+      }
+    };
+    document.addEventListener("mousedown", handleClickOutside);
+    return () => document.removeEventListener("mousedown", handleClickOutside);
+  }, []);
+
+  const handleKeyDown = (e) => {
+    if (e.key === "Escape") {
+      setIsOpen(false);
+      inputRef.current?.blur();
+    }
+  };
+
+  const hasResults = results.resources.length > 0 || results.terms.length > 0 || results.categories.length > 0;
+
+  return (
+    <div ref={searchRef} className="relative max-w-md w-full">
+      <div className="relative">
+        <input
+          ref={inputRef}
+          type="text"
+          placeholder="Поиск ресурсов и терминов..."
+          value={query}
+          onChange={(e) => setQuery(e.target.value)}
+          onFocus={() => query.trim().length >= 2 && setIsOpen(true)}
+          onKeyDown={handleKeyDown}
+          className="w-full bg-white/80 border border-black/10 rounded-lg py-3 pl-4 pr-10 text-sm focus:outline-none focus:ring-2 focus:ring-rose-500/20 focus:border-rose-600 transition-all"
+        />
+        <div className="absolute right-3 top-1/2 -translate-y-1/2">
+          {isLoading ? (
+            <Loader2 className="w-4 h-4 text-stone-300 animate-spin" />
+          ) : (
+            <Search className="w-4 h-4 text-stone-300" />
+          )}
+        </div>
+      </div>
+
+      <AnimatePresence>
+        {isOpen && (
+          <motion.div
+            initial={{ opacity: 0, y: -10 }}
+            animate={{ opacity: 1, y: 0 }}
+            exit={{ opacity: 0, y: -10 }}
+            className="absolute top-full left-0 right-0 mt-2 bg-white rounded-xl shadow-xl border border-black/5 overflow-hidden z-50"
+          >
+            {hasResults ? (
+              <div className="max-h-[70vh] overflow-y-auto">
+                {/* Resources */}
+                {results.resources.length > 0 && (
+                  <div>
+                    <div className="px-4 py-2 bg-stone-50 text-xs font-medium text-stone-500 uppercase tracking-wide flex items-center gap-2">
+                      <Link2 className="w-3 h-3" />
+                      Ресурсы
+                    </div>
+                    {results.resources.map((resource) => (
+                      <button
+                        key={resource.id}
+                        onClick={() => {
+                          onSelectResource(resource);
+                          setIsOpen(false);
+                          setQuery("");
+                        }}
+                        className="w-full px-4 py-3 text-left hover:bg-stone-50 transition-colors flex items-start gap-3 group"
+                      >
+                        <div className="flex-1 min-w-0">
+                          <div className="font-medium text-sm group-hover:text-rose-600 transition-colors">
+                            {resource.name}
+                          </div>
+                          <div className="text-xs text-stone-500 truncate mt-0.5">
+                            {resource.description}
+                          </div>
+                          <div className="text-xs text-stone-400 mt-1">
+                            {resource.category?.name}
+                          </div>
+                        </div>
+                        <ArrowRight className="w-4 h-4 text-stone-300 opacity-0 group-hover:opacity-100 transition-opacity flex-shrink-0 mt-1" />
+                      </button>
+                    ))}
+                  </div>
+                )}
+
+                {/* Terms */}
+                {results.terms.length > 0 && (
+                  <div>
+                    <div className="px-4 py-2 bg-stone-50 text-xs font-medium text-stone-500 uppercase tracking-wide flex items-center gap-2 border-t border-black/5">
+                      <BookOpen className="w-3 h-3" />
+                      Термины
+                    </div>
+                    {results.terms.map((term) => (
+                      <button
+                        key={term.id}
+                        onClick={() => {
+                          onSelectTerm(term);
+                          setIsOpen(false);
+                          setQuery("");
+                        }}
+                        className="w-full px-4 py-3 text-left hover:bg-stone-50 transition-colors flex items-start gap-3 group"
+                      >
+                        <div className="flex-1 min-w-0">
+                          <div className="font-medium text-sm group-hover:text-rose-600 transition-colors">
+                            {term.term}
+                          </div>
+                          <div className="text-xs text-stone-500 truncate mt-0.5">
+                            {term.definition}
+                          </div>
+                        </div>
+                        <ArrowRight className="w-4 h-4 text-stone-300 opacity-0 group-hover:opacity-100 transition-opacity flex-shrink-0 mt-1" />
+                      </button>
+                    ))}
+                  </div>
+                )}
+
+                {/* Categories */}
+                {results.categories.length > 0 && (
+                  <div>
+                    <div className="px-4 py-2 bg-stone-50 text-xs font-medium text-stone-500 uppercase tracking-wide flex items-center gap-2 border-t border-black/5">
+                      <Folder className="w-3 h-3" />
+                      Категории
+                    </div>
+                    {results.categories.map((category) => (
+                      <a
+                        key={category.id}
+                        href="#catalog"
+                        onClick={() => setIsOpen(false)}
+                        className="w-full px-4 py-3 text-left hover:bg-stone-50 transition-colors flex items-start gap-3 group block"
+                      >
+                        <div className="flex-1 min-w-0">
+                          <div className="font-medium text-sm group-hover:text-rose-600 transition-colors">
+                            {category.name}
+                          </div>
+                          <div className="text-xs text-stone-400 mt-1">
+                            {category._count?.resources || 0} ресурсов
+                          </div>
+                        </div>
+                        <ArrowRight className="w-4 h-4 text-stone-300 opacity-0 group-hover:opacity-100 transition-opacity flex-shrink-0 mt-1" />
+                      </a>
+                    ))}
+                  </div>
+                )}
+              </div>
+            ) : (
+              <div className="px-4 py-8 text-center text-stone-400 text-sm">
+                <Search className="w-8 h-8 mx-auto mb-2 opacity-30" />
+                <div>Ничего не найдено</div>
+                <div className="text-xs mt-1">Попробуйте изменить запрос</div>
+              </div>
+            )}
+          </motion.div>
+        )}
+      </AnimatePresence>
+    </div>
+  );
+}
+
 // ============ Stats Marquee ============
-function StatsMarquee({ resourceCount, categoryCount }) {
+function StatsMarquee({ resourceCount, categoryCount, termCount }) {
   return (
     <div className="border-y border-black/5 py-4 overflow-hidden bg-white/50">
       <div className="animate-marquee flex whitespace-nowrap">
@@ -407,6 +728,8 @@ function StatsMarquee({ resourceCount, categoryCount }) {
             <span className="text-sm text-stone-400">{resourceCount} ресурсов</span>
             <span className="text-stone-200">|</span>
             <span className="text-sm text-stone-400">{categoryCount} категорий</span>
+            <span className="text-stone-200">|</span>
+            <span className="text-sm text-stone-400">{termCount} терминов</span>
             <span className="text-stone-200">|</span>
             <span className="text-sm text-stone-400">Обновлено сегодня</span>
             <span className="text-stone-200">|</span>
@@ -431,15 +754,134 @@ function CategoryLabel({ text }) {
   );
 }
 
+// ============ Resource Detail Modal ============
+function ResourceDetailModal({ isOpen, onClose, resource }) {
+  if (!resource) return null;
+
+  const parseTags = (tagsJson) => {
+    if (!tagsJson) return [];
+    try {
+      return JSON.parse(tagsJson);
+    } catch {
+      return [];
+    }
+  };
+
+  const formatDate = (dateString) => {
+    const date = new Date(dateString);
+    return date.toLocaleDateString("ru-RU", { day: "2-digit", month: "2-digit", year: "numeric" });
+  };
+
+  return (
+    <Modal isOpen={isOpen} onClose={onClose} title={resource.name}>
+      <div className="p-6 space-y-4">
+        <div className="flex items-center gap-2 mb-4">
+          <span className="text-xs px-2 py-0.5 bg-rose-50 text-rose-600 font-medium uppercase tracking-wide rounded">
+            {resource.category?.name}
+          </span>
+        </div>
+
+        <p className="text-stone-600 leading-relaxed">{resource.description}</p>
+
+        {resource.url && (
+          <a
+            href={resource.url}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="inline-flex items-center gap-2 text-sm text-rose-600 hover:text-rose-700 transition-colors"
+          >
+            <ExternalLink className="w-4 h-4" />
+            Перейти на сайт
+          </a>
+        )}
+
+        {resource.tags && (
+          <div className="flex flex-wrap gap-2 pt-2">
+            {parseTags(resource.tags).map((tag) => (
+              <span
+                key={tag}
+                className="text-xs px-2 py-1 bg-stone-100 text-stone-600 rounded"
+              >
+                {tag}
+              </span>
+            ))}
+          </div>
+        )}
+
+        <div className="text-xs text-stone-400 pt-4 border-t border-black/5">
+          Добавлен: {formatDate(resource.createdAt)}
+        </div>
+
+        <button
+          onClick={onClose}
+          className="w-full py-2.5 border border-stone-200 rounded-md text-sm hover:bg-stone-50 transition-colors mt-4"
+        >
+          Закрыть
+        </button>
+      </div>
+    </Modal>
+  );
+}
+
+// ============ Term Detail Modal ============
+function TermDetailModal({ isOpen, onClose, term }) {
+  if (!term) return null;
+
+  const parseExamples = (examplesJson) => {
+    if (!examplesJson) return [];
+    try {
+      return JSON.parse(examplesJson);
+    } catch {
+      return [];
+    }
+  };
+
+  return (
+    <Modal isOpen={isOpen} onClose={onClose} title={term.term}>
+      <div className="p-6 space-y-4">
+        <div className="flex items-center gap-2 mb-4">
+          <span className="text-xs px-2 py-0.5 bg-blue-50 text-blue-600 font-medium uppercase tracking-wide rounded">
+            Термин
+          </span>
+        </div>
+
+        <p className="text-stone-600 leading-relaxed">{term.definition}</p>
+
+        {term.examples && (
+          <div className="pt-2">
+            <div className="text-sm font-medium text-stone-700 mb-2">Примеры:</div>
+            <ul className="space-y-2">
+              {parseExamples(term.examples).map((example, i) => (
+                <li key={i} className="text-sm text-stone-500 pl-4 border-l-2 border-stone-200">
+                  {example}
+                </li>
+              ))}
+            </ul>
+          </div>
+        )}
+
+        <button
+          onClick={onClose}
+          className="w-full py-2.5 border border-stone-200 rounded-md text-sm hover:bg-stone-50 transition-colors mt-4"
+        >
+          Закрыть
+        </button>
+      </div>
+    </Modal>
+  );
+}
+
 // ============ Main Page ============
 export default function Home() {
   const [resources, setResources] = useState([]);
   const [categories, setCategories] = useState([]);
   const [terms, setTerms] = useState([]);
-  const [searchQuery, setSearchQuery] = useState("");
   const [isLoading, setIsLoading] = useState(true);
   const [isResourceModalOpen, setIsResourceModalOpen] = useState(false);
   const [isTermModalOpen, setIsTermModalOpen] = useState(false);
+  const [isCategoryModalOpen, setIsCategoryModalOpen] = useState(false);
+  const [selectedResource, setSelectedResource] = useState(null);
+  const [selectedTerm, setSelectedTerm] = useState(null);
 
   const fetchData = useCallback(async () => {
     setIsLoading(true);
@@ -473,12 +915,6 @@ export default function Home() {
     };
     seedAndFetch();
   }, [fetchData]);
-
-  const filteredResources = resources.filter(
-    (r) =>
-      r.name.toLowerCase().includes(searchQuery.toLowerCase()) ||
-      r.description.toLowerCase().includes(searchQuery.toLowerCase())
-  );
 
   const formatDate = (dateString) => {
     const date = new Date(dateString);
@@ -543,22 +979,19 @@ export default function Home() {
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ delay: 0.4 }}
-              className="max-w-md"
             >
-              <div className="relative">
-                <input
-                  type="text"
-                  placeholder="Найти ресурс..."
-                  value={searchQuery}
-                  onChange={(e) => setSearchQuery(e.target.value)}
-                  className="w-full bg-transparent border-b border-black/10 py-3 pr-10 text-sm focus:outline-none focus:border-rose-600 transition-colors"
-                />
-                <Search className="absolute right-0 top-1/2 -translate-y-1/2 w-4 h-4 text-stone-300" />
-              </div>
+              <GlobalSearch
+                onSelectResource={setSelectedResource}
+                onSelectTerm={setSelectedTerm}
+              />
             </motion.div>
           </section>
 
-          <StatsMarquee resourceCount={resources.length} categoryCount={categories.length} />
+          <StatsMarquee
+            resourceCount={resources.length}
+            categoryCount={categories.length}
+            termCount={terms.length}
+          />
 
           <section id="catalog" className="px-4 md:px-8 lg:px-16 py-12">
             <CategoryLabel text="Категории" />
@@ -594,7 +1027,7 @@ export default function Home() {
           <div className="h-px bg-gradient-to-r from-transparent via-black/5 to-transparent mx-4 md:mx-8 lg:mx-16" />
 
           <section className="px-4 md:px-8 lg:px-16 py-12">
-            <CategoryLabel text="Избранное" />
+            <CategoryLabel text="Ресурсы" />
 
             {isLoading ? (
               <div className="space-y-4">
@@ -607,19 +1040,20 @@ export default function Home() {
               </div>
             ) : (
               <div className="divide-y divide-black/5">
-                {filteredResources.map((resource, index) => (
+                {resources.map((resource, index) => (
                   <motion.article
                     key={resource.id}
                     initial={{ opacity: 0, y: 20 }}
                     animate={{ opacity: 1, y: 0 }}
                     transition={{ delay: 0.6 + index * 0.05 }}
-                    className="py-6 hover:bg-stone-50 transition-colors -mx-4 px-4"
+                    className="py-6 hover:bg-stone-50 transition-colors -mx-4 px-4 cursor-pointer"
+                    onClick={() => setSelectedResource(resource)}
                   >
                     <div className="flex flex-col md:flex-row md:items-start justify-between gap-4">
                       <div className="flex-1">
                         <div className="flex flex-wrap items-center gap-2 mb-2">
                           <span className="text-xs px-2 py-0.5 bg-rose-50 text-rose-600 font-medium uppercase tracking-wide">
-                            {resource.category.name}
+                            {resource.category?.name}
                           </span>
                           {resource.url && (
                             <a
@@ -627,6 +1061,7 @@ export default function Home() {
                               target="_blank"
                               rel="noopener noreferrer"
                               className="text-xs text-stone-400 hover:text-rose-600 transition-colors flex items-center gap-1"
+                              onClick={(e) => e.stopPropagation()}
                             >
                               <ExternalLink className="w-3 h-3" />
                               сайт
@@ -634,7 +1069,7 @@ export default function Home() {
                           )}
                         </div>
                         <h3 className="text-lg font-medium mb-2">
-                          <span className="border-b border-transparent hover:border-stone-900 cursor-pointer">
+                          <span className="border-b border-transparent hover:border-stone-900">
                             {resource.name}
                           </span>
                         </h3>
@@ -669,9 +1104,9 @@ export default function Home() {
               </div>
             )}
 
-            {filteredResources.length === 0 && !isLoading && (
+            {resources.length === 0 && !isLoading && (
               <div className="text-center py-12 text-stone-400">
-                Ресурсы не найдены. Попробуйте изменить запрос.
+                Ресурсы не найдены. Добавьте первый ресурс!
               </div>
             )}
           </section>
@@ -682,27 +1117,36 @@ export default function Home() {
             <CategoryLabel text="Справочник терминов" />
 
             <div className="grid md:grid-cols-2 gap-8">
-              {terms.slice(0, 4).map((term, index) => (
+              {terms.slice(0, 6).map((term, index) => (
                 <motion.div
                   key={term.id}
                   initial={{ opacity: 0, y: 20 }}
                   animate={{ opacity: 1, y: 0 }}
                   transition={{ delay: 0.7 + index * 0.05 }}
-                  className="mb-6"
+                  className="mb-6 p-4 hover:bg-stone-50 rounded-lg cursor-pointer transition-colors"
+                  onClick={() => setSelectedTerm(term)}
                 >
-                  <div className="text-2xl font-medium mb-2">{term.term}</div>
-                  <p className="text-sm text-stone-500 leading-relaxed">
+                  <div className="text-xl font-medium mb-2 text-stone-800">{term.term}</div>
+                  <p className="text-sm text-stone-500 leading-relaxed line-clamp-2">
                     {term.definition}
                   </p>
                 </motion.div>
               ))}
             </div>
 
-            <div className="mt-8">
-              <button className="text-sm text-rose-600 hover:text-rose-700 transition-colors">
-                Открыть полный справочник
-              </button>
-            </div>
+            {terms.length === 0 && !isLoading && (
+              <div className="text-center py-12 text-stone-400">
+                Термины не найдены. Добавьте первый термин!
+              </div>
+            )}
+
+            {terms.length > 6 && (
+              <div className="mt-8">
+                <button className="text-sm text-rose-600 hover:text-rose-700 transition-colors">
+                  Открыть полный справочник ({terms.length} терминов)
+                </button>
+              </div>
+            )}
           </section>
         </main>
 
@@ -729,6 +1173,13 @@ export default function Home() {
       <SpeedDial
         onAddResource={() => setIsResourceModalOpen(true)}
         onAddTerm={() => setIsTermModalOpen(true)}
+        onAddCategory={() => setIsCategoryModalOpen(true)}
+      />
+
+      <AddCategoryModal
+        isOpen={isCategoryModalOpen}
+        onClose={() => setIsCategoryModalOpen(false)}
+        onSuccess={fetchData}
       />
 
       <AddResourceModal
@@ -742,6 +1193,18 @@ export default function Home() {
         isOpen={isTermModalOpen}
         onClose={() => setIsTermModalOpen(false)}
         onSuccess={fetchData}
+      />
+
+      <ResourceDetailModal
+        isOpen={!!selectedResource}
+        onClose={() => setSelectedResource(null)}
+        resource={selectedResource}
+      />
+
+      <TermDetailModal
+        isOpen={!!selectedTerm}
+        onClose={() => setSelectedTerm(null)}
+        term={selectedTerm}
       />
     </div>
   );
