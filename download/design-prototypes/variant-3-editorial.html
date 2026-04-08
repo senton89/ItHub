@@ -1,0 +1,667 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Вариант 3: EDITORIAL DASHBOARD — IT Resources Aggregator</title>
+    <link href="https://cdn.jsdelivr.net/npm/geist@1.2.0/dist/fonts/geist-sans/style.css" rel="stylesheet">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: {
+                        sans: ['Geist Sans', 'system-ui', 'sans-serif'],
+                        mono: ['Geist Mono', 'monospace']
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        :root {
+            --bg-primary: #faf9f7;
+            --bg-secondary: #f5f4f2;
+            --bg-card: #ffffff;
+            --border-subtle: rgba(0, 0, 0, 0.06);
+            --accent: #be123c;
+            --accent-soft: rgba(190, 18, 60, 0.08);
+            --text-primary: #1c1917;
+            --text-secondary: #78716c;
+        }
+
+        * {
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Geist Sans', system-ui, sans-serif;
+            background: var(--bg-primary);
+            color: var(--text-primary);
+            min-height: 100dvh;
+        }
+
+        /* Background with uploaded image */
+        .bg-atmosphere {
+            position: fixed;
+            inset: 0;
+            z-index: 0;
+            background: 
+                linear-gradient(135deg, rgba(250, 249, 247, 0.92) 0%, rgba(250, 249, 247, 0.85) 50%, rgba(250, 249, 247, 0.95) 100%),
+                url('/upload/photo_2026-03-27_12-55-05.jpg');
+            background-size: cover;
+            background-position: center;
+        }
+
+        /* Layout with asymmetric whitespace */
+        .editorial-layout {
+            padding-left: clamp(1rem, 20vw, 20vw);
+            padding-right: clamp(1rem, 10vw, 10vw);
+        }
+
+        @media (max-width: 1024px) {
+            .editorial-layout {
+                padding-left: 1.5rem;
+                padding-right: 1.5rem;
+            }
+        }
+
+        /* Minimalist card */
+        .minimal-card {
+            background: var(--bg-card);
+            border: none;
+            border-top: 1px solid var(--border-subtle);
+            padding: 1.5rem 0;
+            transition: all 0.3s ease;
+        }
+
+        .minimal-card:hover {
+            background: var(--bg-secondary);
+        }
+
+        /* Typography */
+        .display-text {
+            font-size: clamp(2.5rem, 5vw, 4rem);
+            font-weight: 300;
+            letter-spacing: -0.02em;
+            line-height: 1.1;
+        }
+
+        .body-text {
+            font-size: 1rem;
+            line-height: 1.75;
+            color: var(--text-secondary);
+            max-width: 65ch;
+        }
+
+        /* Kinetic marquee */
+        @keyframes marquee {
+            0% { transform: translateX(0); }
+            100% { transform: translateX(-50%); }
+        }
+
+        .marquee-track {
+            display: flex;
+            animation: marquee 40s linear infinite;
+        }
+
+        .marquee-track:hover {
+            animation-play-state: paused;
+        }
+
+        /* Text scramble effect placeholder */
+        @keyframes textGlitch {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0.8; }
+        }
+
+        .glitch-text {
+            animation: textGlitch 0.1s ease-in-out;
+        }
+
+        /* Stagger animation */
+        @keyframes fadeUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .stagger-item {
+            animation: fadeUp 0.8s ease-out forwards;
+            opacity: 0;
+        }
+
+        .stagger-item:nth-child(1) { animation-delay: 0.1s; }
+        .stagger-item:nth-child(2) { animation-delay: 0.2s; }
+        .stagger-item:nth-child(3) { animation-delay: 0.3s; }
+        .stagger-item:nth-child(4) { animation-delay: 0.4s; }
+        .stagger-item:nth-child(5) { animation-delay: 0.5s; }
+        .stagger-item:nth-child(6) { animation-delay: 0.6s; }
+
+        /* Divider */
+        .editorial-divider {
+            width: 100%;
+            height: 1px;
+            background: linear-gradient(90deg, transparent, var(--border-subtle), transparent);
+        }
+
+        /* Category label */
+        .category-label {
+            font-size: 0.6875rem;
+            font-weight: 500;
+            letter-spacing: 0.1em;
+            text-transform: uppercase;
+            color: var(--text-secondary);
+        }
+
+        /* Accent line */
+        .accent-line {
+            width: 3rem;
+            height: 2px;
+            background: var(--accent);
+        }
+
+        /* Resource link */
+        .resource-link {
+            color: var(--text-primary);
+            text-decoration: none;
+            border-bottom: 1px solid transparent;
+            transition: border-color 0.3s ease;
+        }
+
+        .resource-link:hover {
+            border-bottom-color: var(--accent);
+        }
+
+        /* Floating speed dial */
+        .speed-dial {
+            position: fixed;
+            bottom: 2rem;
+            right: 2rem;
+            display: flex;
+            flex-direction: column-reverse;
+            gap: 0.75rem;
+            align-items: center;
+            z-index: 50;
+        }
+
+        .speed-dial-main {
+            width: 56px;
+            height: 56px;
+            border-radius: 50%;
+            background: var(--accent);
+            color: white;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            box-shadow: 0 4px 20px rgba(190, 18, 60, 0.25);
+            transition: all 0.3s ease;
+        }
+
+        .speed-dial-main:hover {
+            transform: scale(1.1);
+        }
+
+        .speed-dial-item {
+            width: 44px;
+            height: 44px;
+            border-radius: 50%;
+            background: var(--bg-card);
+            border: 1px solid var(--border-subtle);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            opacity: 0;
+            transform: scale(0.5);
+            transition: all 0.2s ease;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
+        }
+
+        .speed-dial:hover .speed-dial-item {
+            opacity: 1;
+            transform: scale(1);
+        }
+
+        .speed-dial:hover .speed-dial-item:nth-child(3) { transition-delay: 0.05s; }
+        .speed-dial:hover .speed-dial-item:nth-child(2) { transition-delay: 0.1s; }
+        .speed-dial:hover .speed-dial-item:nth-child(1) { transition-delay: 0.15s; }
+
+        /* Navigation */
+        .nav-link {
+            font-size: 0.875rem;
+            color: var(--text-secondary);
+            text-decoration: none;
+            padding: 0.5rem 0;
+            border-bottom: 1px solid transparent;
+            transition: all 0.3s ease;
+        }
+
+        .nav-link:hover {
+            color: var(--text-primary);
+            border-bottom-color: var(--text-primary);
+        }
+
+        .nav-link.active {
+            color: var(--text-primary);
+            font-weight: 500;
+        }
+
+        /* Resource grid */
+        .resources-list {
+            display: grid;
+            gap: 0;
+        }
+
+        /* Search */
+        .search-minimal {
+            background: transparent;
+            border: none;
+            border-bottom: 1px solid var(--border-subtle);
+            padding: 0.75rem 0;
+            font-size: 0.875rem;
+            width: 100%;
+            color: var(--text-primary);
+            transition: border-color 0.3s ease;
+        }
+
+        .search-minimal:focus {
+            outline: none;
+            border-bottom-color: var(--accent);
+        }
+
+        .search-minimal::placeholder {
+            color: var(--text-secondary);
+        }
+
+        /* Tag */
+        .editorial-tag {
+            font-size: 0.6875rem;
+            font-weight: 500;
+            letter-spacing: 0.05em;
+            text-transform: uppercase;
+            padding: 0.25rem 0.5rem;
+            background: var(--accent-soft);
+            color: var(--accent);
+        }
+
+        /* Scrollbar */
+        ::-webkit-scrollbar {
+            width: 6px;
+        }
+
+        ::-webkit-scrollbar-track {
+            background: transparent;
+        }
+
+        ::-webkit-scrollbar-thumb {
+            background: rgba(0, 0, 0, 0.1);
+            border-radius: 3px;
+        }
+
+        /* Quote block */
+        .quote-block {
+            padding-left: 1.5rem;
+            border-left: 2px solid var(--accent);
+            font-style: italic;
+            color: var(--text-secondary);
+        }
+    </style>
+</head>
+<body>
+    <!-- Background -->
+    <div class="bg-atmosphere"></div>
+
+    <!-- Main Content -->
+    <div class="relative z-10 min-h-[100dvh]">
+        <!-- Header -->
+        <header class="editorial-layout py-6 border-b border-black/5">
+            <div class="flex items-center justify-between">
+                <!-- Logo -->
+                <div class="flex items-center gap-4">
+                    <div class="text-xl font-medium tracking-tight">
+                        IT<span class="text-rose-600">hub</span>
+                    </div>
+                    <div class="hidden sm:block w-px h-4 bg-black/10"></div>
+                    <span class="hidden sm:block text-xs text-stone-400">Справочник IT-ресурсов</span>
+                </div>
+
+                <!-- Navigation -->
+                <nav class="hidden md:flex items-center gap-8">
+                    <a href="#" class="nav-link active">Каталог</a>
+                    <a href="#" class="nav-link">Справочник</a>
+                    <a href="#" class="nav-link">Избранное</a>
+                    <a href="#" class="nav-link">О проекте</a>
+                </nav>
+
+                <!-- Actions -->
+                <div class="flex items-center gap-4">
+                    <button class="text-xs font-medium text-stone-500 hover:text-stone-700 transition-colors">
+                        Войти
+                    </button>
+                </div>
+            </div>
+        </header>
+
+        <!-- Hero Section -->
+        <section class="editorial-layout pt-16 pb-12">
+            <div class="stagger-item">
+                <div class="accent-line mb-8"></div>
+            </div>
+            
+            <h1 class="display-text stagger-item mb-6">
+                Каталог<br />
+                <span class="text-stone-400">IT-ресурсов</span>
+            </h1>
+
+            <p class="body-text stagger-item mb-8">
+                Аккуратная коллекция инструментов, платформ и материалов для разработчиков. 
+                Каждый ресурс проверен и классифицирован для быстрого поиска.
+            </p>
+
+            <!-- Search -->
+            <div class="stagger-item max-w-md">
+                <div class="relative">
+                    <input 
+                        type="text" 
+                        placeholder="Найти ресурс..."
+                        class="search-minimal"
+                    />
+                    <svg class="absolute right-0 top-1/2 -translate-y-1/2 w-4 h-4 text-stone-300" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"/>
+                    </svg>
+                </div>
+            </div>
+        </section>
+
+        <!-- Stats Marquee -->
+        <div class="border-y border-black/5 py-4 overflow-hidden">
+            <div class="marquee-track">
+                <div class="flex items-center gap-16 px-8 whitespace-nowrap">
+                    <span class="text-sm text-stone-400">2,847 ресурсов</span>
+                    <span class="text-stone-200">|</span>
+                    <span class="text-sm text-stone-400">156 категорий</span>
+                    <span class="text-stone-200">|</span>
+                    <span class="text-sm text-stone-400">Обновлено сегодня</span>
+                    <span class="text-stone-200">|</span>
+                    <span class="text-sm text-stone-400">+24 новых ресурса</span>
+                    <span class="text-stone-200">|</span>
+                    <span class="text-sm text-stone-400">Открытый справочник</span>
+                    <span class="text-stone-200">|</span>
+                </div>
+                <div class="flex items-center gap-16 px-8 whitespace-nowrap">
+                    <span class="text-sm text-stone-400">2,847 ресурсов</span>
+                    <span class="text-stone-200">|</span>
+                    <span class="text-sm text-stone-400">156 категорий</span>
+                    <span class="text-stone-200">|</span>
+                    <span class="text-sm text-stone-400">Обновлено сегодня</span>
+                    <span class="text-stone-200">|</span>
+                    <span class="text-sm text-stone-400">+24 новых ресурса</span>
+                    <span class="text-stone-200">|</span>
+                    <span class="text-sm text-stone-400">Открытый справочник</span>
+                    <span class="text-stone-200">|</span>
+                </div>
+            </div>
+        </div>
+
+        <!-- Categories -->
+        <section class="editorial-layout py-12">
+            <div class="flex items-center gap-4 mb-8 stagger-item">
+                <span class="category-label">Категории</span>
+                <div class="flex-1 h-px bg-black/5"></div>
+            </div>
+
+            <div class="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-5 gap-4 stagger-item">
+                <button class="text-left p-4 hover:bg-stone-100 transition-colors rounded-lg">
+                    <div class="text-2xl font-light font-mono text-stone-300 mb-2">01</div>
+                    <div class="font-medium text-sm mb-1">Разработка</div>
+                    <div class="text-xs text-stone-400">482 ресурса</div>
+                </button>
+                <button class="text-left p-4 hover:bg-stone-100 transition-colors rounded-lg">
+                    <div class="text-2xl font-light font-mono text-stone-300 mb-2">02</div>
+                    <div class="font-medium text-sm mb-1">DevOps</div>
+                    <div class="text-xs text-stone-400">156 ресурсов</div>
+                </button>
+                <button class="text-left p-4 hover:bg-stone-100 transition-colors rounded-lg">
+                    <div class="text-2xl font-light font-mono text-stone-300 mb-2">03</div>
+                    <div class="font-medium text-sm mb-1">Дизайн</div>
+                    <div class="text-xs text-stone-400">234 ресурса</div>
+                </button>
+                <button class="text-left p-4 hover:bg-stone-100 transition-colors rounded-lg">
+                    <div class="text-2xl font-light font-mono text-stone-300 mb-2">04</div>
+                    <div class="font-medium text-sm mb-1">Обучение</div>
+                    <div class="text-xs text-stone-400">318 ресурсов</div>
+                </button>
+                <button class="text-left p-4 hover:bg-stone-100 transition-colors rounded-lg">
+                    <div class="text-2xl font-light font-mono text-stone-300 mb-2">05</div>
+                    <div class="font-medium text-sm mb-1">Инструменты</div>
+                    <div class="text-xs text-stone-400">189 ресурсов</div>
+                </button>
+            </div>
+        </section>
+
+        <div class="editorial-divider"></div>
+
+        <!-- Featured Resources -->
+        <section class="editorial-layout py-12">
+            <div class="flex items-center gap-4 mb-8">
+                <span class="category-label">Избранное</span>
+                <div class="flex-1 h-px bg-black/5"></div>
+                <a href="#" class="text-xs text-stone-400 hover:text-stone-600 transition-colors">Смотреть все</a>
+            </div>
+
+            <div class="resources-list">
+                <!-- Resource 1 -->
+                <article class="minimal-card">
+                    <div class="flex items-start justify-between gap-8">
+                        <div class="flex-1">
+                            <div class="flex items-center gap-3 mb-2">
+                                <span class="editorial-tag">Платформа</span>
+                                <span class="text-xs text-stone-400">GitHub, Inc.</span>
+                            </div>
+                            <h3 class="text-lg font-medium mb-2">
+                                <a href="#" class="resource-link">GitHub</a>
+                            </h3>
+                            <p class="text-sm text-stone-500 max-w-2xl">
+                                Платформа для хостинга Git-репозиториев и совместной разработки. 
+                                Включает инструменты для code review, управления проектами и CI/CD.
+                            </p>
+                        </div>
+                        <div class="text-right flex-shrink-0">
+                            <div class="text-xs text-stone-400 mb-1">Добавлен</div>
+                            <div class="text-sm font-mono text-stone-600">12.03.2024</div>
+                        </div>
+                    </div>
+                </article>
+
+                <!-- Resource 2 -->
+                <article class="minimal-card">
+                    <div class="flex items-start justify-between gap-8">
+                        <div class="flex-1">
+                            <div class="flex items-center gap-3 mb-2">
+                                <span class="editorial-tag">Редактор</span>
+                                <span class="text-xs text-stone-400">Microsoft</span>
+                            </div>
+                            <h3 class="text-lg font-medium mb-2">
+                                <a href="#" class="resource-link">Visual Studio Code</a>
+                            </h3>
+                            <p class="text-sm text-stone-500 max-w-2xl">
+                                Бесплатный редактор кода с богатой экосистемой расширений. 
+                                Поддерживает отладку, Git и IntelliSense для множества языков.
+                            </p>
+                        </div>
+                        <div class="text-right flex-shrink-0">
+                            <div class="text-xs text-stone-400 mb-1">Добавлен</div>
+                            <div class="text-sm font-mono text-stone-600">08.01.2024</div>
+                        </div>
+                    </div>
+                </article>
+
+                <!-- Resource 3 -->
+                <article class="minimal-card">
+                    <div class="flex items-start justify-between gap-8">
+                        <div class="flex-1">
+                            <div class="flex items-center gap-3 mb-2">
+                                <span class="editorial-tag">DevOps</span>
+                                <span class="text-xs text-stone-400">Docker, Inc.</span>
+                            </div>
+                            <h3 class="text-lg font-medium mb-2">
+                                <a href="#" class="resource-link">Docker</a>
+                            </h3>
+                            <p class="text-sm text-stone-500 max-w-2xl">
+                                Платформа контейнеризации для разработки, доставки и запуска приложений. 
+                                Упрощает управление зависимостями и деплой.
+                            </p>
+                        </div>
+                        <div class="text-right flex-shrink-0">
+                            <div class="text-xs text-stone-400 mb-1">Добавлен</div>
+                            <div class="text-sm font-mono text-stone-600">15.02.2024</div>
+                        </div>
+                    </div>
+                </article>
+
+                <!-- Resource 4 -->
+                <article class="minimal-card">
+                    <div class="flex items-start justify-between gap-8">
+                        <div class="flex-1">
+                            <div class="flex items-center gap-3 mb-2">
+                                <span class="editorial-tag">Дизайн</span>
+                                <span class="text-xs text-stone-400">Figma, Inc.</span>
+                            </div>
+                            <h3 class="text-lg font-medium mb-2">
+                                <a href="#" class="resource-link">Figma</a>
+                            </h3>
+                            <p class="text-sm text-stone-500 max-w-2xl">
+                                Коллаборативный инструмент для UI/UX дизайна и прототипирования. 
+                                Работает в браузере с возможностью одновременного редактирования.
+                            </p>
+                        </div>
+                        <div class="text-right flex-shrink-0">
+                            <div class="text-xs text-stone-400 mb-1">Добавлен</div>
+                            <div class="text-sm font-mono text-stone-600">22.01.2024</div>
+                        </div>
+                    </div>
+                </article>
+
+                <!-- Resource 5 -->
+                <article class="minimal-card">
+                    <div class="flex items-start justify-between gap-8">
+                        <div class="flex-1">
+                            <div class="flex items-center gap-3 mb-2">
+                                <span class="editorial-tag">Документация</span>
+                                <span class="text-xs text-stone-400">Mozilla</span>
+                            </div>
+                            <h3 class="text-lg font-medium mb-2">
+                                <a href="#" class="resource-link">MDN Web Docs</a>
+                            </h3>
+                            <p class="text-sm text-stone-500 max-w-2xl">
+                                Исчерпывающая документация по веб-технологиям: HTML, CSS, JavaScript, 
+                                Web API и инструменты разработчика.
+                            </p>
+                        </div>
+                        <div class="text-right flex-shrink-0">
+                            <div class="text-xs text-stone-400 mb-1">Добавлен</div>
+                            <div class="text-sm font-mono text-stone-600">03.12.2023</div>
+                        </div>
+                    </div>
+                </article>
+            </div>
+        </section>
+
+        <div class="editorial-divider"></div>
+
+        <!-- Dictionary Section -->
+        <section class="editorial-layout py-12">
+            <div class="flex items-center gap-4 mb-8">
+                <span class="category-label">Справочник терминов</span>
+                <div class="flex-1 h-px bg-black/5"></div>
+            </div>
+
+            <div class="grid md:grid-cols-2 gap-8">
+                <div>
+                    <div class="mb-6">
+                        <div class="text-2xl font-medium mb-2">API</div>
+                        <p class="text-sm text-stone-500">
+                            Application Programming Interface — интерфейс программирования приложений. 
+                            Набор правил и протоколов для взаимодействия между программными компонентами.
+                        </p>
+                    </div>
+                    <div class="mb-6">
+                        <div class="text-2xl font-medium mb-2">CI/CD</div>
+                        <p class="text-sm text-stone-500">
+                            Continuous Integration / Continuous Delivery — непрерывная интеграция и доставка. 
+                            Практики автоматизации сборки, тестирования и развёртывания.
+                        </p>
+                    </div>
+                </div>
+                <div>
+                    <div class="mb-6">
+                        <div class="text-2xl font-medium mb-2">REST</div>
+                        <p class="text-sm text-stone-500">
+                            Representational State Transfer — архитектурный стиль для распределённых систем. 
+                            Использует HTTP-методы для операций над ресурсами.
+                        </p>
+                    </div>
+                    <div class="mb-6">
+                        <div class="text-2xl font-medium mb-2">SDK</div>
+                        <p class="text-sm text-stone-500">
+                            Software Development Kit — комплект инструментов для разработки. 
+                            Включает библиотеки, документацию и примеры кода.
+                        </p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="mt-8">
+                <a href="#" class="text-sm text-rose-600 hover:text-rose-700 transition-colors">
+                    Открыть полный справочник
+                </a>
+            </div>
+        </section>
+
+        <!-- Footer -->
+        <footer class="editorial-layout py-8 border-t border-black/5">
+            <div class="flex flex-col md:flex-row items-center justify-between gap-4">
+                <div class="text-xs text-stone-400">
+                    IThub — Справочник IT-ресурсов. Открытый проект.
+                </div>
+                <div class="flex items-center gap-6">
+                    <a href="#" class="text-xs text-stone-400 hover:text-stone-600 transition-colors">GitHub</a>
+                    <a href="#" class="text-xs text-stone-400 hover:text-stone-600 transition-colors">Telegram</a>
+                    <a href="#" class="text-xs text-stone-400 hover:text-stone-600 transition-colors">Контакты</a>
+                </div>
+            </div>
+        </footer>
+    </div>
+
+    <!-- Speed Dial -->
+    <div class="speed-dial">
+        <button class="speed-dial-item" title="Добавить термин">
+            <svg class="w-5 h-5 text-stone-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253"/>
+            </svg>
+        </button>
+        <button class="speed-dial-item" title="Добавить категорию">
+            <svg class="w-5 h-5 text-stone-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M7 7h.01M7 3h5c.512 0 1.024.195 1.414.586l7 7a2 2 0 010 2.828l-7 7a2 2 0 01-2.828 0l-7-7A1.994 1.994 0 013 12V7a4 4 0 014-4z"/>
+            </svg>
+        </button>
+        <button class="speed-dial-item" title="Добавить ресурс">
+            <svg class="w-5 h-5 text-stone-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M13.828 10.172a4 4 0 00-5.656 0l-4 4a4 4 0 105.656 5.656l1.102-1.101m-.758-4.899a4 4 0 005.656 0l4-4a4 4 0 00-5.656-5.656l-1.1 1.1"/>
+            </svg>
+        </button>
+        <button class="speed-dial-main" title="Добавить">
+            <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4"/>
+            </svg>
+        </button>
+    </div>
+</body>
+</html>

@@ -1,0 +1,73 @@
+// Prisma schema for IT Resources Aggregator
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "sqlite"
+  url      = "file:../db/custom.db"
+}
+
+// Categories for resources
+model Category {
+  id          String     @id @default(cuid())
+  name        String
+  slug        String     @unique
+  description String?
+  color       String     @default("#64748b")
+  icon        String?
+  order       Int        @default(0)
+  resources   Resource[]
+  createdAt   DateTime   @default(now())
+  updatedAt   DateTime   @updatedAt
+
+  @@map("categories")
+}
+
+// IT Resources
+model Resource {
+  id          String     @id @default(cuid())
+  name        String
+  slug        String     @unique
+  description String
+  url         String?
+  categoryId  String
+  category    Category   @relation(fields: [categoryId], references: [id])
+  tags        String?    // JSON array of tags
+  isFeatured  Boolean    @default(false)
+  viewCount   Int        @default(0)
+  favorites   Favorite[]
+  createdAt   DateTime   @default(now())
+  updatedAt   DateTime   @updatedAt
+
+  @@map("resources")
+}
+
+// Dictionary terms
+model Term {
+  id          String   @id @default(cuid())
+  term        String
+  slug        String   @unique
+  definition  String
+  examples    String?  // JSON array of examples
+  relatedTerms String? // JSON array of related term IDs
+  categoryId  String?
+  viewCount   Int      @default(0)
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+
+  @@map("terms")
+}
+
+// User favorites (for future auth)
+model Favorite {
+  id         String   @id @default(cuid())
+  resourceId String
+  resource   Resource @relation(fields: [resourceId], references: [id])
+  sessionId  String   // For anonymous users
+  createdAt  DateTime @default(now())
+
+  @@unique([resourceId, sessionId])
+  @@map("favorites")
+}
