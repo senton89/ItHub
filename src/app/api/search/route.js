@@ -1,49 +1,71 @@
-import { db } from "@/lib/db";
-import { NextResponse } from "next/server";
+// ============================================================
+// API ROUTE: ПОИСК
+// ============================================================
+// Обрабатывает запросы к /api/search?q=запрос
+// Ищет по ресурсам, терминам и категориям
+// ============================================================
 
-// Global search across resources, terms, and categories
+import { PrismaClient } from "@prisma/client";
+
+const prisma = globalThis.__prisma || new PrismaClient();
+if (process.env.NODE_ENV !== "production") globalThis.__prisma = prisma;
+
+// GET /api/search?q=запрос
+// request — объект запроса Next.js
 export async function GET(request) {
   try {
-    const { searchParams } = new URL(request.url);
-    const query = searchParams.get("q");
+    // Получаем URL из запроса
+    const url = new URL(request.url);
 
-    if (!query || query.trim().length < 2) {
-      return NextResponse.json({ resources: [], terms: [], categories: [] });
+    // Получаем параметр q из строки запроса (?q=запрос)
+    const query = url.searchParams.get("q") || "";
+
+    // Если запрос меньше 2 символов, возвращаем пустой результат
+    if (query.length < 2) {
+      return new Response(JSON.stringify({
+        resources: [],
+        terms: [],
+        categories: [],
+      }), {
+        status: 200,
+        headers: { "Content-Type": "application/json" },
+      });
     }
 
-    const searchTerm = query.trim();
-
-    // Search resources (case-insensitive search in SQLite)
-    const resources = await db.resource.findMany({
+    // Ищем ресурсы
+    // OR — условие "ИЛИ" в Prisma
+    // contains — содержит подстроку (поиск)
+    // mode: "insensitive" — без учёта регистра
+    const resources = await prisma.resource.findMany({
       where: {
         OR: [
-          { name: { contains: searchTerm } },
-          { description: { contains: searchTerm } },
+          { name: { contains: query, mode: "insensitive" } },
+          { description: { contains: query, mode: "insensitive" } },
         ],
       },
       include: {
-        category: true,
+        category: true, // Включаем категорию для отображения
       },
-      take: 5,
+      take: 10, // Ограничиваем количество результатов
     });
 
-    // Search terms
-    const terms = await db.term.findMany({
+    // Ищем термины
+    const terms = await prisma.term.findMany({
       where: {
         OR: [
-          { term: { contains: searchTerm } },
-          { definition: { contains: searchTerm } },
+          { term: { contains: query, mode: "insensitive" } },
+          { definition: { contains: query, mode: "insensitive" } },
         ],
       },
-      take: 5,
+      take: 10,
     });
 
-    // Search categories
-    const categories = await db.category.findMany({
+    // Ищем категории
+    const categories = await prisma.category.findMany({
       where: {
         OR: [
-          { name: { contains: searchTerm } },
-          { description: { contains: searchTerm } },
+          { name: { contains: query, mode: "insensitive" } },
+          { description: { contains: query, mode: "insensitive" } },
         ],
       },
       include: {
@@ -51,12 +73,23 @@ export async function GET(request) {
           select: { resources: true },
         },
       },
-      take: 3,
+      take: 10,
     });
 
-    return NextResponse.json({ resources, terms, categories });
+    // Возвращаем объединённый результат
+    return new Response(JSON.stringify({
+      resources,
+      terms,
+      categories,
+    }), {
+      status: 200,
+      headers: { "Content-Type": "application/json" },
+    });
   } catch (error) {
-    console.error("Error in search:", error);
-    return NextResponse.json({ error: "Search failed" }, { status: 500 });
+    console.error("Error searching:", error);
+    return new Response(JSON.stringify({ error: "Ошибка при поиске" }), {
+      status: 500,
+      headers: { "Content-Type": "application/json" },
+    });
   }
 }

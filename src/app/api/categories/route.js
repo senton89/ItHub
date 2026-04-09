@@ -1,74 +1,74 @@
-import { db } from "@/lib/db";
-import { NextRequest, NextResponse } from "next/server";
+// ============================================================
+// API ROUTE: КАТЕГОРИИ
+// ============================================================
+// Обрабатывает запросы к /api/categories
+// Поддерживает: GET (получить все) и POST (создать новую)
+// ============================================================
 
-// GET all categories with resource counts
+import { PrismaClient } from "@prisma/client";
+
+const prisma = globalThis.__prisma || new PrismaClient();
+if (process.env.NODE_ENV !== "production") globalThis.__prisma = prisma;
+
+// ------------------ GET /api/categories ------------------
 export async function GET() {
   try {
-    const categories = await db.category.findMany({
+    // Получаем все категории с подсчётом ресурсов в каждой
+    const categories = await prisma.category.findMany({
       include: {
+        // _count — специальное поле Prisma для подсчёта связанных записей
         _count: {
-          select: { resources: true },
+          select: { resources: true }, // Считаем ресурсы в категории
         },
       },
-      orderBy: { order: "asc" },
+      orderBy: {
+        name: "asc", // Сортировка по имени (алфавит)
+      },
     });
 
-    return NextResponse.json(categories);
+    return new Response(JSON.stringify(categories), {
+      status: 200,
+      headers: { "Content-Type": "application/json" },
+    });
   } catch (error) {
     console.error("Error fetching categories:", error);
-    return NextResponse.json({ error: "Failed to fetch categories" }, { status: 500 });
+    return new Response(JSON.stringify({ error: "Ошибка при получении категорий" }), {
+      status: 500,
+      headers: { "Content-Type": "application/json" },
+    });
   }
 }
 
-// POST create new category
+// ------------------ POST /api/categories ------------------
 export async function POST(request) {
   try {
     const body = await request.json();
-    const { name, description, color, icon } = body;
+    const { name, description, color } = body;
 
     if (!name) {
-      return NextResponse.json({ error: "Name is required" }, { status: 400 });
+      return new Response(JSON.stringify({ error: "Название обязательно" }), {
+        status: 400,
+        headers: { "Content-Type": "application/json" },
+      });
     }
 
-    // Generate slug from name
-    const slug = name
-      .toLowerCase()
-      .replace(/[^a-z0-9]+/g, "-")
-      .replace(/^-|-$/g, "");
-
-    // Check if slug already exists
-    const existing = await db.category.findUnique({
-      where: { slug },
-    });
-
-    if (existing) {
-      return NextResponse.json({ error: "Category with this name already exists" }, { status: 400 });
-    }
-
-    // Get max order
-    const maxOrder = await db.category.aggregate({
-      _max: { order: true },
-    });
-
-    const category = await db.category.create({
+    const category = await prisma.category.create({
       data: {
         name,
-        slug,
         description: description || null,
-        color: color || "#64748b",
-        icon: icon || null,
-        order: (maxOrder._max.order || 0) + 1,
-      },
-      include: {
-        _count: {
-          select: { resources: true },
-        },
+        color: color || "#64748b", // Цвет по умолчанию
       },
     });
 
-    return NextResponse.json(category);
+    return new Response(JSON.stringify(category), {
+      status: 201,
+      headers: { "Content-Type": "application/json" },
+    });
   } catch (error) {
     console.error("Error creating category:", error);
-    return NextResponse.json({ error: "Failed to create category" }, { status: 500 });
+    return new Response(JSON.stringify({ error: "Ошибка при создании категории" }), {
+      status: 500,
+      headers: { "Content-Type": "application/json" },
+    });
   }
 }

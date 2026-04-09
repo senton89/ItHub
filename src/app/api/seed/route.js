@@ -1,134 +1,134 @@
-import { db } from "@/lib/db";
-import { NextResponse } from "next/server";
+// ============================================================
+// API ROUTE: SEED (ЗАПОЛНЕНИЕ БАЗЫ ТЕСТОВЫМИ ДАННЫМИ)
+// ============================================================
+// Этот маршрут заполняет базу данных начальными данными
+// Вызывается при первом запуске приложения
+// ============================================================
 
-// Seed initial data
+import { PrismaClient } from "@prisma/client";
+
+const prisma = globalThis.__prisma || new PrismaClient();
+if (process.env.NODE_ENV !== "production") globalThis.__prisma = prisma;
+
+// GET /api/seed
 export async function GET() {
   try {
-    // Check if data already exists
-    const existingCategories = await db.category.count();
-    
+    // Проверяем, есть ли уже категории
+    const existingCategories = await prisma.category.count();
+
+    // Если категории есть, не заполняем повторно
     if (existingCategories > 0) {
-      return NextResponse.json({ message: "Database already seeded" });
+      return new Response(JSON.stringify({ message: "База уже заполнена" }), {
+        status: 200,
+        headers: { "Content-Type": "application/json" },
+      });
     }
 
-    // Create categories
-    await db.category.createMany({
+    // Создаём категории
+    const categories = await prisma.category.createMany({
       data: [
-        { id: "cat_1", name: "Разработка", slug: "development", color: "#3b82f6", icon: "code", order: 1 },
-        { id: "cat_2", name: "DevOps", slug: "devops", color: "#10b981", icon: "server", order: 2 },
-        { id: "cat_3", name: "Дизайн", slug: "design", color: "#f59e0b", icon: "palette", order: 3 },
-        { id: "cat_4", name: "Обучение", slug: "learning", color: "#ef4444", icon: "book", order: 4 },
-        { id: "cat_5", name: "Инструменты", slug: "tools", color: "#8b5cf6", icon: "wrench", order: 5 },
-        { id: "cat_6", name: "Документация", slug: "docs", color: "#06b6d4", icon: "file-text", order: 6 },
-      ]
+        { name: "Документация", color: "#3b82f6" },
+        { name: "Инструменты", color: "#10b981" },
+        { name: "Обучение", color: "#f59e0b" },
+        { name: "Библиотеки", color: "#8b5cf6" },
+        { name: "API", color: "#ec4899" },
+        { name: "DevOps", color: "#ef4444" },
+      ],
     });
 
-    // Create resources
-    await db.resource.createMany({
+    // Создаём ресурсы
+    await prisma.resource.createMany({
       data: [
         {
-          id: "res_1",
-          name: "GitHub",
-          slug: "github",
-          description: "Платформа для хостинга Git-репозиториев и совместной разработки. Включает инструменты для code review, управления проектами и CI/CD.",
-          url: "https://github.com",
-          categoryId: "cat_1",
-          tags: JSON.stringify(["git", "collaboration", "open-source"]),
-          isFeatured: true,
+          name: "React Documentation",
+          description: "Официальная документация React — библиотеки для создания пользовательских интерфейсов",
+          url: "https://react.dev",
+          categoryId: 1,
         },
         {
-          id: "res_2",
-          name: "Visual Studio Code",
-          slug: "vscode",
-          description: "Бесплатный редактор кода с богатой экосистемой расширений. Поддерживает отладку, Git и IntelliSense для множества языков.",
+          name: "Next.js",
+          description: "Фреймворк React для создания полноценных веб-приложений",
+          url: "https://nextjs.org",
+          categoryId: 1,
+        },
+        {
+          name: "VS Code",
+          description: "Бесплатный редактор кода от Microsoft с множеством расширений",
           url: "https://code.visualstudio.com",
-          categoryId: "cat_5",
-          tags: JSON.stringify(["editor", "ide", "microsoft"]),
-          isFeatured: true,
+          categoryId: 2,
         },
         {
-          id: "res_3",
-          name: "Docker",
-          slug: "docker",
-          description: "Платформа контейнеризации для разработки, доставки и запуска приложений. Упрощает управление зависимостями и деплой.",
-          url: "https://docker.com",
-          categoryId: "cat_2",
-          tags: JSON.stringify(["containers", "devops", "deployment"]),
-          isFeatured: true,
-        },
-        {
-          id: "res_4",
-          name: "Figma",
-          slug: "figma",
-          description: "Коллаборативный инструмент для UI/UX дизайна и прототипирования. Работает в браузере с возможностью одновременного редактирования.",
-          url: "https://figma.com",
-          categoryId: "cat_3",
-          tags: JSON.stringify(["design", "ui/ux", "prototyping"]),
-          isFeatured: true,
-        },
-        {
-          id: "res_5",
           name: "MDN Web Docs",
-          slug: "mdn",
-          description: "Исчерпывающая документация по веб-технологиям: HTML, CSS, JavaScript, Web API и инструменты разработчика.",
+          description: "Документация по веб-технологиям от Mozilla",
           url: "https://developer.mozilla.org",
-          categoryId: "cat_6",
-          tags: JSON.stringify(["documentation", "web", "javascript"]),
-          isFeatured: true,
+          categoryId: 3,
         },
         {
-          id: "res_6",
-          name: "Stack Overflow",
-          slug: "stackoverflow",
-          description: "Крупнейшее сообщество разработчиков для вопросов и ответов по программированию.",
-          url: "https://stackoverflow.com",
-          categoryId: "cat_4",
-          tags: JSON.stringify(["qa", "community", "help"]),
-          isFeatured: false,
+          name: "Tailwind CSS",
+          description: "Utility-first CSS фреймворк для быстрой стилизации",
+          url: "https://tailwindcss.com",
+          categoryId: 4,
         },
-      ]
+        {
+          name: "GitHub REST API",
+          description: "REST API для работы с репозиториями GitHub",
+          url: "https://docs.github.com/rest",
+          categoryId: 5,
+        },
+        {
+          name: "Docker",
+          description: "Платформа для контейнеризации приложений",
+          url: "https://docker.com",
+          categoryId: 6,
+        },
+      ],
     });
 
-    // Create terms
-    await db.term.createMany({
+    // Создаём термины
+    await prisma.term.createMany({
       data: [
         {
-          id: "term_1",
           term: "API",
-          slug: "api",
-          definition: "Application Programming Interface — интерфейс программирования приложений. Набор правил и протоколов для взаимодействия между программными компонентами.",
-          examples: JSON.stringify(["REST API", "GraphQL API", "Web API"]),
+          definition: "Application Programming Interface — интерфейс для взаимодействия между программами. Позволяет приложениям обмениваться данными и функциями.",
+          examples: JSON.stringify(["REST API для получения данных", "GraphQL API для гибких запросов"]),
         },
         {
-          id: "term_2",
-          term: "CI/CD",
-          slug: "ci-cd",
-          definition: "Continuous Integration / Continuous Delivery — непрерывная интеграция и доставка. Практики автоматизации сборки, тестирования и развёртывания.",
-          examples: JSON.stringify(["GitHub Actions", "GitLab CI", "Jenkins"]),
-        },
-        {
-          id: "term_3",
           term: "REST",
-          slug: "rest",
-          definition: "Representational State Transfer — архитектурный стиль для распределённых систем. Использует HTTP-методы для операций над ресурсами.",
-          examples: JSON.stringify(["GET /users", "POST /users", "PUT /users/1"]),
+          definition: "Representational State Transfer — архитектурный стиль для создания веб-сервисов. Использует HTTP методы (GET, POST, PUT, DELETE).",
+          examples: JSON.stringify(["GET /users — получить список пользователей", "POST /users — создать пользователя"]),
         },
         {
-          id: "term_4",
-          term: "SDK",
-          slug: "sdk",
-          definition: "Software Development Kit — комплект инструментов для разработки. Включает библиотеки, документацию и примеры кода.",
-          examples: JSON.stringify(["Android SDK", "iOS SDK", "AWS SDK"]),
+          term: "CI/CD",
+          definition: "Continuous Integration / Continuous Deployment — практика автоматической сборки, тестирования и развёртывания кода.",
+          examples: JSON.stringify(["GitHub Actions для автоматического тестирования", "Автоматическое развёртывание при merge в main"]),
         },
-      ]
+        {
+          term: "DOM",
+          definition: "Document Object Model — объектная модель документа. Представляет HTML-страницу как дерево объектов, которым можно управлять через JavaScript.",
+          examples: JSON.stringify(["document.getElementById() — найти элемент по ID", "element.appendChild() — добавить дочерний элемент"]),
+        },
+        {
+          term: "JSON",
+          definition: "JavaScript Object Notation — текстовый формат обмена данными. Легко читается людьми и парсится программами.",
+          examples: JSON.stringify(['{"name": "IThub", "version": 1.0}', '[1, 2, 3, 4, 5]']),
+        },
+      ],
     });
 
-    return NextResponse.json({ 
-      success: true, 
-      message: "Database seeded successfully"
+    return new Response(JSON.stringify({
+      message: "База данных успешно заполнена",
+      categories: 6,
+      resources: 7,
+      terms: 5,
+    }), {
+      status: 200,
+      headers: { "Content-Type": "application/json" },
     });
   } catch (error) {
-    console.error("Seed error:", error);
-    return NextResponse.json({ error: "Failed to seed database" }, { status: 500 });
+    console.error("Error seeding database:", error);
+    return new Response(JSON.stringify({ error: "Ошибка при заполнении базы" }), {
+      status: 500,
+      headers: { "Content-Type": "application/json" },
+    });
   }
 }

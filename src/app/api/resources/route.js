@@ -1,81 +1,97 @@
-import { db } from "@/lib/db";
-import { NextRequest, NextResponse } from "next/server";
+// ============================================================
+// API ROUTE: РЕСУРСЫ
+// ============================================================
+// Этот файл обрабатывает HTTP запросы к /api/resources
+// Поддерживает: GET (получить все) и POST (создать новый)
+// ============================================================
 
-// GET all resources
-export async function GET(request) {
+// Импортируем Prisma Client для работы с базой данных
+import { PrismaClient } from "@prisma/client";
+
+// Создаём экземпляр Prisma Client
+// globalThis.__prisma — паттерн для предотвращения создания
+// множества соединений при горячей перезагрузке в development
+const prisma = globalThis.__prisma || new PrismaClient();
+if (process.env.NODE_ENV !== "production") globalThis.__prisma = prisma;
+
+// ------------------ GET /api/resources ------------------
+// Получение списка всех ресурсов
+// export async function GET — обработчик GET-запросов
+export async function GET() {
   try {
-    const { searchParams } = new URL(request.url);
-    const category = searchParams.get("category");
-    const featured = searchParams.get("featured");
-    const search = searchParams.get("search");
-
-    const where = {};
-    
-    if (category) {
-      where.categoryId = category;
-    }
-    
-    if (featured === "true") {
-      where.isFeatured = true;
-    }
-    
-    if (search) {
-      where.OR = [
-        { name: { contains: search, mode: "insensitive" } },
-        { description: { contains: search, mode: "insensitive" } },
-      ];
-    }
-
-    const resources = await db.resource.findMany({
-      where,
+    // prisma.resource.findMany — получение всех записей из таблицы resources
+    // include — включить связанные данные (категорию)
+    // orderBy — сортировка по дате создания (новые первыми)
+    const resources = await prisma.resource.findMany({
       include: {
-        category: true,
+        category: true, // Включить связанную категорию
       },
-      orderBy: [
-        { isFeatured: "desc" },
-        { createdAt: "desc" },
-      ],
+      orderBy: {
+        createdAt: "desc", // Сортировка по убыванию даты
+      },
     });
 
-    return NextResponse.json(resources);
+    // Возвращаем JSON-ответ со статусом 200 (OK)
+    return new Response(JSON.stringify(resources), {
+      status: 200,
+      headers: { "Content-Type": "application/json" },
+    });
   } catch (error) {
+    // Логируем ошибку для отладки
     console.error("Error fetching resources:", error);
-    return NextResponse.json({ error: "Failed to fetch resources" }, { status: 500 });
+
+    // Возвращаем ошибку со статусом 500 (Internal Server Error)
+    return new Response(JSON.stringify({ error: "Ошибка при получении ресурсов" }), {
+      status: 500,
+      headers: { "Content-Type": "application/json" },
+    });
   }
 }
 
-// POST create new resource
+// ------------------ POST /api/resources ------------------
+// Создание нового ресурса
+// export async function POST — обработчик POST-запросов
+// request — объект запроса с телом и метаданными
 export async function POST(request) {
   try {
+    // Получаем тело запроса и парсим JSON
     const body = await request.json();
+
+    // Деструктурируем поля из тела запроса
     const { name, description, url, categoryId, tags } = body;
 
+    // Валидация обязательных полей
     if (!name || !description || !categoryId) {
-      return NextResponse.json({ error: "Missing required fields" }, { status: 400 });
+      return new Response(JSON.stringify({ error: "Заполните обязательные поля" }), {
+        status: 400, // Bad Request
+        headers: { "Content-Type": "application/json" },
+      });
     }
 
-    const slug = name
-      .toLowerCase()
-      .replace(/[^a-z0-9]+/g, "-")
-      .replace(/^-|-$/g, "");
-
-    const resource = await db.resource.create({
+    // prisma.resource.create — создание новой записи
+    // data — данные для создания
+    const resource = await prisma.resource.create({
       data: {
-        name,
-        slug,
-        description,
-        url: url || null,
-        categoryId,
+        name,          // Название ресурса
+        description,   // Описание
+        url: url || null, // URL (null если не указан)
+        categoryId,    // ID категории
+        // JSON.stringify преобразует массив в строку JSON для хранения
         tags: tags ? JSON.stringify(tags) : null,
-      },
-      include: {
-        category: true,
       },
     });
 
-    return NextResponse.json(resource);
+    // Возвращаем созданный ресурс со статусом 201 (Created)
+    return new Response(JSON.stringify(resource), {
+      status: 201,
+      headers: { "Content-Type": "application/json" },
+    });
   } catch (error) {
     console.error("Error creating resource:", error);
-    return NextResponse.json({ error: "Failed to create resource" }, { status: 500 });
+
+    return new Response(JSON.stringify({ error: "Ошибка при создании ресурса" }), {
+      status: 500,
+      headers: { "Content-Type": "application/json" },
+    });
   }
 }

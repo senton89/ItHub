@@ -1,60 +1,68 @@
-import { db } from "@/lib/db";
-import { NextRequest, NextResponse } from "next/server";
+// ============================================================
+// API ROUTE: ТЕРМИНЫ
+// ============================================================
+// Обрабатывает запросы к /api/terms
+// Поддерживает: GET (получить все) и POST (создать новый)
+// ============================================================
 
-// GET all terms
-export async function GET(request) {
+import { PrismaClient } from "@prisma/client";
+
+const prisma = globalThis.__prisma || new PrismaClient();
+if (process.env.NODE_ENV !== "production") globalThis.__prisma = prisma;
+
+// ------------------ GET /api/terms ------------------
+export async function GET() {
   try {
-    const { searchParams } = new URL(request.url);
-    const search = searchParams.get("search");
-
-    const where = {};
-    
-    if (search) {
-      where.OR = [
-        { term: { contains: search, mode: "insensitive" } },
-        { definition: { contains: search, mode: "insensitive" } },
-      ];
-    }
-
-    const terms = await db.term.findMany({
-      where,
-      orderBy: { term: "asc" },
+    const terms = await prisma.term.findMany({
+      orderBy: {
+        term: "asc", // Сортировка по алфавиту
+      },
     });
 
-    return NextResponse.json(terms);
+    return new Response(JSON.stringify(terms), {
+      status: 200,
+      headers: { "Content-Type": "application/json" },
+    });
   } catch (error) {
     console.error("Error fetching terms:", error);
-    return NextResponse.json({ error: "Failed to fetch terms" }, { status: 500 });
+    return new Response(JSON.stringify({ error: "Ошибка при получении терминов" }), {
+      status: 500,
+      headers: { "Content-Type": "application/json" },
+    });
   }
 }
 
-// POST create new term
+// ------------------ POST /api/terms ------------------
 export async function POST(request) {
   try {
     const body = await request.json();
     const { term, definition, examples } = body;
 
     if (!term || !definition) {
-      return NextResponse.json({ error: "Missing required fields" }, { status: 400 });
+      return new Response(JSON.stringify({ error: "Термин и определение обязательны" }), {
+        status: 400,
+        headers: { "Content-Type": "application/json" },
+      });
     }
 
-    const slug = term
-      .toLowerCase()
-      .replace(/[^a-z0-9]+/g, "-")
-      .replace(/^-|-$/g, "");
-
-    const newTerm = await db.term.create({
+    const newTerm = await prisma.term.create({
       data: {
         term,
-        slug,
         definition,
+        // examples хранится как JSON-строка
         examples: examples ? JSON.stringify(examples) : null,
       },
     });
 
-    return NextResponse.json(newTerm);
+    return new Response(JSON.stringify(newTerm), {
+      status: 201,
+      headers: { "Content-Type": "application/json" },
+    });
   } catch (error) {
     console.error("Error creating term:", error);
-    return NextResponse.json({ error: "Failed to create term" }, { status: 500 });
+    return new Response(JSON.stringify({ error: "Ошибка при создании термина" }), {
+      status: 500,
+      headers: { "Content-Type": "application/json" },
+    });
   }
 }
