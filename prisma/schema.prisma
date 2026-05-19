@@ -1,4 +1,4 @@
-// Prisma schema for IT Resources Aggregator
+// Prisma schema for IT Hub - Resources + Dictionary + Q&A Platform
 
 generator client {
   provider = "prisma-client-js"
@@ -6,10 +6,9 @@ generator client {
 
 datasource db {
   provider = "sqlite"
-  url      = "file:./dev.db"
+  url      = env("DATABASE_URL")
 }
 
-// Categories for resources
 model Category {
   id          String     @id @default(cuid())
   name        String
@@ -19,13 +18,12 @@ model Category {
   icon        String?
   order       Int        @default(0)
   resources   Resource[]
+  questions   Question[]
   createdAt   DateTime   @default(now())
   updatedAt   DateTime   @updatedAt
-
   @@map("categories")
 }
 
-// IT Resources
 model Resource {
   id          String     @id @default(cuid())
   name        String
@@ -34,40 +32,202 @@ model Resource {
   url         String?
   categoryId  String
   category    Category   @relation(fields: [categoryId], references: [id])
-  tags        String?    // JSON array of tags
+  tags        String?
   isFeatured  Boolean    @default(false)
   viewCount   Int        @default(0)
-  favorites   Favorite[]
+  favorites   ResourceFavorite[]
   createdAt   DateTime   @default(now())
   updatedAt   DateTime   @updatedAt
-
   @@map("resources")
 }
 
-// Dictionary terms
 model Term {
-  id          String   @id @default(cuid())
-  term        String
-  slug        String   @unique
-  definition  String
-  examples    String?  // JSON array of examples
-  relatedTerms String? // JSON array of related term IDs
-  categoryId  String?
-  viewCount   Int      @default(0)
-  createdAt   DateTime @default(now())
-  updatedAt   DateTime @updatedAt
-
+  id            String   @id @default(cuid())
+  term          String
+  slug          String   @unique
+  definition    String
+  examples      String?
+  relatedTerms  String?
+  categoryId    String?
+  viewCount     Int      @default(0)
+  createdAt     DateTime @default(now())
+  updatedAt     DateTime @updatedAt
   @@map("terms")
 }
 
-// User favorites (for future auth)
-model Favorite {
+model User {
+  id          String   @id @default(cuid())
+  email       String   @unique
+  name        String?
+  avatar      String?
+  bio         String?
+  reputation  Int      @default(1)
+  badge       String   @default("BRONZE")
+  questions   Question[] @relation("UserQuestions")
+  answers     Answer[]   @relation("UserAnswers")
+  votes       Vote[]
+  questionFavorites QuestionFavorite[]
+  answerComments     AnswerComment[]
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+  @@map("users")
+}
+
+model Question {
+  id              String      @id @default(cuid())
+  title           String
+  slug            String      @unique
+  body            String
+  htmlBody        String?
+  views           Int         @default(0)
+  voteCount       Int         @default(0)
+  answerCount     Int         @default(0)
+  favoriteCount   Int         @default(0)
+  status          String      @default("OPEN")
+  difficulty      String?
+  isAnswered      Boolean     @default(false)
+  authorId        String
+  author          User        @relation("UserQuestions", fields: [authorId], references: [id])
+  categoryId      String?
+  category        Category?   @relation(fields: [categoryId], references: [id])
+  tags            QuestionTag[]
+  answers         Answer[]
+  images          QuestionImage[]
+  votes           Vote[]      @relation("QuestionVote")
+  favorites       QuestionFavorite[]
+  acceptedAnswerId String?    @unique
+  acceptedAnswer   Answer?    @relation("AcceptedAnswer", fields: [acceptedAnswerId], references: [id])
+  createdAt       DateTime    @default(now())
+  updatedAt       DateTime    @updatedAt
+  lastActivityAt  DateTime    @default(now())
+  @@index([status, createdAt])
+  @@index([voteCount])
+  @@index([isAnswered, createdAt])
+  @@map("questions")
+}
+
+model Answer {
+  id          String      @id @default(cuid())
+  body        String
+  htmlBody    String?
+  isAccepted  Boolean     @default(false)
+  voteCount   Int         @default(0)
+  questionId  String
+  question    Question    @relation(fields: [questionId], references: [id], onDelete: Cascade)
+  authorId    String
+  author      User        @relation("UserAnswers", fields: [authorId], references: [id])
+  images      AnswerImage[]
+  comments    AnswerComment[]
+  votes       Vote[]      @relation("AnswerVote")
+  createdAt   DateTime    @default(now())
+  updatedAt   DateTime    @updatedAt
+  @@index([questionId, isAccepted])
+  @@index([questionId, voteCount])
+  acceptedQuestion Question? @relation("AcceptedAnswer")
+
+  @@map("answers")
+}
+
+model Tag {
+  id          String   @id @default(cuid())
+  name        String   @unique
+  slug        String   @unique
+  description String?
+  color       String   @default("#3b82f6")
+  questions   QuestionTag[]
+  questionCount Int    @default(0)
+  createdAt   DateTime @default(now())
+  @@map("tags")
+}
+
+model QuestionTag {
+  questionId  String
+  tagId       String
+  question    Question @relation(fields: [questionId], references: [id], onDelete: Cascade)
+  tag         Tag      @relation(fields: [tagId], references: [id], onDelete: Cascade)
+  @@id([questionId, tagId])
+  @@map("question_tags")
+}
+
+model Vote {
+  id         String   @id @default(cuid())
+  type       String
+  userId     String
+  user       User     @relation(fields: [userId], references: [id])
+  questionId String?
+  question   Question? @relation("QuestionVote", fields: [questionId], references: [id], onDelete: Cascade)
+  answerId   String?
+  answer     Answer?   @relation("AnswerVote", fields: [answerId], references: [id], onDelete: Cascade)
+  createdAt  DateTime @default(now())
+  @@index([userId, questionId])
+  @@index([userId, answerId])
+  @@map("votes")
+}
+
+model QuestionFavorite {
+  id         String   @id @default(cuid())
+  userId     String?
+  user       User?    @relation(fields: [userId], references: [id])
+  sessionId  String?
+  questionId String
+  question   Question @relation(fields: [questionId], references: [id], onDelete: Cascade)
+  createdAt  DateTime @default(now())
+  @@map("question_favorites")
+}
+
+model ResourceFavorite {
   id         String   @id @default(cuid())
   resourceId String
-  resource   Resource @relation(fields: [resourceId], references: [id])
-  sessionId  String   // For anonymous users
+  resource   Resource @relation(fields: [resourceId], references: [id], onDelete: Cascade)
+  sessionId  String
   createdAt  DateTime @default(now())
-
   @@unique([resourceId, sessionId])
-  @@map("favorites")
+  @@map("resource_favorites")
+}
+
+model QuestionImage {
+  id          String   @id @default(cuid())
+  url         String
+  thumbnailUrl String?
+  alt         String?
+  size        Int
+  width       Int?
+  height      Int?
+  mimeType    String
+  order       Int      @default(0)
+  questionId  String
+  question    Question @relation(fields: [questionId], references: [id], onDelete: Cascade)
+  uploaderId  String
+  createdAt   DateTime @default(now())
+  @@map("question_images")
+}
+
+model AnswerImage {
+  id          String   @id @default(cuid())
+  url         String
+  thumbnailUrl String?
+  alt         String?
+  size        Int
+  width       Int?
+  height      Int?
+  mimeType    String
+  order       Int      @default(0)
+  answerId    String
+  answer      Answer   @relation(fields: [answerId], references: [id], onDelete: Cascade)
+  uploaderId  String
+  createdAt   DateTime @default(now())
+  @@map("answer_images")
+}
+
+model AnswerComment {
+  id        String   @id @default(cuid())
+  body      String
+  answerId  String
+  answer    Answer   @relation(fields: [answerId], references: [id], onDelete: Cascade)
+  authorId  String
+  author    User     @relation(fields: [authorId], references: [id])
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  @@index([answerId])
+  @@map("answer_comments")
 }

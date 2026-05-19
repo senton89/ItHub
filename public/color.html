@@ -1,10 +1,1440 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="ru">
 <head>
-  <meta charset="UTF-8">
-  <title>$Title$</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CYBER.PALETTE v4.0</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;500;700;900&family=Rajdhani:wght@400;500;600;700&display=swap" rel="stylesheet">
+
+    <style>
+        :root {
+            --bg-deep: #0a0a0f;
+            --bg: #12121a;
+            --bg-card: #1a1a26;
+            --fg: #e0e0e8;
+            --muted: #5a5a72;
+            --accent-cyan: #00f0ff;
+            --accent-pink: #ff00aa;
+            --accent-purple: #8b5cf6;
+            --glow-cyan: 0 0 30px rgba(0, 240, 255, 0.4);
+            --glow-pink: 0 0 30px rgba(255, 0, 170, 0.4);
+        }
+
+        * { box-sizing: border-box; }
+
+        body {
+            font-family: 'Rajdhani', sans-serif;
+            background: var(--bg-deep);
+            color: var(--fg);
+            min-height: 100vh;
+            overflow-x: hidden;
+        }
+
+        .font-display { font-family: 'Orbitron', sans-serif; }
+        .mono { font-family: 'Rajdhani', monospace; }
+
+        .cyber-bg {
+            position: fixed;
+            inset: 0;
+            background:
+                    radial-gradient(ellipse at 20% 0%, rgba(0, 240, 255, 0.08) 0%, transparent 50%),
+                    radial-gradient(ellipse at 80% 100%, rgba(255, 0, 170, 0.06) 0%, transparent 50%),
+                    linear-gradient(180deg, #0a0a0f 0%, #0f0f18 100%);
+            z-index: -2;
+        }
+
+        .grid-lines {
+            position: fixed;
+            inset: 0;
+            background-image:
+                    linear-gradient(rgba(0, 240, 255, 0.03) 1px, transparent 1px),
+                    linear-gradient(90deg, rgba(0, 240, 255, 0.03) 1px, transparent 1px);
+            background-size: 50px 50px;
+            z-index: -1;
+        }
+
+        .scanlines::after {
+            content: '';
+            position: fixed;
+            inset: 0;
+            background: repeating-linear-gradient(
+                    0deg,
+                    transparent,
+                    transparent 2px,
+                    rgba(0, 0, 0, 0.03) 2px,
+                    rgba(0, 0, 0, 0.03) 4px
+            );
+            pointer-events: none;
+            z-index: 9999;
+        }
+
+        .glow-border {
+            border: 1px solid rgba(0, 240, 255, 0.3);
+            box-shadow:
+                    0 0 20px rgba(0, 240, 255, 0.1),
+                    inset 0 0 20px rgba(0, 240, 255, 0.05);
+            position: relative;
+        }
+
+        .glow-border::before {
+            content: '';
+            position: absolute;
+            top: -1px; left: -1px; right: -1px; bottom: -1px;
+            background: linear-gradient(135deg, var(--accent-cyan), var(--accent-pink));
+            z-index: -1;
+            border-radius: inherit;
+            opacity: 0;
+            transition: opacity 0.3s ease;
+        }
+
+        .glow-border:hover::before {
+            opacity: 0.5;
+        }
+
+        .btn-cyber {
+            position: relative;
+            padding: 16px 36px;
+            font-family: 'Orbitron', sans-serif;
+            font-weight: 700;
+            font-size: 13px;
+            letter-spacing: 0.15em;
+            text-transform: uppercase;
+            color: var(--accent-cyan);
+            background: transparent;
+            border: 2px solid var(--accent-cyan);
+            cursor: pointer;
+            clip-path: polygon(10px 0, 100% 0, 100% calc(100% - 10px), calc(100% - 10px) 100%, 0 100%, 0 10px);
+            transition: all 0.3s ease;
+            overflow: hidden;
+        }
+
+        .btn-cyber::before {
+            content: '';
+            position: absolute;
+            inset: 0;
+            background: var(--accent-cyan);
+            transform: translateX(-101%);
+            transition: transform 0.3s ease;
+            z-index: -1;
+        }
+
+        .btn-cyber:hover {
+            color: var(--bg-deep);
+            box-shadow: var(--glow-cyan);
+        }
+
+        .btn-cyber:hover::before {
+            transform: translateX(0);
+        }
+
+        .btn-cyber:active {
+            transform: scale(0.97);
+        }
+
+        .btn-cyber-pink {
+            color: var(--accent-pink);
+            border-color: var(--accent-pink);
+        }
+
+        .btn-cyber-pink::before {
+            background: var(--accent-pink);
+        }
+
+        .btn-cyber-pink:hover {
+            box-shadow: var(--glow-pink);
+        }
+
+        .cyber-tab {
+            padding: 12px 16px;
+            font-family: 'Orbitron', sans-serif;
+            font-size: 11px;
+            font-weight: 500;
+            letter-spacing: 0.08em;
+            text-transform: uppercase;
+            color: var(--muted);
+            background: transparent;
+            border: 1px solid transparent;
+            border-bottom: 2px solid transparent;
+            cursor: pointer;
+            transition: all 0.25s ease;
+            position: relative;
+            white-space: nowrap;
+        }
+
+        .cyber-tab:hover {
+            color: var(--fg);
+            background: rgba(0, 240, 255, 0.05);
+        }
+
+        .cyber-tab.active {
+            color: var(--accent-cyan);
+            border-bottom-color: var(--accent-cyan);
+            text-shadow: 0 0 10px rgba(0, 240, 255, 0.5);
+        }
+
+        .color-card {
+            position: relative;
+            aspect-ratio: 1;
+            border-radius: 4px;
+            overflow: hidden;
+            cursor: pointer;
+            transition: all 0.35s cubic-bezier(0.23, 1, 0.32, 1);
+            clip-path: polygon(0 0, calc(100% - 12px) 0, 100% 12px, 100% 100%, 12px 100%, 0 calc(100% - 12px));
+        }
+
+        .color-card::before {
+            content: '';
+            position: absolute;
+            inset: 0;
+            border: 1px solid rgba(255, 255, 255, 0.15);
+            pointer-events: none;
+            z-index: 2;
+        }
+
+        .color-card:hover {
+            transform: scale(1.06) translateY(-8px);
+            box-shadow: 0 25px 50px rgba(0, 0, 0, 0.6), 0 0 40px var(--card-glow, rgba(0,240,255,0.3));
+            z-index: 10;
+        }
+
+        .color-card:hover .card-info {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        .card-info {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            padding: 14px;
+            background: linear-gradient(to top, rgba(0,0,0,0.95), rgba(0,0,0,0.7) 80%, transparent);
+            opacity: 0;
+            transform: translateY(10px);
+            transition: all 0.3s ease;
+            z-index: 3;
+        }
+
+        .cyber-strip {
+            display: flex;
+            height: 200px;
+            position: relative;
+            clip-path: polygon(0 0, calc(100% - 20px) 0, 100% 20px, 100% 100%, 20px 100%, 0 calc(100% - 20px));
+        }
+
+        .strip-segment {
+            flex: 1;
+            cursor: pointer;
+            position: relative;
+            transition: all 0.35s cubic-bezier(0.23, 1, 0.32, 1);
+            border-right: 1px solid rgba(0,0,0,0.3);
+            min-width: 0;
+            overflow: hidden;
+        }
+
+        .strip-segment:last-child { border-right: none; }
+
+        .strip-segment:hover {
+            flex: 1.6;
+        }
+
+        .strip-segment .hex-code {
+            position: absolute;
+            bottom: 14px;
+            left: 50%;
+            transform: translateX(-50%) translateY(10px);
+            font-family: 'Orbitron', sans-serif;
+            font-size: 11px;
+            font-weight: 700;
+            padding: 8px 14px;
+            background: rgba(0, 0, 0, 0.85);
+            border: 1px solid rgba(0, 240, 255, 0.4);
+            color: var(--accent-cyan);
+            opacity: 0;
+            transition: all 0.25s ease;
+            white-space: nowrap;
+            backdrop-filter: blur(4px);
+        }
+
+        .strip-segment:hover .hex-code {
+            opacity: 1;
+            transform: translateX(-50%) translateY(0);
+        }
+
+        .input-cyber {
+            background: rgba(0, 0, 0, 0.5);
+            border: 1px solid rgba(0, 240, 255, 0.25);
+            padding: 16px 20px;
+            font-family: 'Orbitron', sans-serif;
+            font-size: 15px;
+            letter-spacing: 0.1em;
+            color: var(--accent-cyan);
+            outline: none;
+            transition: all 0.3s ease;
+        }
+
+        .input-cyber:focus {
+            border-color: var(--accent-cyan);
+            box-shadow: 0 0 25px rgba(0, 240, 255, 0.25), inset 0 0 20px rgba(0, 240, 255, 0.05);
+        }
+
+        .input-cyber::placeholder {
+            color: var(--muted);
+        }
+
+        .input-cyber.error {
+            border-color: var(--accent-pink);
+            animation: shake 0.4s ease;
+        }
+
+        @keyframes shake {
+            0%, 100% { transform: translateX(0); }
+            25% { transform: translateX(-6px); }
+            75% { transform: translateX(6px); }
+        }
+
+        .saved-cyber {
+            background: var(--bg-card);
+            border: 1px solid rgba(139, 92, 246, 0.25);
+            clip-path: polygon(0 0, calc(100% - 16px) 0, 100% 16px, 100% 100%, 16px 100%, 0 calc(100% - 16px));
+            transition: all 0.3s ease;
+        }
+
+        .saved-cyber:hover {
+            border-color: var(--accent-purple);
+            box-shadow: 0 0 35px rgba(139, 92, 246, 0.25);
+            transform: translateY(-4px);
+        }
+
+        .toast-container {
+            position: fixed;
+            bottom: 28px;
+            left: 50%;
+            transform: translateX(-50%);
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+            z-index: 1000;
+            pointer-events: none;
+        }
+
+        .toast-cyber {
+            background: var(--bg-card);
+            border: 1px solid var(--accent-cyan);
+            padding: 14px 28px;
+            font-family: 'Orbitron', sans-serif;
+            font-size: 12px;
+            letter-spacing: 0.1em;
+            color: var(--accent-cyan);
+            box-shadow: var(--glow-cyan);
+            transform: translateY(100px);
+            opacity: 0;
+            transition: all 0.4s cubic-bezier(0.23, 1, 0.32, 1);
+            white-space: nowrap;
+            pointer-events: auto;
+        }
+
+        .toast-cyber.show {
+            transform: translateY(0);
+            opacity: 1;
+        }
+
+        .toast-cyber.success { border-color: #22c55e; box-shadow: 0 0 30px rgba(34, 197, 94, 0.4); color: #22c55e; }
+        .toast-cyber.error { border-color: var(--accent-pink); box-shadow: var(--glow-pink); color: var(--accent-pink); }
+
+        .corner-accent {
+            position: absolute;
+            width: 18px;
+            height: 18px;
+            border: 2px solid var(--accent-cyan);
+        }
+
+        .corner-accent.tl { top: -1px; left: -1px; border-right: none; border-bottom: none; }
+        .corner-accent.tr { top: -1px; right: -1px; border-left: none; border-bottom: none; }
+        .corner-accent.bl { bottom: -1px; left: -1px; border-right: none; border-top: none; }
+        .corner-accent.br { bottom: -1px; right: -1px; border-left: none; border-top: none; }
+
+        @keyframes glitchIn {
+            0% { opacity: 0; transform: skewX(-10deg) translateX(-30px); filter: blur(6px); }
+            60% { transform: skewX(3deg) translateX(8px); filter: blur(2px); }
+            100% { opacity: 1; transform: skewX(0) translateX(0); filter: blur(0); }
+        }
+
+        @keyframes neonPulse {
+            0%, 100% { opacity: 1; box-shadow: 0 0 8px currentColor; }
+            50% { opacity: 0.5; box-shadow: 0 0 3px currentColor; }
+        }
+
+        .glitch-in {
+            animation: glitchIn 0.7s cubic-bezier(0.23, 1, 0.32, 1) forwards;
+            opacity: 0;
+        }
+
+        .neon-pulse {
+            animation: neonPulse 2s ease-in-out infinite;
+        }
+
+        .delay-1 { animation-delay: 0.1s; }
+        .delay-2 { animation-delay: 0.2s; }
+        .delay-3 { animation-delay: 0.35s; }
+        .delay-4 { animation-delay: 0.5s; }
+
+        .color-picker-wrapper {
+            position: relative;
+            width: 72px;
+            height: 72px;
+        }
+
+        .color-picker-wrapper input[type="color"] {
+            position: absolute;
+            inset: 0;
+            width: 100%;
+            height: 100%;
+            opacity: 0;
+            cursor: pointer;
+        }
+
+        .color-picker-display {
+            width: 100%;
+            height: 100%;
+            border: 2px solid var(--accent-cyan);
+            pointer-events: none;
+            transition: all 0.3s ease;
+            clip-path: polygon(10px 0, 100% 0, 100% calc(100% - 10px), calc(100% - 10px) 100%, 0 100%, 0 10px);
+        }
+
+        .color-picker-wrapper:hover .color-picker-display {
+            box-shadow: var(--glow-cyan);
+        }
+
+        .kbd-hint {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            min-width: 24px;
+            height: 24px;
+            padding: 0 6px;
+            font-family: 'Orbitron', sans-serif;
+            font-size: 10px;
+            font-weight: 700;
+            background: rgba(0, 240, 255, 0.1);
+            border: 1px solid rgba(0, 240, 255, 0.3);
+            border-radius: 4px;
+            color: var(--accent-cyan);
+        }
+
+        .modal-overlay {
+            position: fixed;
+            inset: 0;
+            background: rgba(0, 0, 0, 0.85);
+            backdrop-filter: blur(8px);
+            z-index: 2000;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            opacity: 0;
+            visibility: hidden;
+            transition: all 0.3s ease;
+        }
+
+        .modal-overlay.active {
+            opacity: 1;
+            visibility: visible;
+        }
+
+        .modal-content {
+            background: var(--bg-card);
+            border: 1px solid var(--accent-cyan);
+            max-width: 600px;
+            width: 90%;
+            max-height: 80vh;
+            overflow: auto;
+            transform: scale(0.9) translateY(20px);
+            transition: all 0.3s ease;
+            clip-path: polygon(0 0, calc(100% - 24px) 0, 100% 24px, 100% 100%, 24px 100%, 0 calc(100% - 24px));
+        }
+
+        .modal-overlay.active .modal-content {
+            transform: scale(1) translateY(0);
+        }
+
+        .modal-code {
+            background: rgba(0, 0, 0, 0.6);
+            border: 1px solid rgba(0, 240, 255, 0.2);
+            padding: 20px;
+            font-family: 'Rajdhani', monospace;
+            font-size: 14px;
+            line-height: 1.7;
+            color: var(--accent-cyan);
+            overflow-x: auto;
+            white-space: pre-wrap;
+            word-break: break-all;
+        }
+
+        ::-webkit-scrollbar { width: 8px; height: 8px; }
+        ::-webkit-scrollbar-track { background: var(--bg-deep); }
+        ::-webkit-scrollbar-thumb { background: rgba(0, 240, 255, 0.3); border-radius: 4px; }
+        ::-webkit-scrollbar-thumb:hover { background: rgba(0, 240, 255, 0.5); }
+
+        @media (max-width: 768px) {
+            .cyber-strip { height: 140px; }
+            .color-card { aspect-ratio: auto; height: 130px; }
+            .cyber-tab { padding: 10px 12px; font-size: 10px; }
+            .btn-cyber { padding: 14px 24px; font-size: 11px; }
+        }
+
+        @media (max-width: 480px) {
+            .cyber-strip { height: 120px; }
+            .color-card { height: 110px; }
+        }
+
+        @media (prefers-reduced-motion: reduce) {
+            *, *::before, *::after {
+                animation-duration: 0.01ms !important;
+                animation-iteration-count: 1 !important;
+                transition-duration: 0.01ms !important;
+            }
+        }
+    </style>
 </head>
-<body>
-$END$
+<body class="scanlines">
+<div class="cyber-bg"></div>
+<div class="grid-lines"></div>
+
+<!-- Header -->
+<header class="relative border-b border-[rgba(0,240,255,0.1)] glitch-in">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 py-5 sm:py-6 flex items-center justify-between">
+        <div class="flex items-center gap-4 sm:gap-5">
+            <div class="relative">
+                <div class="w-12 h-12 sm:w-14 sm:h-14 border-2 border-[var(--accent-cyan)] flex items-center justify-center" style="clip-path:polygon(50% 0%, 100% 25%, 100% 75%, 50% 100%, 0% 75%, 0% 25%);">
+                    <span class="font-display font-black text-base sm:text-lg text-[var(--accent-cyan)]">CP</span>
+                </div>
+                <div class="absolute -top-1 -right-1 w-3 h-3 bg-[var(--accent-pink)] rounded-full neon-pulse"></div>
+            </div>
+            <div>
+                <h1 class="font-display font-black text-xl sm:text-2xl tracking-wider text-[var(--fg)]">CYBER<span class="text-[var(--accent-cyan)]">.PALETTE</span></h1>
+                <p class="text-[10px] sm:text-xs text-[var(--muted)] tracking-[0.25em] uppercase">Нейродвижок цветов v4.0</p>
+            </div>
+        </div>
+        <div class="hidden sm:flex items-center gap-5">
+            <div class="flex items-center gap-2">
+                <div class="w-2 h-2 rounded-full bg-green-400 neon-pulse" style="color: #22c55e;"></div>
+                <span class="mono text-xs text-[var(--muted)]">СИСТЕМА АКТИВНА</span>
+            </div>
+            <div class="mono text-sm text-[var(--accent-cyan)] tabular-nums" id="clock">00:00:00</div>
+        </div>
+    </div>
+</header>
+
+<main class="max-w-7xl mx-auto px-4 sm:px-6 py-8 sm:py-10">
+    <!-- Hero -->
+    <section class="mb-10 sm:mb-14 glitch-in delay-1">
+        <div class="relative glow-border p-6 sm:p-8 lg:p-12 bg-[rgba(18,18,26,0.85)] backdrop-blur-sm rounded-sm">
+            <div class="corner-accent tl"></div>
+            <div class="corner-accent tr"></div>
+            <div class="corner-accent bl"></div>
+            <div class="corner-accent br"></div>
+
+            <h2 class="font-display text-3xl sm:text-4xl lg:text-5xl xl:text-6xl font-black mb-3 sm:mb-4 leading-none">
+                <span class="text-[var(--fg)]">ГЕНЕРАЦИЯ</span>
+                <br/>
+                <span class="text-transparent bg-clip-text bg-gradient-to-r from-[var(--accent-cyan)] via-[var(--accent-purple)] to-[var(--accent-pink)]">
+          ЦВЕТОВОЙ МАТРИЦЫ
+        </span>
+            </h2>
+            <p class="text-[var(--muted)] text-base sm:text-lg max-w-xl mono">
+                &gt; Инициализация нейросети цветового подбора... Завершено.
+            </p>
+
+            <!-- Горячие клавиши -->
+            <div class="hidden sm:flex items-center gap-4 mt-6 pt-5 border-t border-[rgba(0,240,255,0.1)]">
+                <span class="text-xs text-[var(--muted)] mono">ГОРЯЧИЕ КЛАВИШИ:</span>
+                <div class="flex items-center gap-2"><span class="kbd-hint">ПРОБЕЛ</span><span class="text-xs text-[var(--muted)]">Генерация</span></div>
+                <div class="flex items-center gap-2"><span class="kbd-hint">R</span><span class="text-xs text-[var(--muted)]">Случайный</span></div>
+                <div class="flex items-center gap-2"><span class="kbd-hint">S</span><span class="text-xs text-[var(--muted)]">Сохранить</span></div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Панель управления -->
+    <section class="mb-10 sm:mb-12 glitch-in delay-2">
+        <div class="glow-border p-5 sm:p-6 lg:p-8 bg-[rgba(18,18,26,0.85)] backdrop-blur-sm rounded-sm">
+            <div class="grid grid-cols-1 lg:grid-cols-12 gap-6 lg:gap-8">
+                <!-- Базовый цвет -->
+                <div class="lg:col-span-4">
+                    <label class="block font-display text-xs tracking-[0.2em] text-[var(--accent-cyan)] mb-4 uppercase">
+                        Базовый цвет
+                    </label>
+                    <div class="flex gap-4 items-start">
+                        <div class="color-picker-wrapper flex-shrink-0">
+                            <input type="color" id="baseColorPicker" value="#00f0ff" aria-label="Выбор базового цвета">
+                            <div id="colorPreview" class="color-picker-display" style="background:#00f0ff;"></div>
+                        </div>
+                        <div class="flex-1 min-w-0">
+                            <input type="text" id="baseColorHex" value="#00F0FF"
+                                   class="input-cyber w-full uppercase"
+                                   placeholder="#000000" maxlength="7"
+                                   aria-label="HEX код цвета">
+                            <p class="mono text-xs text-[var(--muted)] mt-2 hidden sm:block">Поддержка HEX / RGB</p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Режимы генерации -->
+                <div class="lg:col-span-5">
+                    <label class="block font-display text-xs tracking-[0.2em] text-[var(--accent-cyan)] mb-4 uppercase">
+                        Алгоритм генерации
+                    </label>
+                    <div class="flex flex-wrap gap-0 border-b border-[rgba(0,240,255,0.1)]" role="tablist" aria-label="Режим генерации палитры">
+                        <button class="cyber-tab active" data-mode="complementary" role="tab" aria-selected="true">Дополнительный</button>
+                        <button class="cyber-tab" data-mode="analogous" role="tab" aria-selected="false">Аналоговый</button>
+                        <button class="cyber-tab" data-mode="triadic" role="tab" aria-selected="false">Триада</button>
+                        <button class="cyber-tab" data-mode="split" role="tab" aria-selected="false">Расщеплённый</button>
+                        <button class="cyber-tab" data-mode="monochromatic" role="tab" aria-selected="false">Монохром</button>
+                    </div>
+
+                    <!-- Описание режима -->
+                    <p class="mono text-xs text-[var(--muted)] mt-4 hidden lg:block" id="modeDescription">
+                        Дополнительный: цвета на противоположных сторонах цветового круга
+                    </p>
+                </div>
+
+                <!-- Кнопки действий -->
+                <div class="lg:col-span-3 flex items-end gap-3">
+                    <button class="btn-cyber flex-1" id="generateBtn" aria-label="Сгенерировать палитру">
+                        Генерировать
+                    </button>
+                    <button class="btn-cyber btn-cyber-pink" id="randomBtn" style="padding:16px 18px;" aria-label="Случайный цвет" title="Случайный (R)">
+                        РНД
+                    </button>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Основная палитра -->
+    <section class="mb-10 sm:mb-14 glitch-in delay-3">
+        <div class="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 mb-5">
+            <h3 class="font-display text-base sm:text-lg tracking-wider flex items-center gap-3">
+                <span class="text-[var(--muted)]">&gt;</span> ВЫХОДНАЯ_МАТРИЦА
+                <span class="mono text-xs text-[var(--muted)] font-normal" id="paletteInfo">5 цветов</span>
+            </h3>
+            <div class="flex gap-3 flex-wrap">
+                <button class="btn-cyber text-xs py-3 px-5" id="saveBtn">Сохранить</button>
+                <button class="btn-cyber btn-cyber-pink text-xs py-3 px-5" id="exportBtn">Экспорт CSS</button>
+            </div>
+        </div>
+
+        <div class="cyber-strip glow-border" id="paletteStrip" role="img" aria-label="Текущая палитра цветов">
+        </div>
+    </section>
+
+    <!-- Сетка цветовых карточек -->
+    <section class="mb-12 sm:mb-16 glitch-in delay-4">
+        <h3 class="font-display text-base sm:text-lg tracking-wider mb-6 flex items-center gap-3">
+            <span class="text-[var(--muted)]">&gt;</span> ДАННЫЕ_ЯЧЕЕК
+            <span class="text-xs text-[var(--muted)] mono font-normal">(нажмите для копирования)</span>
+        </h3>
+        <div class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-5 gap-4 sm:gap-5" id="cardsGrid" role="list" aria-label="Цветовые карточки">
+        </div>
+    </section>
+
+    <!-- Сохранённые палитры -->
+    <section>
+        <div class="flex items-center justify-between mb-6">
+            <h3 class="font-display text-base sm:text-lg tracking-wider flex items-center gap-3">
+                <span class="text-[var(--muted)]">&gt;</span> СОХРАНЁННЫЕ_ПАЛИТРЫ
+                <span class="ml-2 text-[var(--accent-purple)] mono text-sm" id="savedCount">[0]</span>
+            </h3>
+            <button class="text-xs text-[var(--muted)] hover:text-[var(--accent-pink)] transition-colors mono hidden sm:block"
+                    id="clearAllBtn" style="display:none;">
+                ОЧИСТИТЬ ВСЁ
+            </button>
+        </div>
+
+        <div class="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-5 sm:gap-6" id="savedGrid">
+            <div class="col-span-full glow-border p-8 sm:p-12 text-center" id="emptyState">
+                <div class="w-16 h-16 sm:w-20 sm:h-20 mx-auto mb-5 border border-dashed border-[var(--muted)] flex items-center justify-center opacity-50"
+                     style="clip-path:polygon(20% 0%, 80% 0%, 100% 20%, 100% 80%, 80% 100%, 20% 100%, 0% 80%, 0% 20%);">
+                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="var(--muted)" stroke-width="1.5">
+                        <path d="M12 5v14M5 12h14"/>
+                    </svg>
+                </div>
+                <p class="font-display text-sm text-[var(--muted)] tracking-wider">ДАННЫХ НЕТ</p>
+                <p class="text-xs text-[var(--muted)] mt-2 mono opacity-70">Нажмите СОХРАНИТЬ для записи матрицы</p>
+            </div>
+        </div>
+    </section>
+</main>
+
+<!-- Контейнер уведомлений -->
+<div class="toast-container" id="toastContainer" aria-live="polite"></div>
+
+<!-- Модальное окно экспорта -->
+<div class="modal-overlay" id="exportModal" role="dialog" aria-modal="true" aria-labelledby="modalTitle">
+    <div class="modal-content">
+        <div class="p-6 border-b border-[rgba(0,240,255,0.2)] flex items-center justify-between">
+            <h3 class="font-display text-lg tracking-wider" id="modalTitle">
+                <span class="text-[var(--accent-cyan)]">&gt;</span> ЭКСПОРТ_CSS
+            </h3>
+            <button class="w-10 h-10 flex items-center justify-center border border-[var(--accent-cyan)] text-[var(--accent-cyan)] hover:bg-[var(--accent-cyan)] hover:text-black transition-all"
+                    id="closeModal" aria-label="Закрыть">
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/>
+                </svg>
+            </button>
+        </div>
+        <div class="p-6">
+            <div class="modal-code" id="exportCode"></div>
+            <div class="flex gap-3 mt-6">
+                <button class="btn-cyber flex-1 text-sm py-3" id="copyExportBtn">Копировать</button>
+                <button class="btn-cyber btn-cyber-pink text-sm py-3 px-6" id="downloadBtn">Скачать</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    /**
+     * CYBER.PALETTE v4.0 - Нейродвигок цветов
+     */
+
+    // ============================================
+    // ТИПЫ ДАННЫХ
+    // ============================================
+
+    /**
+     * @typedef {Object} RGBColor
+     * @property {number} r
+     * @property {number} g
+     * @property {number} b
+     */
+
+    /**
+     * @typedef {Object} HSLColor
+     * @property {number} h
+     * @property {number} s
+     * @property {number} l
+     */
+
+    /**
+     * @typedef {Object} ColorData
+     * @property {string} hex
+     * @property {RGBColor} rgb
+     * @property {HSLColor} hsl
+     */
+
+    /**
+     * @typedef {'complementary'|'analogous'|'triadic'|'split'|'monochromatic'} PaletteMode
+     */
+
+    /**
+     * @typedef {Object} SavedPalette
+     * @property {string[]} colors
+     * @property {PaletteMode} mode
+     * @property {number} ts
+     * @property {string} id
+     */
+
+    // ============================================
+    // СОСТОЯНИЕ ПРИЛОЖЕНИЯ
+    // ============================================
+
+    /** @type {PaletteMode} */
+    let currentMode = 'complementary';
+
+    /** @type {string} */
+    let baseColor = '#00F0FF';
+
+    /** @type {ColorData[]} */
+    let currentPalette = [];
+
+    /** @type {SavedPalette[]} */
+    let savedPalettes = [];
+
+    // ============================================
+    // КОНСТАНТЫ
+    // ============================================
+
+    const STORAGE_KEY = 'cyber_palette_saved';
+
+    const MODE_DESCRIPTIONS = {
+        complementary: 'Дополнительный: цвета на противоположных сторонах цветового круга',
+        analogous: 'Аналоговый: соседние оттенки на цветовом круге',
+        triadic: 'Триада: три равноудалённых цвета',
+        split: 'Расщеплённый: базовый + два смежных к дополнительному',
+        monochromatic: 'Монохром: вариации яркости одного цвета'
+    };
+
+    const MODE_NAMES = {
+        complementary: 'ДОПОЛНИТЕЛЬНЫЙ',
+        analogous: 'АНАЛОГОВЫЙ',
+        triadic: 'ТРИАДА',
+        split: 'РАСЩЕПЛЁННЫЙ',
+        monochromatic: 'МОНОХРОМ'
+    };
+
+    // СООБЩЕНИЯ НА РУССКОМ
+    const MESSAGES = {
+        copied: 'СКОПИРОВАНО',
+        saved: 'МАТРИЦА СОХРАНЕНА',
+        loaded: 'МАТРИЦА ЗАГРУЖЕНА',
+        deleted: 'МАТРИЦА УДАЛЕНА',
+        noPaletteToSave: 'НЕТ ПАЛИТРЫ ДЛЯ СОХРАНЕНИЯ',
+        noPaletteToExport: 'НЕТ ПАЛИТРЫ ДЛЯ ЭКСПОРТА',
+        randomGenerated: 'СЛУЧАЙНЫЙ ЦВЕТ СГЕНЕРИРОВАН',
+        cssCopied: 'CSS СКОПИРОВАН',
+        cssDownloaded: 'ФАЙЛ СКАЧАН',
+        confirmClearAll: 'Удалить все сохранённые палитры?'
+    };
+
+    // ============================================
+    // DOM ЭЛЕМЕНТЫ
+    // ============================================
+
+    const dom = {
+        clock: document.getElementById('clock'),
+        baseColorPicker: document.getElementById('baseColorPicker'),
+        baseColorHex: document.getElementById('baseColorHex'),
+        colorPreview: document.getElementById('colorPreview'),
+        paletteStrip: document.getElementById('paletteStrip'),
+        cardsGrid: document.getElementById('cardsGrid'),
+        savedGrid: document.getElementById('savedGrid'),
+        emptyState: document.getElementById('emptyState'),
+        savedCount: document.getElementById('savedCount'),
+        generateBtn: document.getElementById('generateBtn'),
+        randomBtn: document.getElementById('randomBtn'),
+        saveBtn: document.getElementById('saveBtn'),
+        exportBtn: document.getElementById('exportBtn'),
+        clearAllBtn: document.getElementById('clearAllBtn'),
+        toastContainer: document.getElementById('toastContainer'),
+        exportModal: document.getElementById('exportModal'),
+        exportCode: document.getElementById('exportCode'),
+        closeModal: document.getElementById('closeModal'),
+        copyExportBtn: document.getElementById('copyExportBtn'),
+        downloadBtn: document.getElementById('downloadBtn'),
+        modeDescription: document.getElementById('modeDescription'),
+        paletteInfo: document.getElementById('paletteInfo')
+    };
+
+    // ============================================
+    // УТИЛИТЫ
+    // ============================================
+
+    function generateId() {
+        return Date.now().toString(36) + Math.random().toString(36).substr(2, 9);
+    }
+
+    function clamp(value, min, max) {
+        return Math.max(min, Math.min(max, value));
+    }
+
+    function isValidHex(hex) {
+        return /^#[0-9A-Fa-f]{6}$/.test(hex);
+    }
+
+    function sanitizeHex(input) {
+        let cleaned = input.trim();
+        if (!cleaned.startsWith('#')) {
+            cleaned = '#' + cleaned;
+        }
+        if (isValidHex(cleaned)) {
+            return cleaned.toUpperCase();
+        }
+        return null;
+    }
+
+    // ============================================
+    // КОНВЕРТАЦИЯ ЦВЕТОВ
+    // ============================================
+
+    function hexToRgb(hex) {
+        const clean = hex.replace('#', '');
+        return {
+            r: parseInt(clean.substr(0, 2), 16),
+            g: parseInt(clean.substr(2, 2), 16),
+            b: parseInt(clean.substr(4, 2), 16)
+        };
+    }
+
+    function rgbToHex(r, g, b) {
+        const toHex = (n) => clamp(Math.round(n), 0, 255).toString(16).padStart(2, '0');
+        return '#' + [r, g, b].map(toHex).join('').toUpperCase();
+    }
+
+    function rgbToHsl(r, g, b) {
+        r /= 255;
+        g /= 255;
+        b /= 255;
+
+        const max = Math.max(r, g, b);
+        const min = Math.min(r, g, b);
+        let h = 0;
+        let s = 0;
+        const l = (max + min) / 2;
+
+        if (max !== min) {
+            const d = max - min;
+            s = l > 0.5 ? d / (2 - max - min) : d / (max + min);
+
+            switch (max) {
+                case r:
+                    h = ((g - b) / d + (g < b ? 6 : 0)) / 6;
+                    break;
+                case g:
+                    h = ((b - r) / d + 2) / 6;
+                    break;
+                case b:
+                    h = ((r - g) / d + 4) / 6;
+                    break;
+            }
+        }
+
+        return {
+            h: Math.round(h * 360),
+            s: Math.round(s * 100),
+            l: Math.round(l * 100)
+        };
+    }
+
+    function hslToRgb(h, s, l) {
+        h /= 360;
+        s /= 100;
+        l /= 100;
+
+        let r, g, b;
+
+        if (s === 0) {
+            r = g = b = l;
+        } else {
+            const hue2rgb = (p, q, t) => {
+                if (t < 0) t += 1;
+                if (t > 1) t -= 1;
+                if (t < 1/6) return p + (q - p) * 6 * t;
+                if (t < 1/2) return q;
+                if (t < 2/3) return p + (q - p) * (2/3 - t) * 6;
+                return p;
+            };
+
+            const q = l < 0.5 ? l * (1 + s) : l + s - l * s;
+            const p = 2 * l - q;
+
+            r = hue2rgb(p, q, h + 1/3);
+            g = hue2rgb(p, q, h);
+            b = hue2rgb(p, q, h - 1/3);
+        }
+
+        return [Math.round(r * 255), Math.round(g * 255), Math.round(b * 255)];
+    }
+
+    function normalizeHue(h) {
+        return ((h % 360) + 360) % 360;
+    }
+
+    // ============================================
+    // ГЕНЕРАЦИЯ ПАЛИТРЫ
+    // ============================================
+
+    function generatePalette(hex, mode) {
+        const base = hexToRgb(hex);
+        const hsl = rgbToHsl(base.r, base.g, base.b);
+
+        /** @type {{h: number, s: number, l: number}[]} */
+        let colorsHsl = [];
+
+        switch (mode) {
+            case 'complementary':
+                colorsHsl = [
+                    { h: hsl.h, s: hsl.s, l: hsl.l },
+                    { h: normalizeHue(hsl.h + 180), s: hsl.s, l: 55 },
+                    { h: normalizeHue(hsl.h + 30), s: hsl.s, l: 65 },
+                    { h: normalizeHue(hsl.h + 210), s: hsl.s, l: 45 },
+                    { h: normalizeHue(hsl.h + 150), s: hsl.s, l: 35 }
+                ];
+                break;
+
+            case 'analogous':
+                colorsHsl = [
+                    { h: normalizeHue(hsl.h - 50), s: hsl.s, l: 60 },
+                    { h: normalizeHue(hsl.h - 25), s: hsl.s, l: 70 },
+                    { h: hsl.h, s: hsl.s, l: hsl.l },
+                    { h: normalizeHue(hsl.h + 25), s: hsl.s, l: 50 },
+                    { h: normalizeHue(hsl.h + 50), s: hsl.s, l: 55 }
+                ];
+                break;
+
+            case 'triadic':
+                colorsHsl = [
+                    { h: hsl.h, s: hsl.s, l: hsl.l },
+                    { h: normalizeHue(hsl.h + 120), s: hsl.s, l: 50 },
+                    { h: normalizeHue(hsl.h + 240), s: hsl.s, l: 60 },
+                    { h: normalizeHue(hsl.h + 60), s: hsl.s, l: 45 },
+                    { h: normalizeHue(hsl.h + 300), s: hsl.s, l: 45 }
+                ];
+                break;
+
+            case 'split':
+                colorsHsl = [
+                    { h: hsl.h, s: hsl.s, l: hsl.l },
+                    { h: normalizeHue(hsl.h + 150), s: hsl.s, l: 55 },
+                    { h: normalizeHue(hsl.h + 210), s: hsl.s, l: 50 },
+                    { h: normalizeHue(hsl.h + 30), s: hsl.s, l: 70 },
+                    { h: normalizeHue(hsl.h + 330), s: hsl.s, l: 55 }
+                ];
+                break;
+
+            case 'monochromatic':
+                colorsHsl = [
+                    { h: hsl.h, s: hsl.s, l: 90 },
+                    { h: hsl.h, s: hsl.s, l: 70 },
+                    { h: hsl.h, s: hsl.s, l: hsl.l },
+                    { h: hsl.h, s: hsl.s, l: 40 },
+                    { h: hsl.h, s: hsl.s, l: 20 }
+                ];
+                break;
+
+            default:
+                colorsHsl = [{ h: hsl.h, s: hsl.s, l: hsl.l }];
+        }
+
+        return colorsHsl.map(c => {
+            const [r, g, b] = hslToRgb(c.h, c.s, c.l);
+            return {
+                hex: rgbToHex(r, g, b),
+                rgb: { r, g, b },
+                hsl: c
+            };
+        });
+    }
+
+    // ============================================
+    // РЕНДЕРИНГ
+    // ============================================
+
+    function renderPalette() {
+        // Полоса палитры
+        dom.paletteStrip.innerHTML = currentPalette.map((color) => `
+    <div class="strip-segment"
+         style="background:${color.hex}"
+         onclick="copyToClipboard('${color.hex}')"
+         role="button"
+         tabindex="0"
+         aria-label="Копировать ${color.hex}">
+      <span class="hex-code">${color.hex}</span>
+    </div>
+  `).join('');
+
+        dom.paletteStrip.querySelectorAll('.strip-segment').forEach(el => {
+            el.addEventListener('keydown', (e) => {
+                if (e.key === 'Enter' || e.key === ' ') {
+                    e.preventDefault();
+                    el.click();
+                }
+            });
+        });
+
+        // Карточки цветов
+        dom.cardsGrid.innerHTML = currentPalette.map((color) => `
+    <div class="color-card"
+         style="background:${color.hex};--card-glow:${color.hex}40"
+         onclick="copyToClipboard('${color.hex}')"
+         role="listitem"
+         tabindex="0"
+         aria-label="${color.hex}, RGB ${color.rgb.r} ${color.rgb.g} ${color.rgb.b}">
+      <div class="card-info">
+        <p class="font-display text-sm font-bold">${color.hex}</p>
+        <p class="mono text-xs opacity-80">RGB ${color.rgb.r} ${color.rgb.g} ${color.rgb.b}</p>
+        <p class="mono text-xs opacity-60 mt-1">HSL ${color.hsl.h}° ${color.hsl.s}% ${color.hsl.l}%</p>
+      </div>
+    </div>
+  `).join('');
+
+        dom.paletteInfo.textContent = `${currentPalette.length} цв.${currentPalette.length > 1 ? 'етов' : 'ет'}`;
+    }
+
+    function renderSavedPalettes() {
+        dom.savedCount.textContent = `[${savedPalettes.length}]`;
+        dom.clearAllBtn.style.display = savedPalettes.length > 0 ? 'block' : 'none';
+
+        if (savedPalettes.length === 0) {
+            dom.emptyState.style.display = 'block';
+            dom.savedGrid.querySelectorAll('.saved-cyber').forEach(el => el.remove());
+            return;
+        }
+
+        dom.emptyState.style.display = 'none';
+
+        const html = savedPalettes.map((palette, index) => `
+    <div class="saved-cyber" data-id="${palette.id}">
+      <div class="flex h-20 sm:h-24">
+        ${palette.colors.map(color => `<div class="flex-1 transition-all hover:flex-[1.5]" style="background:${color}"></div>`).join('')}
+      </div>
+      <div class="p-4 sm:p-5 flex flex-col sm:flex-row sm:justify-between sm:items-center gap-3">
+        <div>
+          <p class="font-display text-sm font-bold">${MODE_NAMES[palette.mode] || palette.mode}</p>
+          <p class="mono text-xs text-[var(--muted)]">${new Date(palette.ts).toLocaleDateString('ru-RU')}</p>
+        </div>
+        <div class="flex gap-2">
+          <button onclick="loadPalette(${index})"
+                  class="px-3 py-2 border border-[var(--accent-cyan)] text-[var(--accent-cyan)] text-xs font-display hover:bg-[var(--accent-cyan)] hover:text-black transition-all focus:outline-none focus:ring-2 focus:ring-[var(--accent-cyan)]"
+                  aria-label="Загрузить палитру ${index + 1}">
+            ЗАГРУЗИТЬ
+          </button>
+          <button onclick="deletePalette(${index})"
+                  class="px-3 py-2 border border-[var(--accent-pink)] text-[var(--accent-pink)] text-xs font-display hover:bg-[var(--accent-pink)] hover:text-black transition-all focus:outline-none focus:ring-2 focus:ring-[var(--accent-pink)]"
+                  aria-label="Удалить палитру ${index + 1}">
+            УДАЛИТЬ
+          </button>
+        </div>
+      </div>
+    </div>
+  `).join('');
+
+        dom.savedGrid.querySelectorAll('.saved-cyber').forEach(el => el.remove());
+        dom.emptyState.insertAdjacentHTML('beforebegin', html);
+    }
+
+    // ============================================
+    // УВЕДОМЛЕНИЯ
+    // ============================================
+
+    function showToast(message, type = 'info') {
+        const toast = document.createElement('div');
+        toast.className = `toast-cyber ${type}`;
+        toast.textContent = message;
+        dom.toastContainer.appendChild(toast);
+
+        requestAnimationFrame(() => {
+            toast.classList.add('show');
+        });
+
+        setTimeout(() => {
+            toast.classList.remove('show');
+            setTimeout(() => toast.remove(), 400);
+        }, 2800);
+    }
+
+    // ============================================
+    // ОБРАБОТЧИКИ ДЕЙСТВИЙ
+    // ============================================
+
+    async function copyToClipboard(text) {
+        try {
+            await navigator.clipboard.writeText(text);
+            showToast(`${MESSAGES.copied}: ${text}`, 'success');
+        } catch (err) {
+            const textarea = document.createElement('textarea');
+            textarea.value = text;
+            document.body.appendChild(textarea);
+            textarea.select();
+            document.execCommand('copy');
+            document.body.removeChild(textarea);
+            showToast(`${MESSAGES.copied}: ${text}`, 'success');
+        }
+    }
+
+    function regenerate() {
+        currentPalette = generatePalette(baseColor, currentMode);
+        renderPalette();
+
+        dom.generateBtn.style.transform = 'scale(0.95)';
+        setTimeout(() => {
+            dom.generateBtn.style.transform = '';
+        }, 150);
+    }
+
+    function savePalette() {
+        if (currentPalette.length === 0) {
+            showToast(MESSAGES.noPaletteToSave, 'error');
+            return;
+        }
+
+        const newPalette = {
+            id: generateId(),
+            colors: currentPalette.map(c => c.hex),
+            mode: currentMode,
+            ts: Date.now()
+        };
+
+        savedPalettes.unshift(newPalette);
+
+        if (savedPalettes.length > 20) {
+            savedPalettes = savedPalettes.slice(0, 20);
+        }
+
+        persistSavedPalettes();
+        renderSavedPalettes();
+        showToast(MESSAGES.saved, 'success');
+    }
+
+    function loadPalette(index) {
+        const palette = savedPalettes[index];
+        if (!palette) return;
+
+        baseColor = palette.colors[0];
+        currentMode = palette.mode;
+
+        dom.baseColorPicker.value = baseColor;
+        dom.baseColorHex.value = baseColor;
+        dom.colorPreview.style.background = baseColor;
+
+        document.querySelectorAll('.cyber-tab').forEach(tab => {
+            const isActive = tab.dataset.mode === currentMode;
+            tab.classList.toggle('active', isActive);
+            tab.setAttribute('aria-selected', isActive.toString());
+        });
+
+        updateModeDescription();
+        regenerate();
+        showToast(MESSAGES.loaded, 'success');
+    }
+
+    function deletePalette(index) {
+        savedPalettes.splice(index, 1);
+        persistSavedPalettes();
+        renderSavedPalettes();
+        showToast(MESSAGES.deleted, 'info');
+    }
+
+    function clearAllPalettes() {
+        if (confirm(MESSAGES.confirmClearAll)) {
+            savedPalettes = [];
+            persistSavedPalettes();
+            renderSavedPalettes();
+        }
+    }
+
+    function randomColor() {
+        const letters = '0123456789ABCDEF';
+        let color = '#';
+        for (let i = 0; i < 6; i++) {
+            color += letters[Math.floor(Math.random() * 16)];
+        }
+        return color;
+    }
+
+    function setRandomColor() {
+        baseColor = randomColor();
+        dom.baseColorPicker.value = baseColor;
+        dom.baseColorHex.value = baseColor;
+        dom.colorPreview.style.background = baseColor;
+        regenerate();
+        showToast(MESSAGES.randomGenerated, 'info');
+    }
+
+    function showExportModal() {
+        if (currentPalette.length === 0) {
+            showToast(MESSAGES.noPaletteToExport, 'error');
+            return;
+        }
+
+        const cssVars = currentPalette.map((c, i) => `  --color-${i + 1}: ${c.hex};`).join('\n');
+        const cssClasses = currentPalette.map((c, i) => `.color-${i + 1} { color: ${c.hex}; }\n.bg-color-${i + 1} { background-color: ${c.hex}; }`).join('\n');
+
+        const fullCss = `/* CYBER.PALETTE Экспорт - ${MODE_NAMES[currentMode]} */\n/* Сгенерировано: ${new Date().toISOString()} */\n\n:root {\n${cssVars}\n}\n\n/* Утилитарные классы */\n${cssClasses}`;
+
+        dom.exportCode.textContent = fullCss;
+        dom.exportModal.classList.add('active');
+    }
+
+    function closeExportModal() {
+        dom.exportModal.classList.remove('active');
+    }
+
+    async function copyExportedCSS() {
+        const css = dom.exportCode.textContent;
+        await copyToClipboard(css);
+        showToast(MESSAGES.cssCopied, 'success');
+    }
+
+    function downloadCSS() {
+        const css = dom.exportCode.textContent;
+        const blob = new Blob([css], { type: 'text/css' });
+        const url = URL.createObjectURL(blob);
+        const a = document.createElement('a');
+        a.href = url;
+        a.download = `cyber-palette-${currentMode}-${Date.now()}.css`;
+        document.body.appendChild(a);
+        a.click();
+        document.body.removeChild(a);
+        URL.revokeObjectURL(url);
+        showToast(MESSAGES.cssDownloaded, 'success');
+    }
+
+    function updateModeDescription() {
+        if (dom.modeDescription) {
+            dom.modeDescription.textContent = MODE_DESCRIPTIONS[currentMode] || '';
+        }
+    }
+
+    // ============================================
+    // ХРАНЕНИЕ ДАННЫХ
+    // ============================================
+
+    function persistSavedPalettes() {
+        try {
+            localStorage.setItem(STORAGE_KEY, JSON.stringify(savedPalettes));
+        } catch (e) {
+            console.warn('Ошибка сохранения:', e);
+        }
+    }
+
+    function loadSavedPalettes() {
+        try {
+            const data = localStorage.getItem(STORAGE_KEY);
+            if (data) {
+                savedPalettes = JSON.parse(data);
+            }
+        } catch (e) {
+            console.warn('Ошибка загрузки:', e);
+            savedPalettes = [];
+        }
+    }
+
+    // ============================================
+    // ЧАСЫ
+    // ============================================
+
+    function updateClock() {
+        const now = new Date();
+        dom.clock.textContent = now.toLocaleTimeString('ru-RU', { hour12: false });
+    }
+
+    // ============================================
+    // ИНИЦИАЛИЗАЦИЯ СОБЫТИЙ
+    // ============================================
+
+    function initializeEventListeners() {
+        setInterval(updateClock, 1000);
+        updateClock();
+
+        dom.baseColorPicker.addEventListener('input', (e) => {
+            baseColor = e.target.value.toUpperCase();
+            dom.baseColorHex.value = baseColor;
+            dom.colorPreview.style.background = baseColor;
+            dom.baseColorHex.classList.remove('error');
+            regenerate();
+        });
+
+        dom.baseColorHex.addEventListener('input', (e) => {
+            let value = e.target.value;
+
+            if (value && !value.startsWith('#')) {
+                value = '#' + value;
+                e.target.value = value;
+            }
+
+            if (value.length === 7) {
+                const sanitized = sanitizeHex(value);
+                if (sanitized) {
+                    baseColor = sanitized;
+                    dom.baseColorPicker.value = baseColor;
+                    dom.colorPreview.style.background = baseColor;
+                    dom.baseColorHex.classList.remove('error');
+                    regenerate();
+                } else {
+                    dom.baseColorHex.classList.add('error');
+                    setTimeout(() => dom.baseColorHex.classList.remove('error'), 400);
+                }
+            }
+        });
+
+        document.querySelectorAll('.cyber-tab').forEach(tab => {
+            tab.addEventListener('click', () => {
+                document.querySelectorAll('.cyber-tab').forEach(t => {
+                    t.classList.remove('active');
+                    t.setAttribute('aria-selected', 'false');
+                });
+                tab.classList.add('active');
+                tab.setAttribute('aria-selected', 'true');
+                currentMode = /** @type {PaletteMode} */ (tab.dataset.mode);
+                updateModeDescription();
+                regenerate();
+            });
+        });
+
+        dom.generateBtn.addEventListener('click', regenerate);
+        dom.randomBtn.addEventListener('click', setRandomColor);
+        dom.saveBtn.addEventListener('click', savePalette);
+        dom.exportBtn.addEventListener('click', showExportModal);
+        dom.clearAllBtn.addEventListener('click', clearAllPalettes);
+
+        dom.closeModal.addEventListener('click', closeExportModal);
+        dom.copyExportBtn.addEventListener('click', copyExportedCSS);
+        dom.downloadBtn.addEventListener('click', downloadCSS);
+
+        dom.exportModal.addEventListener('click', (e) => {
+            if (e.target === dom.exportModal) {
+                closeExportModal();
+            }
+        });
+
+        document.addEventListener('keydown', (e) => {
+            if (e.target.tagName === 'INPUT' || e.target.tagName === 'TEXTAREA') {
+                if (e.key === 'Escape' && dom.exportModal.classList.contains('active')) {
+                    closeExportModal();
+                }
+                return;
+            }
+
+            switch (e.code) {
+                case 'Space':
+                    e.preventDefault();
+                    regenerate();
+                    break;
+                case 'KeyR':
+                    e.preventDefault();
+                    setRandomColor();
+                    break;
+                case 'KeyS':
+                    e.preventDefault();
+                    savePalette();
+                    break;
+                case 'KeyE':
+                    e.preventDefault();
+                    showExportModal();
+                    break;
+                case 'Escape':
+                    if (dom.exportModal.classList.contains('active')) {
+                        closeExportModal();
+                    }
+                    break;
+            }
+        });
+
+        dom.cardsGrid.addEventListener('keydown', (e) => {
+            if ((e.key === 'Enter' || e.key === ' ') && e.target.classList.contains('color-card')) {
+                e.preventDefault();
+                e.target.click();
+            }
+        });
+    }
+
+    // ============================================
+    // ЗАПУСК
+    // ============================================
+
+    function init() {
+        loadSavedPalettes();
+        initializeEventListeners();
+        updateModeDescription();
+        regenerate();
+        renderSavedPalettes();
+
+        console.log('%c CYBER.PALETTE v4.0 ', 'background: #00f0ff; color: #0a0a0f; font-weight: bold; font-size: 14px; padding: 8px 12px; border-radius: 4px;');
+        console.log('%c Нейродвигок цветов инициализирован ', 'color: #8b5cf6; font-size: 11px;');
+    }
+
+    if (document.readyState === 'loading') {
+        document.addEventListener('DOMContentLoaded', init);
+    } else {
+        init();
+    }
+
+    window.copyToClipboard = copyToClipboard;
+    window.loadPalette = loadPalette;
+    window.deletePalette = deletePalette;
+</script>
 </body>
 </html>

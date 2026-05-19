@@ -27,15 +27,18 @@ function Header() {
   // isMenuOpen — открыто ли мобильное меню (true/false)
   // setIsMenuOpen — функция для изменения isMenuOpen
   const [isMenuOpen, setIsMenuOpen] = useState(false);
+  const [searchQuery, setSearchQuery] = useState("");
+  const [showSearch, setShowSearch] = useState(false);
 
   // Массив ссылок навигации
   const navLinks = [
-    { href: "#catalog", label: "Каталог" },      // # означает якорь на той же странице
-    { href: "/dictionary", label: "Справочник" }, // / означает другую страницу
+    { href: "/questions", label: "Q&A" },
+    { href: "#catalog", label: "Каталог" },
+    { href: "/dictionary", label: "Справочник" },
     { href: "/about", label: "О проекте" },
   ];
 
-  // JSX — это синтаксис для описания интерфейса
+  const handleSearch = (e) => { e.preventDefault(); if (searchQuery.trim()) window.location.href="/questions?q="+encodeURIComponent(searchQuery.trim()); };
   // Он похож на HTML, но позволяет вставлять JavaScript в {}
   return (
     // header — тег для шапки сайта
@@ -105,6 +108,26 @@ function Header() {
             ))}
           </nav>
 
+          {/* Поиск */}
+          {showSearch ? (
+            <form onSubmit={handleSearch} className="flex items-center gap-2">
+              <input
+                value={searchQuery}
+                onChange={(e) => setSearchQuery(e.target.value)}
+                placeholder="Поиск вопросов..."
+                className="px-3 py-1.5 border border-stone-200 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-rose-500 w-48"
+                autoFocus
+              />
+              <button type="submit" className="p-1.5 hover:bg-stone-100 rounded-lg"><Search size={16} /></button>
+              <button onClick={() => setShowSearch(false)} className="p-1.5 hover:bg-stone-100 rounded-lg"><X size={16} /></button>
+            </form>
+          ) : (
+            <button onClick={() => setShowSearch(true)} className="p-2 text-stone-600 hover:bg-stone-100 rounded-lg transition-colors">
+              <Search className="w-5 h-5" />
+            </button>
+          )}
+
+
           {/* Кнопка мобильного меню */}
           {/* md:hidden — видна только на мобильных */}
           <button
@@ -164,45 +187,33 @@ function Header() {
 
 // ------------------ КОМПОНЕНТ МОДАЛЬНОГО ОКНА ------------------
 // Переиспользуемый компонент для всплывающих окон
-function Modal({ isOpen, onClose, title, children }) {
-  // Если isOpen=false, не рендерим ничего
-  // Это паттерн "ранний возврат" для оптимизации
+function Modal({ isOpen, onClose, title, children, modalKey = "default" }) {
   if (!isOpen) return null;
 
   return (
-    // AnimatePresence для анимации появления/исчезновения
     <AnimatePresence>
-      {/* Затемнённый фон (overlay) */}
-      {/* fixed inset-0 — позиционирование на весь экран */}
-      {/* bg-black/30 — чёрный цвет с прозрачностью 30% */}
       <motion.div
+        key={`overlay-${modalKey}`}
         initial={{ opacity: 0 }}
         animate={{ opacity: 1 }}
         exit={{ opacity: 0 }}
-        onClick={onClose} // Закрытие при клике на фон
+        onClick={onClose}
         className="fixed inset-0 bg-black/30 z-50"
       />
-      {/* Контент модального окна */}
-      {/* fixed — фиксированное позиционирование */}
-      {/* top-1/2 left-1/2 — позиция в центре */}
-      {/* -translate-x-1/2 -translate-y-1/2 — смещение для точного центрирования */}
       <motion.div
+        key={`content-${modalKey}`}
         initial={{ opacity: 0, scale: 0.95, y: 20 }}
         animate={{ opacity: 1, scale: 1, y: 0 }}
         exit={{ opacity: 0, scale: 0.95, y: 0 }}
-        onClick={(e) => e.stopPropagation()} // Предотвращаем закрытие при клике на контент
+        onClick={(e) => e.stopPropagation()}
         className="fixed top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 z-50 w-full max-w-lg bg-white rounded-xl shadow-2xl max-h-[90vh] overflow-y-auto"
       >
-        {/* Шапка модального окна */}
         <div className="flex items-center justify-between p-6 border-b border-black/5">
-          {/* title — заголовок передаётся через props */}
           <h2 className="text-lg font-medium">{title}</h2>
-          {/* Кнопка закрытия */}
           <button onClick={onClose} className="p-1 hover:bg-stone-100 rounded">
             <X className="w-5 h-5" />
           </button>
         </div>
-        {/* children — содержимое модального окна передаётся через props */}
         <div className="p-6">
           {children}
         </div>
@@ -275,7 +286,7 @@ function AddResourceModal({ isOpen, onClose, categories, onSuccess }) {
 
   // Рендерим модальное окно с формой
   return (
-    <Modal isOpen={isOpen} onClose={onClose} title="Добавить ресурс">
+    <Modal isOpen={isOpen} onClose={onClose} title="Добавить ресурс" modalKey="resource">
       {/* form — тег формы */}
       {/* onSubmit — обработчик отправки */}
       <form onSubmit={handleSubmit} className="space-y-4">
@@ -412,7 +423,7 @@ function AddTermModal({ isOpen, onClose, onSuccess }) {
   };
 
   return (
-    <Modal isOpen={isOpen} onClose={onClose} title="Добавить термин">
+    <Modal isOpen={isOpen} onClose={onClose} title="Добавить термин" modalKey="term">
       <form onSubmit={handleSubmit} className="space-y-4">
         <div>
           <label className="block text-sm font-medium text-stone-700 mb-1.5">
@@ -654,7 +665,7 @@ export default function Home() {
                     transition={{ delay: index * 0.03 }}
                     className="py-6 hover:bg-stone-50 transition-colors"
                   >
-                    <div className="flex flex-col md:flex-row md:items-start justify-between gap-4">
+                    <div className="flex flex-col md:flex-row md:items-start justify-between px-4 gap-4">
                       <div className="flex-1">
                         {/* Метка категории */}
                         <div className="flex items-center gap-2 mb-2">
