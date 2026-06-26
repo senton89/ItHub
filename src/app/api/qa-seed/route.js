@@ -8,10 +8,10 @@ export async function GET() {
     }
 
     const user = await prisma.user.upsert({
-      where: { email: "demo@ithub.local" },
+      where: { email: "demo@fixlib.local" },
       update: {},
       create: {
-        email: "demo@ithub.local",
+        email: "demo@fixlib.local",
         name: "Демо Пользователь",
         reputation: 150,
         badge: "SILVER"

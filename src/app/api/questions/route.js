@@ -1,110 +1,109 @@
+import { NextResponse } from "next/server";
+import { auth } from "@/lib/auth";
 import { prisma } from "@/lib/prisma";
-import { slugify } from "../../../lib/utils";
 
 export async function GET(request) {
   try {
     const { searchParams } = new URL(request.url);
-    const sort = searchParams.get("sort") || "new";
+    const sort = searchParams.get("sort") || "newest";
     const tag = searchParams.get("tag");
+    const q = searchParams.get("q");
     const page = parseInt(searchParams.get("page")) || 1;
-    const limit = parseInt(searchParams.get("limit")) || 20;
-    const search = searchParams.get("q");
+    const limit = 20;
 
     const where = { status: "OPEN" };
-    
+
     if (tag) {
       where.tags = { some: { tag: { slug: tag } } };
     }
-    
-    if (search) {
+    if (q) {
       where.OR = [
-        { title: { contains: search,  } },
-        { body: { contains: search,  } }
+        { title: { contains: q } },
+        { body: { contains: q } },
       ];
     }
 
     const orderBy = {
-      new: { createdAt: "desc" },
-      top: { voteCount: "desc" },
-      active: { lastActivityAt: "desc" },
-      unanswered: { answerCount: "asc" }
+      newest: { createdAt: "desc" },
+      popular: { voteCount: "desc" },
+      unanswered: { answerCount: "asc" },
     }[sort] || { createdAt: "desc" };
 
     const [questions, total] = await Promise.all([
       prisma.question.findMany({
         where,
         orderBy,
-        include: {
-          author: { select: { id: true, name: true, avatar: true, reputation: true, badge: true } },
-          tags: { include: { tag: true } },
-          _count: { select: { answers: true, favorites: true } }
-        },
         skip: (page - 1) * limit,
-        take: limit
+        take: limit,
+        include: {
+          author: { select: { id: true, name: true, avatar: true } },
+          tags: { include: { tag: true } },
+        },
       }),
-      prisma.question.count({ where })
+      prisma.question.count({ where }),
     ]);
 
-    return Response.json({ questions, total, page, pages: Math.ceil(total / limit) });
+    return NextResponse.json({
+      questions,
+      total,
+      page,
+      totalPages: Math.ceil(total / limit),
+    });
   } catch (error) {
-    console.error("Error fetching questions:", error);
-    return Response.json({ error: "Ошибка загрузки вопросов" }, { status: 500 });
+    console.error("GET /api/questions error:", error);
+    return NextResponse.json({ error: "Ошибка загрузки" }, { status: 500 });
   }
 }
 
 export async function POST(request) {
   try {
-    const data = await request.json();
-    const { title, body: questionBody, tags, categoryId, difficulty } = data;
+    const session = await auth();
+    if (!session?.user?.id) {
+      return NextResponse.json({ error: "Требуется авторизация" }, { status: 401 });
+    }
+
+    const body = await request.json();
+    const { title, body: questionBody, tags, difficulty } = body;
 
     if (!title || !questionBody) {
-      return Response.json({ error: "Заголовок и содержание обязательны" }, { status: 400 });
+      return NextResponse.json({ error: "Заголовок и текст обязательны" }, { status: 400 });
     }
 
-    const baseSlug = slugify(title);
-    let slug = baseSlug;
-    let counter = 1;
-    while (await prisma.question.findUnique({ where: { slug } })) {
-      slug = `${baseSlug}-${counter++}`;
-    }
+    const slug = title.trim().toLowerCase().replace(/\s+/g, "-").replace(/[^a-zа-яё0-9-]/g, "");
 
-    let user = await prisma.user.findFirst();
-    if (!user) {
-      user = await prisma.user.create({
-        data: { email: `user-${Date.now()}@temp.local`, name: "Аноним" }
-      });
-    }
+    const tagConnections = Array.isArray(tags)
+      ? tags.map((tagName) => {
+          const tagSlug = tagName.trim().toLowerCase().replace(/\s+/g, "-").replace(/[^a-zа-яё0-9-]/g, "");
+          return {
+            tag: {
+              connectOrCreate: {
+                where: { slug: tagSlug },
+                create: {
+                  name: tagName.trim(),
+                  slug: tagSlug,
+                },
+              },
+            },
+          };
+        })
+      : [];
 
     const question = await prisma.question.create({
       data: {
-        title,
+        title: title.trim(),
         slug,
-        body: questionBody,
-        categoryId: categoryId || null,
-        difficulty: difficulty || null,
-        authorId: user.id,
-        tags: {
-          create: await Promise.all(
-            (tags || []).map(async (tagName) => ({
-              tag: {
-                connectOrCreate: {
-                  where: { name: tagName },
-                  create: { name: tagName, slug: slugify(tagName) }
-                }
-              }
-            }))
-          )
-        }
+        body: questionBody.trim(),
+        difficulty: difficulty || "BEGINNER",
+        status: "OPEN",
+        authorId: session.user.id,
+        tags: { create: tagConnections },
       },
-      include: {
-        author: { select: { id: true, name: true, avatar: true } },
-        tags: { include: { tag: true } }
-      }
+      include: { tags: { include: { tag: true } } },
     });
 
-    return Response.json(question, { status: 201 });
+    return NextResponse.json({ question }, { status: 201 });
   } catch (error) {
-    console.error("Error creating question:", error);
-    return Response.json({ error: "Ошибка создания вопроса" }, { status: 500 });
+    console.error("POST /api/questions error:", error);
+    return NextResponse.json({ error: "Ошибка при создании" }, { status: 500 });
   }
 }

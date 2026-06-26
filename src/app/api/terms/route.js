@@ -1,68 +1,68 @@
-// ============================================================
-// API ROUTE: ТЕРМИНЫ
-// ============================================================
-// Обрабатывает запросы к /api/terms
-// Поддерживает: GET (получить все) и POST (создать новый)
-// ============================================================
+import { NextResponse } from "next/server";
+import { auth } from "@/lib/auth";
+import { prisma } from "@/lib/prisma";
 
-import { PrismaClient } from "@prisma/client";
-
-const prisma = globalThis.__prisma || new PrismaClient();
-if (process.env.NODE_ENV !== "production") globalThis.__prisma = prisma;
-
-// ------------------ GET /api/terms ------------------
-export async function GET() {
+export async function GET(request) {
   try {
-    const terms = await prisma.term.findMany({
-      orderBy: {
-        term: "asc", // Сортировка по алфавиту
-      },
-    });
+    const { searchParams } = new URL(request.url);
+    const session = await auth();
+    const isAdmin = session?.user?.role === "ADMIN";
+    const showAll = searchParams.get("all") === "true";
 
-    return new Response(JSON.stringify(terms), {
-      status: 200,
-      headers: { "Content-Type": "application/json" },
+    const where = isAdmin && showAll ? {} : { status: "APPROVED" };
+
+    const terms = await prisma.term.findMany({
+      where,
+      orderBy: { term: "asc" },
+      include: { category: { select: { name: true } } },
     });
+    return NextResponse.json(terms);
   } catch (error) {
-    console.error("Error fetching terms:", error);
-    return new Response(JSON.stringify({ error: "Ошибка при получении терминов" }), {
-      status: 500,
-      headers: { "Content-Type": "application/json" },
-    });
+    console.error("GET /api/terms error:", error);
+    return NextResponse.json({ error: "Ошибка загрузки" }, { status: 500 });
   }
 }
 
-// ------------------ POST /api/terms ------------------
 export async function POST(request) {
   try {
+    const session = await auth();
+    if (!session?.user?.id) {
+      return NextResponse.json({ error: "Требуется авторизация" }, { status: 401 });
+    }
+
     const body = await request.json();
-    const { term, definition, examples } = body;
+    const { term, definition, examples, categoryId } = body;
 
     if (!term || !definition) {
-      return new Response(JSON.stringify({ error: "Термин и определение обязательны" }), {
-        status: 400,
-        headers: { "Content-Type": "application/json" },
-      });
+      return NextResponse.json({ error: "Термин и определение обязательны" }, { status: 400 });
     }
+
+    const slug = term.trim().toLowerCase().replace(/\s+/g, "-").replace(/[^a-zа-яё0-9-]/g, "");
+
+    const existing = await prisma.term.findUnique({ where: { slug } });
+    if (existing) {
+      return NextResponse.json({ error: "Такой термин уже существует" }, { status: 409 });
+    }
+
+    const isAdmin = session.user.role === "ADMIN";
 
     const newTerm = await prisma.term.create({
       data: {
-        term,
-        definition,
-        // examples хранится как JSON-строка
-        examples: examples ? JSON.stringify(examples) : null,
+        term: term.trim(),
+        slug,
+        definition: definition.trim(),
+        examples: examples?.trim() || null,
+        categoryId: categoryId || null,
+        status: isAdmin ? "APPROVED" : "PENDING",
       },
     });
 
-    return new Response(JSON.stringify(newTerm), {
-      status: 201,
-      headers: { "Content-Type": "application/json" },
-    });
+    return NextResponse.json(
+      { message: isAdmin ? "Термин добавлен" : "Термин отправлен на модерацию", term: newTerm },
+      { status: 201 }
+    );
   } catch (error) {
-    console.error("Error creating term:", error);
-    return new Response(JSON.stringify({ error: "Ошибка при создании термина" }), {
-      status: 500,
-      headers: { "Content-Type": "application/json" },
-    });
+    console.error("POST /api/terms error:", error);
+    return NextResponse.json({ error: "Ошибка при создании" }, { status: 500 });
   }
 }

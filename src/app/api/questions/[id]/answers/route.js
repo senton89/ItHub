@@ -1,52 +1,70 @@
+import { NextResponse } from "next/server";
+import { auth } from "@/lib/auth";
 import { prisma } from "@/lib/prisma";
 
-// POST /api/questions/[id]/answers - Добавить ответ
-export async function POST(request, { params }) {
+export async function GET(request, { params }) {
+  const { id } = await params;
   try {
-    const { id: questionId } = params;
+    const question = await prisma.question.findFirst({
+      where: { OR: [{ id }, { slug: id }] },
+      select: { id: true },
+    });
+    if (!question) {
+      return NextResponse.json({ error: "Вопрос не найден" }, { status: 404 });
+    }
+
+    const answers = await prisma.answer.findMany({
+      where: { questionId: question.id },
+      orderBy: [{ isAccepted: "desc" }, { voteCount: "desc" }, { createdAt: "asc" }],
+      include: {
+        author: { select: { id: true, name: true, avatar: true } },
+      },
+    });
+    return NextResponse.json(answers);
+  } catch (error) {
+    console.error("GET answers error:", error);
+    return NextResponse.json({ error: "Ошибка загрузки" }, { status: 500 });
+  }
+}
+
+export async function POST(request, { params }) {
+  const { id } = await params;
+  try {
+    const session = await auth();
+    if (!session?.user?.id) {
+      return NextResponse.json({ error: "Требуется авторизация" }, { status: 401 });
+    }
+
+    const question = await prisma.question.findFirst({
+      where: { OR: [{ id }, { slug: id }] },
+      select: { id: true },
+    });
+    if (!question) {
+      return NextResponse.json({ error: "Вопрос не найден" }, { status: 404 });
+    }
+
     const { body } = await request.json();
 
-    if (!body) {
-      return Response.json({ error: "Содержание ответа обязательно" }, { status: 400 });
-    }
-
-    // Проверяем существование вопроса
-    const question = await prisma.question.findUnique({ where: { id: questionId } });
-    if (!question) {
-      return Response.json({ error: "Вопрос не найден" }, { status: 404 });
-    }
-
-    // Временный пользователь
-    let user = await prisma.user.findFirst();
-    if (!user) {
-      user = await prisma.user.create({
-        data: { email: `user-${Date.now()}@temp.local`, name: "Аноним" }
-      });
+    if (!body || !body.trim()) {
+      return NextResponse.json({ error: "Текст ответа обязателен" }, { status: 400 });
     }
 
     const answer = await prisma.answer.create({
       data: {
-        body,
-        questionId,
-        authorId: user.id
+        body: body.trim(),
+        questionId: question.id,
+        authorId: session.user.id,
       },
-      include: {
-        author: { select: { id: true, name: true, avatar: true, reputation: true } }
-      }
     });
 
-    // Обновляем счётчики
     await prisma.question.update({
-      where: { id: questionId },
-      data: {
-        answerCount: { increment: 1 },
-        lastActivityAt: new Date()
-      }
+      where: { id: question.id },
+      data: { answerCount: { increment: 1 } },
     });
 
-    return Response.json(answer, { status: 201 });
+    return NextResponse.json({ answer }, { status: 201 });
   } catch (error) {
-    console.error("Error creating answer:", error);
-    return Response.json({ error: "Ошибка создания ответа" }, { status: 500 });
+    console.error("POST answer error:", error);
+    return NextResponse.json({ error: "Ошибка при создании" }, { status: 500 });
   }
 }

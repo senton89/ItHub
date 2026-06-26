@@ -8,7 +8,8 @@
 
 import { useState, useEffect } from "react";
 import Link from "next/link";
-import { Search, BookOpen, ChevronDown, ChevronUp, X } from "lucide-react";
+import { useSession } from "next-auth/react";
+import { Search, BookOpen, ChevronDown, ChevronUp, X, Plus, Loader2 } from "lucide-react";
 import { motion } from "framer-motion";
 
 // ------------------ КОМПОНЕНТ КАРТОЧКИ ТЕРМИНА ------------------
@@ -40,8 +41,8 @@ function TermCard({ term, isExpanded, onToggle }) {
         className="w-full p-6 text-left flex items-start gap-4 hover:bg-stone-50 transition-colors"
       >
         {/* Буква термина */}
-        <div className="w-10 h-10 rounded-lg bg-rose-50 flex items-center justify-center flex-shrink-0">
-          <span className="text-lg font-medium text-rose-600">{firstLetter}</span>
+        <div className="w-10 h-10 rounded-lg bg-blue-50 flex items-center justify-center flex-shrink-0">
+          <span className="text-lg font-medium text-blue-600">{firstLetter}</span>
         </div>
         {/* Контент */}
         <div className="flex-1 min-w-0">
@@ -69,7 +70,7 @@ function TermCard({ term, isExpanded, onToggle }) {
           </div>
           <ul className="space-y-2">
             {examples.map((example, i) => (
-              <li key={i} className="text-sm text-stone-600 pl-3 border-l-2 border-rose-200">
+              <li key={i} className="text-sm text-stone-600 pl-3 border-l-2 border-blue-200">
                 {example}
               </li>
             ))}
@@ -100,9 +101,9 @@ function AlphabetFilter({ activeLetter, onLetterClick, availableLetters }) {
             disabled={!isAvailable} // Отключаем если нет терминов
             className={`w-8 h-8 rounded-md text-sm font-medium transition-colors ${
               isActive
-                ? "bg-rose-600 text-white" // Активная буква
+                ? "bg-blue-600 text-white" // Активная буква
                 : isAvailable
-                ? "bg-white text-stone-600 hover:bg-rose-50 hover:text-rose-600 border border-black/5" // Доступная
+                ? "bg-white text-stone-600 hover:bg-blue-50 hover:text-blue-600 border border-black/5" // Доступная
                 : "bg-stone-100 text-stone-300 cursor-not-allowed" // Недоступная
             }`}
           >
@@ -117,11 +118,15 @@ function AlphabetFilter({ activeLetter, onLetterClick, availableLetters }) {
 // ------------------ ГЛАВНЫЙ КОМПОНЕНТ СТРАНИЦЫ ------------------
 export default function DictionaryPage() {
   // Состояния
+  const { data: session } = useSession();
   const [terms, setTerms] = useState([]);         // Все термины
   const [searchQuery, setSearchQuery] = useState(""); // Поисковый запрос
   const [activeLetter, setActiveLetter] = useState(null); // Выбранная буква
   const [expandedTermId, setExpandedTermId] = useState(null); // Раскрытый термин
   const [isLoading, setIsLoading] = useState(true);
+  const [showAddModal, setShowAddModal] = useState(false);
+  const [newTerm, setNewTerm] = useState({ term: "", definition: "", examples: "" });
+  const [adding, setAdding] = useState(false);
 
   // Загрузка терминов при монтировании
   useEffect(() => {
@@ -129,7 +134,7 @@ export default function DictionaryPage() {
       try {
         const response = await fetch("/api/terms");
         const data = await response.json();
-        setTerms(data);
+        setTerms(Array.isArray(data) ? data : []);
       } catch (error) {
         console.error("Error fetching terms:", error);
       } finally {
@@ -180,6 +185,39 @@ export default function DictionaryPage() {
     setExpandedTermId(null); // Сворачиваем раскрытый термин
   };
 
+  const handleAddTerm = async (e) => {
+    e.preventDefault();
+    if (!newTerm.term.trim() || !newTerm.definition.trim()) return;
+    setAdding(true);
+    try {
+      const res = await fetch("/api/terms", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          term: newTerm.term,
+          definition: newTerm.definition,
+          examples: newTerm.examples || undefined,
+        }),
+      });
+      if (res.ok) {
+        const data = await res.json();
+        setNewTerm({ term: "", definition: "", examples: "" });
+        setShowAddModal(false);
+        const termsRes = await fetch("/api/terms");
+        const termsData = await termsRes.json();
+        setTerms(Array.isArray(termsData) ? termsData : []);
+        alert(data.message || "Термин добавлен");
+      } else {
+        const err = await res.json().catch(() => ({}));
+        alert(err.error || "Ошибка при добавлении");
+      }
+    } catch (e) {
+      alert("Ошибка сети");
+    } finally {
+      setAdding(false);
+    }
+  };
+
   // Рендер
   return (
     <div className="min-h-screen">
@@ -207,7 +245,7 @@ export default function DictionaryPage() {
               </Link>
               {/* Логотип */}
               <a href="/" className="text-xl font-medium tracking-tight">
-                IT<span className="text-rose-600">hub</span>
+                Fix<span className="text-blue-600">Lib</span>
               </a>
               {/* Ссылка на страницу о проекте */}
               <Link href="/about" className="text-sm text-stone-500 hover:text-stone-700 transition-colors">
@@ -250,7 +288,7 @@ export default function DictionaryPage() {
                   setSearchQuery(e.target.value);
                   setActiveLetter(null); // Сброс буквы при поиске
                 }}
-                className="w-full bg-white border border-black/10 rounded-lg py-3 pl-11 pr-10 text-sm focus:outline-none focus:ring-2 focus:ring-rose-500/20 focus:border-rose-600 transition-all"
+                className="w-full bg-white border border-black/10 rounded-lg py-3 pl-11 pr-10 text-sm focus:outline-none focus:ring-2 focus:ring-blue-500/20 focus:border-blue-600 transition-all"
               />
               {/* Кнопка очистки поиска */}
               {searchQuery && (
@@ -321,7 +359,7 @@ export default function DictionaryPage() {
                   {/* Заголовок буквы (если не выбрана конкретная буква) */}
                   {!activeLetter && (
                     <div className="flex items-center gap-4 mb-4">
-                      <span className="text-2xl font-light text-rose-600">{letter}</span>
+                      <span className="text-2xl font-light text-blue-600">{letter}</span>
                       <div className="flex-1 h-px bg-black/5" />
                       <span className="text-xs text-stone-400">
                         {groupedTerms[letter].length}
@@ -360,10 +398,93 @@ export default function DictionaryPage() {
           )}
         </main>
 
+        {/* Плавающая кнопка добавления */}
+        {session ? (
+          <button
+            onClick={() => setShowAddModal(true)}
+            className="fixed bottom-6 right-6 z-50 w-14 h-14 rounded-full bg-blue-600 text-white shadow-lg hover:bg-blue-700 transition-colors flex items-center justify-center"
+          >
+            <Plus className="w-6 h-6" />
+          </button>
+        ) : (
+          <Link
+            href="/login"
+            className="fixed bottom-6 right-6 z-50 w-14 h-14 rounded-full bg-blue-600 text-white shadow-lg hover:bg-blue-700 transition-colors flex items-center justify-center"
+          >
+            <Plus className="w-6 h-6" />
+          </Link>
+        )}
+
+        {/* Модалка добавления термина */}
+        {showAddModal && (
+          <div className="fixed inset-0 z-[60] flex items-center justify-center p-4 bg-black/40" onClick={() => setShowAddModal(false)}>
+            <div className="bg-white rounded-xl border border-stone-200 w-full max-w-lg" onClick={e => e.stopPropagation()}>
+              <div className="flex items-center justify-between px-6 py-4 border-b border-stone-100">
+                <h3 className="font-semibold text-stone-800">Добавить термин</h3>
+                <button onClick={() => setShowAddModal(false)} className="p-1 text-stone-400 hover:text-stone-600 transition">
+                  <X className="w-5 h-5" />
+                </button>
+              </div>
+              <form onSubmit={handleAddTerm} className="p-6 space-y-4">
+                <div>
+                  <label className="block text-sm font-medium text-stone-700 mb-1.5">Термин *</label>
+                  <input
+                    type="text"
+                    value={newTerm.term}
+                    onChange={e => setNewTerm(p => ({ ...p, term: e.target.value }))}
+                    required
+                    placeholder="Например: API"
+                    className="w-full px-3 py-2 border border-stone-200 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-blue-600/20 focus:border-blue-600"
+                  />
+                </div>
+                <div>
+                  <label className="block text-sm font-medium text-stone-700 mb-1.5">Определение *</label>
+                  <textarea
+                    value={newTerm.definition}
+                    onChange={e => setNewTerm(p => ({ ...p, definition: e.target.value }))}
+                    required
+                    rows={3}
+                    placeholder="Понятное определение термина"
+                    className="w-full px-3 py-2 border border-stone-200 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-blue-600/20 focus:border-blue-600 resize-none"
+                  />
+                </div>
+                <div>
+                  <label className="block text-sm font-medium text-stone-700 mb-1.5">Примеры (по одному на строку)</label>
+                  <textarea
+                    value={newTerm.examples}
+                    onChange={e => setNewTerm(p => ({ ...p, examples: e.target.value }))}
+                    rows={3}
+                    placeholder={"fetch('/api/users')\naxios.get('/api/users')"}
+                    className="w-full px-3 py-2 border border-stone-200 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-blue-600/20 focus:border-blue-600 resize-none font-mono"
+                  />
+                </div>
+                <div className="flex justify-end gap-3 pt-2">
+                  <button
+                    type="button"
+                    onClick={() => setShowAddModal(false)}
+                    className="px-4 py-2 text-sm text-stone-600 hover:text-stone-800 transition"
+                  >
+                    Отмена
+                  </button>
+                  <button
+                    type="submit"
+                    disabled={adding}
+                    className="px-4 py-2 bg-blue-600 text-white text-sm font-medium rounded-lg hover:bg-blue-700 transition disabled:opacity-50"
+                  >
+                    {adding ? (
+                      <span className="flex items-center gap-1.5"><Loader2 className="w-4 h-4 animate-spin" /> Отправка...</span>
+                    ) : "Добавить"}
+                  </button>
+                </div>
+              </form>
+            </div>
+          </div>
+        )}
+
         {/* Подвал */}
         <footer className="border-t border-black/5 px-4 md:px-8 py-6 bg-white/50 mt-12">
           <div className="max-w-4xl mx-auto text-center text-xs text-stone-400">
-            IThub — Справочник IT-ресурсов
+            FixLib — Библиотека решений
           </div>
         </footer>
       </div>

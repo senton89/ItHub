@@ -1,3 +1,485 @@
+# 📦 Проект: ithub
+
+> **Автоматически сгенерировано:** 2026-06-26 15:52:32
+
+## 📋 Содержание
+
+- **Корневые файлы**
+  - [`.dockerignore`](#-dockerignore) (0.1 KB)
+  - [`.env.example`](#-env-example) (0.4 KB)
+  - [`.gitignore`](#-gitignore) (0.5 KB)
+  - [`Dockerfile`](#dockerfile) (1.4 KB)
+  - [`components.json`](#components-json) (0.4 KB)
+  - [`docker-compose.yml`](#docker-compose-yml) (0.6 KB)
+  - [`eslint.config.mjs`](#eslint-config-mjs) (0.4 KB)
+  - [`jsconfig.json`](#jsconfig-json) (0.4 KB)
+  - [`next-env.d.ts`](#next-env-d-ts) (0.2 KB)
+  - [`next.config.ts`](#next-config-ts) (0.2 KB)
+  - [`package-lock.json`](#package-lock-json) (330.0 KB)
+  - [`package.json`](#package-json) (2.4 KB)
+  - [`postcss.config.mjs`](#postcss-config-mjs) (0.1 KB)
+  - [`tailwind.config.js`](#tailwind-config-js) (1.8 KB)
+  - [`tailwind.config.ts`](#tailwind-config-ts) (1.7 KB)
+  - [`tsconfig.json`](#tsconfig-json) (0.7 KB)
+- **public/**
+  - [`robots.txt`](#public\robots-txt) (0.2 KB)
+- **src/**
+  - [`proxy.ts`](#src\proxy-ts) (1.0 KB)
+- **src/app/**
+  - [`globals.css`](#src\app\globals-css) (4.2 KB)
+  - [`layout.jsx`](#src\app\layout-jsx) (0.7 KB)
+  - [`page.jsx`](#src\app\page-jsx) (35.8 KB)
+- **src/app/about/**
+  - [`page.jsx`](#src\app\about\page-jsx) (12.6 KB)
+- **src/app/api/categories/**
+  - [`route.js`](#src\app\api\categories\route-js) (2.7 KB)
+- **src/app/api/health/**
+  - [`route.js`](#src\app\api\health\route-js) (0.6 KB)
+- **src/app/api/qa-seed/**
+  - [`route.js`](#src\app\api\qa-seed\route-js) (3.5 KB)
+- **src/app/api/questions/**
+  - [`route.js`](#src\app\api\questions\route-js) (3.4 KB)
+- **src/app/api/questions/[id]/**
+  - [`route.js`](#src\app\api\questions\[id]\route-js) (1.4 KB)
+- **src/app/api/questions/[id]/answers/**
+  - [`route.js`](#src\app\api\questions\[id]\answers\route-js) (1.6 KB)
+- **src/app/api/resources/**
+  - [`route.js`](#src\app\api\resources\route-js) (4.3 KB)
+- **src/app/api/search/**
+  - [`route.js`](#src\app\api\search\route-js) (3.1 KB)
+- **src/app/api/seed/**
+  - [`route.js`](#src\app\api\seed\route-js) (6.2 KB)
+- **src/app/api/tags/**
+  - [`route.js`](#src\app\api\tags\route-js) (0.9 KB)
+- **src/app/api/terms/**
+  - [`route.js`](#src\app\api\terms\route-js) (2.3 KB)
+- **src/app/api/upload/**
+  - [`route.js`](#src\app\api\upload\route-js) (1.4 KB)
+- **src/app/dictionary/**
+  - [`page.jsx`](#src\app\dictionary\page-jsx) (15.1 KB)
+- **src/app/questions/**
+  - [`page.jsx`](#src\app\questions\page-jsx) (6.1 KB)
+- **src/app/questions/[slug]/**
+  - [`page.jsx`](#src\app\questions\[slug]\page-jsx) (10.3 KB)
+- **src/app/questions/ask/**
+  - [`page.jsx`](#src\app\questions\ask\page-jsx) (3.1 KB)
+- **src/components/qa/**
+  - [`ImageUploader.jsx`](#src\components\qa\imageuploader-jsx) (3.6 KB)
+  - [`QuestionCard.jsx`](#src\components\qa\questioncard-jsx) (3.3 KB)
+  - [`TagBadge.jsx`](#src\components\qa\tagbadge-jsx) (0.6 KB)
+- **src/lib/**
+  - [`prisma.js`](#src\lib\prisma-js) (0.2 KB)
+  - [`utils.js`](#src\lib\utils-js) (1.0 KB)
+
+---
+
+## 📊 Статистика
+
+| Метрика | Значение |
+|---------|----------|
+| Всего файлов | `43` |
+| Общий размер | `0.0 KB` |
+| Символов | `0` |
+
+---
+
+## 📁 Структура проекта
+
+```
+ithub/
+├── public/
+│   └── robots.txt
+├── src/
+│   ├── app/
+│   │   ├── about/
+│   │   │   └── page.jsx
+│   │   ├── api/
+│   │   │   ├── categories/
+│   │   │   │   └── route.js
+│   │   │   ├── health/
+│   │   │   │   └── route.js
+│   │   │   ├── qa-seed/
+│   │   │   │   └── route.js
+│   │   │   ├── questions/
+│   │   │   │   ├── [id]/
+│   │   │   │   │   ├── answers/
+│   │   │   │   │   │   └── route.js
+│   │   │   │   │   └── route.js
+│   │   │   │   └── route.js
+│   │   │   ├── resources/
+│   │   │   │   └── route.js
+│   │   │   ├── search/
+│   │   │   │   └── route.js
+│   │   │   ├── seed/
+│   │   │   │   └── route.js
+│   │   │   ├── tags/
+│   │   │   │   └── route.js
+│   │   │   ├── terms/
+│   │   │   │   └── route.js
+│   │   │   └── upload/
+│   │   │       └── route.js
+│   │   ├── dictionary/
+│   │   │   └── page.jsx
+│   │   ├── questions/
+│   │   │   ├── [slug]/
+│   │   │   │   └── page.jsx
+│   │   │   ├── ask/
+│   │   │   │   └── page.jsx
+│   │   │   └── page.jsx
+│   │   ├── globals.css
+│   │   ├── layout.jsx
+│   │   └── page.jsx
+│   ├── components/
+│   │   └── qa/
+│   │       ├── ImageUploader.jsx
+│   │       ├── QuestionCard.jsx
+│   │       └── TagBadge.jsx
+│   ├── lib/
+│   │   ├── prisma.js
+│   │   └── utils.js
+│   └── proxy.ts
+├── .dockerignore
+├── .env.example
+├── .gitignore
+├── Dockerfile
+├── components.json
+├── docker-compose.yml
+├── eslint.config.mjs
+├── jsconfig.json
+├── next-env.d.ts
+├── next.config.ts
+├── package-lock.json
+├── package.json
+├── postcss.config.mjs
+├── tailwind.config.js
+├── tailwind.config.ts
+└── tsconfig.json
+```
+
+---
+
+## 📄 Содержимое файлов
+
+### 📂 Корневые файлы
+
+#### <span id="-dockerignore">1. `.dockerignore`</span>
+
+**Язык:** `text` | **Размер:** `0.1 KB`
+
+```text
+node_modules
+.next
+.git
+db/*.db
+db/*.db-journal
+*.log
+.env*
+.dockerignore
+README.md
+
+```
+
+---
+
+#### <span id="-env-example">2. `.env.example`</span>
+
+**Язык:** `bash` | **Размер:** `0.4 KB`
+
+```bash
+# ===== DATABASE (PostgreSQL) =====
+DATABASE_URL="postgresql://user:password@localhost:5432/ithub_qa?schema=public"
+
+# ===== NEXT.JS CONFIGURATION =====
+NEXT_PUBLIC_APP_URL="https://yourdomain.com"
+NODE_ENV="production"
+
+# ===== UPLOAD CONFIGURATION =====
+UPLOAD_DIR="./public/uploads/images"
+MAX_UPLOAD_SIZE=5242880
+
+# ===== APPLICATION =====
+APP_NAME="IThub Q&A"
+APP_URL="https://yourdomain.com"
+
+```
+
+---
+
+#### <span id="-gitignore">3. `.gitignore`</span>
+
+**Язык:** `gitignore` | **Размер:** `0.5 KB`
+
+```gitignore
+# Dependencies
+node_modules/
+.pnpm-store/
+
+# Next.js
+.next/
+out/
+
+# Production
+build/
+dist/
+
+# Environment variables
+.env
+.env.local
+.env.development.local
+.env.test.local
+.env.production.local
+
+# Debug
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+
+# Vercel
+.vercel
+
+# Database
+*.db
+*.sqlite
+*.sqlite3
+
+# Uploads (будут на JuiceFS)
+public/uploads/
+
+# IDE
+.idea/
+.vscode/
+*.swp
+*.swo
+
+# OS
+.DS_Store
+Thumbs.db
+
+# CRITICAL - Config with secrets
+.config.json
+
+```
+
+---
+
+#### <span id="dockerfile">4. `Dockerfile`</span>
+
+**Язык:** `dockerfile` | **Размер:** `1.4 KB`
+
+```dockerfile
+# Stage 1: Dependencies
+FROM node:20-alpine AS deps
+RUN apk add --no-cache libc6-compat
+WORKDIR /app
+COPY package.json package-lock.json* ./
+RUN npm ci
+
+# Stage 2: Build
+FROM node:20-alpine AS builder
+WORKDIR /app
+COPY --from=deps /app/node_modules ./node_modules
+COPY . .
+
+# Генерируем Prisma Client
+RUN npx prisma generate
+
+RUN npm run build
+
+# Stage 3: Production
+FROM node:20-alpine AS runner
+WORKDIR /app
+ENV NODE_ENV=production
+
+# SQLite + curl для healthcheck
+RUN apk add --no-cache sqlite curl
+
+RUN addgroup --system --gid 1001 nodejs
+RUN adduser --system --uid 1001 nextjs
+
+# Копируем приложение
+COPY --from=builder /app/public ./public
+COPY --from=builder --chown=nextjs:nodejs /app/.next/standalone ./
+COPY --from=builder --chown=nextjs:nodejs /app/.next/static ./.next/static
+COPY --from=builder /app/prisma ./prisma
+COPY --from=builder /app/node_modules/.prisma ./node_modules/.prisma
+COPY --from=builder /app/node_modules/@prisma ./node_modules/@prisma
+
+# Права на директорию БД
+RUN mkdir -p /app/prisma && chown -R nextjs:nodejs /app/prisma
+
+USER nextjs
+
+EXPOSE 3000
+ENV PORT=3000
+ENV HOSTNAME="0.0.0.0"
+ENV DATABASE_URL="file:/app/prisma/dev.db"
+
+HEALTHCHECK --interval=30s --timeout=10s --start-period=5s --retries=3 \
+  CMD curl -f http://localhost:3000/api/health || exit 1
+
+CMD ["node", "server.js"]
+
+```
+
+---
+
+#### <span id="components-json">5. `components.json`</span>
+
+**Язык:** `json` | **Размер:** `0.4 KB`
+
+```json
+{
+  "$schema": "https://ui.shadcn.com/schema.json",
+  "style": "new-york",
+  "rsc": true,
+  "tsx": true,
+  "tailwind": {
+    "config": "",
+    "css": "src/app/globals.css",
+    "baseColor": "neutral",
+    "cssVariables": true,
+    "prefix": ""
+  },
+  "aliases": {
+    "components": "@/components",
+    "utils": "@/lib/utils",
+    "ui": "@/components/ui",
+    "lib": "@/lib",
+    "hooks": "@/hooks"
+  },
+  "iconLibrary": "lucide"
+}
+
+```
+
+---
+
+#### <span id="docker-compose-yml">6. `docker-compose.yml`</span>
+
+**Язык:** `yaml` | **Размер:** `0.6 KB`
+
+```yaml
+services:
+  app:
+    build: .
+    ports:
+      - "3000:3000"
+    volumes:
+      - ./prisma:/app/prisma        # Prisma schema + БД
+      - ./public/uploads:/app/public/uploads  # Загрузки
+    environment:
+      - NODE_ENV=production
+      - DATABASE_URL=file:./prisma/dev.db  # ← Исправлено! Совпадает с .env
+    restart: unless-stopped
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:3000/api/health"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 40s
+
+volumes:
+  db-data:
+
+```
+
+---
+
+#### <span id="eslint-config-mjs">7. `eslint.config.mjs`</span>
+
+**Язык:** `javascript` | **Размер:** `0.4 KB`
+
+```javascript
+import { dirname } from "path";
+import { fileURLToPath } from "url";
+import { FlatCompat } from "@eslint/eslintrc";
+
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = dirname(__filename);
+
+const compat = new FlatCompat({
+  baseDirectory: __dirname,
+});
+
+const eslintConfig = [
+  ...compat.extends("next/core-web-vitals"),
+];
+
+export default eslintConfig;
+
+```
+
+---
+
+#### <span id="jsconfig-json">8. `jsconfig.json`</span>
+
+**Язык:** `json` | **Размер:** `0.4 KB`
+
+```json
+{
+  "compilerOptions": {
+    "baseUrl": ".",
+    "paths": {
+      "@/*": ["./src/*"]
+    },
+    "jsx": "react-jsx",
+    "target": "ES2017",
+    "module": "esnext",
+    "moduleResolution": "node",
+    "allowJs": true,
+    "checkJs": false,
+    "esModuleInterop": true
+  },
+  "include": ["src/**/*", "next.config.js", "tailwind.config.js"],
+  "exclude": ["node_modules"]
+}
+
+```
+
+---
+
+#### <span id="next-env-d-ts">9. `next-env.d.ts`</span>
+
+**Язык:** `typescript` | **Размер:** `0.2 KB`
+
+```typescript
+/// <reference types="next" />
+/// <reference types="next/image-types/global" />
+import "./.next/types/routes.d.ts";
+
+// NOTE: This file should not be edited
+// see https://nextjs.org/docs/app/api-reference/config/typescript for more information.
+
+```
+
+---
+
+#### <span id="next-config-ts">10. `next.config.ts`</span>
+
+**Язык:** `typescript` | **Размер:** `0.2 KB`
+
+```typescript
+import type { NextConfig } from "next";
+
+const nextConfig: NextConfig = {
+  output: "standalone",
+  typescript: {
+    ignoreBuildErrors: true,
+  },
+  reactStrictMode: false,
+};
+
+export default nextConfig;
+
+```
+
+---
+
+#### <span id="package-lock-json">11. `package-lock.json`</span>
+
+**Язык:** `json` | **Размер:** `330.0 KB`
+
+```json
 {
   "name": "ithub-aggregator",
   "version": "1.0.0",
@@ -10,27 +492,56 @@
       "dependencies": {
         "@hookform/resolvers": "^5.1.1",
         "@prisma/client": "^6.11.1",
+        "@radix-ui/react-accordion": "^1.2.11",
+        "@radix-ui/react-alert-dialog": "^1.1.14",
+        "@radix-ui/react-aspect-ratio": "^1.1.7",
+        "@radix-ui/react-avatar": "^1.1.10",
+        "@radix-ui/react-checkbox": "^1.3.2",
+        "@radix-ui/react-collapsible": "^1.1.11",
+        "@radix-ui/react-context-menu": "^2.2.15",
+        "@radix-ui/react-dialog": "^1.1.14",
+        "@radix-ui/react-dropdown-menu": "^2.1.15",
+        "@radix-ui/react-hover-card": "^1.1.14",
         "@radix-ui/react-label": "^2.1.7",
+        "@radix-ui/react-menubar": "^1.1.15",
+        "@radix-ui/react-navigation-menu": "^1.2.13",
+        "@radix-ui/react-popover": "^1.1.14",
+        "@radix-ui/react-progress": "^1.1.7",
+        "@radix-ui/react-radio-group": "^1.3.7",
+        "@radix-ui/react-scroll-area": "^1.2.9",
+        "@radix-ui/react-select": "^2.2.5",
+        "@radix-ui/react-separator": "^1.1.7",
+        "@radix-ui/react-slider": "^1.3.5",
         "@radix-ui/react-slot": "^1.2.3",
-        "bcryptjs": "^3.0.3",
+        "@radix-ui/react-switch": "^1.2.5",
+        "@radix-ui/react-tabs": "^1.1.12",
+        "@radix-ui/react-toast": "^1.2.14",
+        "@radix-ui/react-toggle": "^1.1.9",
+        "@radix-ui/react-toggle-group": "^1.1.10",
+        "@radix-ui/react-tooltip": "^1.2.7",
+        "@tanstack/react-query": "^5.82.0",
         "class-variance-authority": "^0.7.1",
         "clsx": "^2.1.1",
+        "cmdk": "^1.1.1",
+        "date-fns": "^4.1.0",
+        "embla-carousel-react": "^8.6.0",
         "framer-motion": "^12.23.2",
         "lucide-react": "^0.525.0",
         "next": "^16.1.1",
-        "next-auth": "^5.0.0-beta.31",
         "prisma": "^6.11.1",
         "react": "^19.0.0",
         "react-dom": "^19.0.0",
         "react-hook-form": "^7.60.0",
+        "recharts": "^2.15.4",
+        "sonner": "^2.0.6",
         "tailwind-merge": "^3.3.1",
         "tailwindcss-animate": "^1.0.7",
         "uuid": "^14.0.0",
-        "zod": "^4.0.2"
+        "zod": "^4.0.2",
+        "zustand": "^5.0.6"
       },
       "devDependencies": {
         "@tailwindcss/postcss": "^4",
-        "@types/bcryptjs": "^2.4.6",
         "@types/node": "25.5.2",
         "@types/react": "19.2.14",
         "@types/uuid": "^10.0.0",
@@ -50,35 +561,6 @@
       },
       "funding": {
         "url": "https://github.com/sponsors/sindresorhus"
-      }
-    },
-    "node_modules/@auth/core": {
-      "version": "0.41.2",
-      "resolved": "https://registry.npmjs.org/@auth/core/-/core-0.41.2.tgz",
-      "integrity": "sha512-Hx5MNBxN2fJTbJKGUKAA0wca43D0Akl3TvufY54Gn8lop7F+34vU1zA1pn0vQfIoVuLIrpfc2nkyjwIaPJMW7w==",
-      "license": "ISC",
-      "dependencies": {
-        "@panva/hkdf": "^1.2.1",
-        "jose": "^6.0.6",
-        "oauth4webapi": "^3.3.0",
-        "preact": "10.24.3",
-        "preact-render-to-string": "6.5.11"
-      },
-      "peerDependencies": {
-        "@simplewebauthn/browser": "^9.0.1",
-        "@simplewebauthn/server": "^9.0.2",
-        "nodemailer": "^7.0.7"
-      },
-      "peerDependenciesMeta": {
-        "@simplewebauthn/browser": {
-          "optional": true
-        },
-        "@simplewebauthn/server": {
-          "optional": true
-        },
-        "nodemailer": {
-          "optional": true
-        }
       }
     },
     "node_modules/@babel/code-frame": {
@@ -271,6 +753,15 @@
       },
       "engines": {
         "node": ">=6.0.0"
+      }
+    },
+    "node_modules/@babel/runtime": {
+      "version": "7.29.7",
+      "resolved": "https://registry.npmjs.org/@babel/runtime/-/runtime-7.29.7.tgz",
+      "integrity": "sha512-Nq8OhGWiZIZGV6hLHoyAKLLcJihP/xFeBMGJoUrxTX2psI8dCifzLhZISFb+VWS3wFMRDmCGw5R+dOySCqPLhw==",
+      "license": "MIT",
+      "engines": {
+        "node": ">=6.9.0"
       }
     },
     "node_modules/@babel/template": {
@@ -497,6 +988,44 @@
       "engines": {
         "node": "^18.18.0 || ^20.9.0 || >=21.1.0"
       }
+    },
+    "node_modules/@floating-ui/core": {
+      "version": "1.7.5",
+      "resolved": "https://registry.npmjs.org/@floating-ui/core/-/core-1.7.5.tgz",
+      "integrity": "sha512-1Ih4WTWyw0+lKyFMcBHGbb5U5FtuHJuujoyyr5zTaWS5EYMeT6Jb2AuDeftsCsEuchO+mM2ij5+q9crhydzLhQ==",
+      "license": "MIT",
+      "dependencies": {
+        "@floating-ui/utils": "^0.2.11"
+      }
+    },
+    "node_modules/@floating-ui/dom": {
+      "version": "1.7.6",
+      "resolved": "https://registry.npmjs.org/@floating-ui/dom/-/dom-1.7.6.tgz",
+      "integrity": "sha512-9gZSAI5XM36880PPMm//9dfiEngYoC6Am2izES1FF406YFsjvyBMmeJ2g4SAju3xWwtuynNRFL2s9hgxpLI5SQ==",
+      "license": "MIT",
+      "dependencies": {
+        "@floating-ui/core": "^1.7.5",
+        "@floating-ui/utils": "^0.2.11"
+      }
+    },
+    "node_modules/@floating-ui/react-dom": {
+      "version": "2.1.8",
+      "resolved": "https://registry.npmjs.org/@floating-ui/react-dom/-/react-dom-2.1.8.tgz",
+      "integrity": "sha512-cC52bHwM/n/CxS87FH0yWdngEZrjdtLW/qVruo68qg+prK7ZQ4YGdut2GyDVpoGeAYe/h899rVeOVm6Oi40k2A==",
+      "license": "MIT",
+      "dependencies": {
+        "@floating-ui/dom": "^1.7.6"
+      },
+      "peerDependencies": {
+        "react": ">=16.8.0",
+        "react-dom": ">=16.8.0"
+      }
+    },
+    "node_modules/@floating-ui/utils": {
+      "version": "0.2.11",
+      "resolved": "https://registry.npmjs.org/@floating-ui/utils/-/utils-0.2.11.tgz",
+      "integrity": "sha512-RiB/yIh78pcIxl6lLMG0CgBXAZ2Y0eVHqMPYugu+9U0AeT6YBeiJpf7lbdJNIugFP5SIjwNRgo4DhR1Qxi26Gg==",
+      "license": "MIT"
     },
     "node_modules/@hookform/resolvers": {
       "version": "5.4.0",
@@ -1303,15 +1832,6 @@
         "node": ">=12.4.0"
       }
     },
-    "node_modules/@panva/hkdf": {
-      "version": "1.2.1",
-      "resolved": "https://registry.npmjs.org/@panva/hkdf/-/hkdf-1.2.1.tgz",
-      "integrity": "sha512-6oclG6Y3PiDFcoyk8srjLfVKyMfVCKJ27JwNPViuXziFpmdz+MZnZN/aKY0JGXgYuO/VghU0jcOAZgWXZ1Dmrw==",
-      "license": "MIT",
-      "funding": {
-        "url": "https://github.com/sponsors/panva"
-      }
-    },
     "node_modules/@prisma/client": {
       "version": "6.19.3",
       "resolved": "https://registry.npmjs.org/@prisma/client/-/client-6.19.3.tgz",
@@ -1391,11 +1911,478 @@
         "@prisma/debug": "6.19.3"
       }
     },
+    "node_modules/@radix-ui/number": {
+      "version": "1.1.2",
+      "resolved": "https://registry.npmjs.org/@radix-ui/number/-/number-1.1.2.tgz",
+      "integrity": "sha512-ceTwaxc4I5IOi97DgCotl3pqiyRGvffcc0oOsE2dQYaJOFIDsDt4VWG6xEbg1QePv9QWausCEIppud/tJ1wNig==",
+      "license": "MIT"
+    },
+    "node_modules/@radix-ui/primitive": {
+      "version": "1.1.4",
+      "resolved": "https://registry.npmjs.org/@radix-ui/primitive/-/primitive-1.1.4.tgz",
+      "integrity": "sha512-7AdCK9PQyiljKoBDbN8OuctCbd/esdwZPQ8RtOE3SsyQtUpiPb+ND75q0jEhC1m1ecBI0MFNeLJvwIh9iKHRcQ==",
+      "license": "MIT"
+    },
+    "node_modules/@radix-ui/react-accordion": {
+      "version": "1.2.14",
+      "resolved": "https://registry.npmjs.org/@radix-ui/react-accordion/-/react-accordion-1.2.14.tgz",
+      "integrity": "sha512-iE8YB9nmTBH8zd73ofBISZ8JCzgMoMkATJr7qDwa6u5F1+7mTM81V6fa71jgZ65rpjVpecDf1vSnwIFP9Ly1zw==",
+      "license": "MIT",
+      "dependencies": {
+        "@radix-ui/primitive": "1.1.4",
+        "@radix-ui/react-collapsible": "1.1.14",
+        "@radix-ui/react-collection": "1.1.10",
+        "@radix-ui/react-compose-refs": "1.1.3",
+        "@radix-ui/react-context": "1.1.4",
+        "@radix-ui/react-direction": "1.1.2",
+        "@radix-ui/react-id": "1.1.2",
+        "@radix-ui/react-primitive": "2.1.6",
+        "@radix-ui/react-use-controllable-state": "1.2.3"
+      },
+      "peerDependencies": {
+        "@types/react": "*",
+        "@types/react-dom": "*",
+        "react": "^16.8 || ^17.0 || ^18.0 || ^19.0 || ^19.0.0-rc",
+        "react-dom": "^16.8 || ^17.0 || ^18.0 || ^19.0 || ^19.0.0-rc"
+      },
+      "peerDependenciesMeta": {
+        "@types/react": {
+          "optional": true
+        },
+        "@types/react-dom": {
+          "optional": true
+        }
+      }
+    },
+    "node_modules/@radix-ui/react-alert-dialog": {
+      "version": "1.1.17",
+      "resolved": "https://registry.npmjs.org/@radix-ui/react-alert-dialog/-/react-alert-dialog-1.1.17.tgz",
+      "integrity": "sha512-563ygGeyWPrxyVCNp7OV4rE2aIXhFPknpFyo4wbDlcyMMPZ6ySh+zC5WTvY0ZFLgPTg/QB6tA8PyDQyJ2b4cPg==",
+      "license": "MIT",
+      "dependencies": {
+        "@radix-ui/primitive": "1.1.4",
+        "@radix-ui/react-compose-refs": "1.1.3",
+        "@radix-ui/react-context": "1.1.4",
+        "@radix-ui/react-dialog": "1.1.17",
+        "@radix-ui/react-primitive": "2.1.6"
+      },
+      "peerDependencies": {
+        "@types/react": "*",
+        "@types/react-dom": "*",
+        "react": "^16.8 || ^17.0 || ^18.0 || ^19.0 || ^19.0.0-rc",
+        "react-dom": "^16.8 || ^17.0 || ^18.0 || ^19.0 || ^19.0.0-rc"
+      },
+      "peerDependenciesMeta": {
+        "@types/react": {
+          "optional": true
+        },
+        "@types/react-dom": {
+          "optional": true
+        }
+      }
+    },
+    "node_modules/@radix-ui/react-arrow": {
+      "version": "1.1.10",
+      "resolved": "https://registry.npmjs.org/@radix-ui/react-arrow/-/react-arrow-1.1.10.tgz",
+      "integrity": "sha512-j2VTDz1vgCsmuG0k5lBfOcM8n5JPFqZBcMryasFjHYMhwxYL5SRUV5lMSUpRdNtw3D/Sv8pzJtrlAgkssYSsQQ==",
+      "license": "MIT",
+      "dependencies": {
+        "@radix-ui/react-primitive": "2.1.6"
+      },
+      "peerDependencies": {
+        "@types/react": "*",
+        "@types/react-dom": "*",
+        "react": "^16.8 || ^17.0 || ^18.0 || ^19.0 || ^19.0.0-rc",
+        "react-dom": "^16.8 || ^17.0 || ^18.0 || ^19.0 || ^19.0.0-rc"
+      },
+      "peerDependenciesMeta": {
+        "@types/react": {
+          "optional": true
+        },
+        "@types/react-dom": {
+          "optional": true
+        }
+      }
+    },
+    "node_modules/@radix-ui/react-aspect-ratio": {
+      "version": "1.1.10",
+      "resolved": "https://registry.npmjs.org/@radix-ui/react-aspect-ratio/-/react-aspect-ratio-1.1.10.tgz",
+      "integrity": "sha512-kbI7NrqhDeuytYrq7JjAsoXczvL8wgj2tc1MyaYWm+50bMKHCHQtVWCryslx4cCpmCTTkBcwQckE4CmmGV2haQ==",
+      "license": "MIT",
+      "dependencies": {
+        "@radix-ui/react-primitive": "2.1.6"
+      },
+      "peerDependencies": {
+        "@types/react": "*",
+        "@types/react-dom": "*",
+        "react": "^16.8 || ^17.0 || ^18.0 || ^19.0 || ^19.0.0-rc",
+        "react-dom": "^16.8 || ^17.0 || ^18.0 || ^19.0 || ^19.0.0-rc"
+      },
+      "peerDependenciesMeta": {
+        "@types/react": {
+          "optional": true
+        },
+        "@types/react-dom": {
+          "optional": true
+        }
+      }
+    },
+    "node_modules/@radix-ui/react-avatar": {
+      "version": "1.2.0",
+      "resolved": "https://registry.npmjs.org/@radix-ui/react-avatar/-/react-avatar-1.2.0.tgz",
+      "integrity": "sha512-am/CwltXtmtdtP+5FbYblYDnMa/zuKcMJP1i3/SJMDXXfj2mG+BTqLH2wucqeyyiQMursUtg/5cK+Nh2pCaSOA==",
+      "license": "MIT",
+      "dependencies": {
+        "@radix-ui/react-context": "1.1.4",
+        "@radix-ui/react-primitive": "2.1.6",
+        "@radix-ui/react-use-callback-ref": "1.1.2",
+        "@radix-ui/react-use-is-hydrated": "0.1.1",
+        "@radix-ui/react-use-layout-effect": "1.1.2"
+      },
+      "peerDependencies": {
+        "@types/react": "*",
+        "@types/react-dom": "*",
+        "react": "^16.8 || ^17.0 || ^18.0 || ^19.0 || ^19.0.0-rc",
+        "react-dom": "^16.8 || ^17.0 || ^18.0 || ^19.0 || ^19.0.0-rc"
+      },
+      "peerDependenciesMeta": {
+        "@types/react": {
+          "optional": true
+        },
+        "@types/react-dom": {
+          "optional": true
+        }
+      }
+    },
+    "node_modules/@radix-ui/react-checkbox": {
+      "version": "1.3.5",
+      "resolved": "https://registry.npmjs.org/@radix-ui/react-checkbox/-/react-checkbox-1.3.5.tgz",
+      "integrity": "sha512-pREzrmNnVwGvYaBoM64huTRK7B3lrTRuwj8A9nwhPiEtMb+yudiWh6zWAqEtP0Dzd5+iBa1Ki7V1pCxV8ExMdA==",
+      "license": "MIT",
+      "dependencies": {
+        "@radix-ui/primitive": "1.1.4",
+        "@radix-ui/react-compose-refs": "1.1.3",
+        "@radix-ui/react-context": "1.1.4",
+        "@radix-ui/react-presence": "1.1.6",
+        "@radix-ui/react-primitive": "2.1.6",
+        "@radix-ui/react-use-controllable-state": "1.2.3",
+        "@radix-ui/react-use-previous": "1.1.2",
+        "@radix-ui/react-use-size": "1.1.2"
+      },
+      "peerDependencies": {
+        "@types/react": "*",
+        "@types/react-dom": "*",
+        "react": "^16.8 || ^17.0 || ^18.0 || ^19.0 || ^19.0.0-rc",
+        "react-dom": "^16.8 || ^17.0 || ^18.0 || ^19.0 || ^19.0.0-rc"
+      },
+      "peerDependenciesMeta": {
+        "@types/react": {
+          "optional": true
+        },
+        "@types/react-dom": {
+          "optional": true
+        }
+      }
+    },
+    "node_modules/@radix-ui/react-collapsible": {
+      "version": "1.1.14",
+      "resolved": "https://registry.npmjs.org/@radix-ui/react-collapsible/-/react-collapsible-1.1.14.tgz",
+      "integrity": "sha512-9bT+FvifX1FK2Mj6UEsTdyu0cN3JaA3KdfhaBao+ONrYFy/pyOy3TU1TNw7iOk1o+0hOEq67RojlUUmoFGwxyA==",
+      "license": "MIT",
+      "dependencies": {
+        "@radix-ui/primitive": "1.1.4",
+        "@radix-ui/react-compose-refs": "1.1.3",
+        "@radix-ui/react-context": "1.1.4",
+        "@radix-ui/react-id": "1.1.2",
+        "@radix-ui/react-presence": "1.1.6",
+        "@radix-ui/react-primitive": "2.1.6",
+        "@radix-ui/react-use-controllable-state": "1.2.3",
+        "@radix-ui/react-use-layout-effect": "1.1.2"
+      },
+      "peerDependencies": {
+        "@types/react": "*",
+        "@types/react-dom": "*",
+        "react": "^16.8 || ^17.0 || ^18.0 || ^19.0 || ^19.0.0-rc",
+        "react-dom": "^16.8 || ^17.0 || ^18.0 || ^19.0 || ^19.0.0-rc"
+      },
+      "peerDependenciesMeta": {
+        "@types/react": {
+          "optional": true
+        },
+        "@types/react-dom": {
+          "optional": true
+        }
+      }
+    },
+    "node_modules/@radix-ui/react-collection": {
+      "version": "1.1.10",
+      "resolved": "https://registry.npmjs.org/@radix-ui/react-collection/-/react-collection-1.1.10.tgz",
+      "integrity": "sha512-IVVz4EvBcKjrzKgof714qDnz/SzQAkLA2Emh5edlHbgcE6fNd3Un6CJLlaYcnm8N4JmAtzQgse4dOKxcD2yc9g==",
+      "license": "MIT",
+      "dependencies": {
+        "@radix-ui/react-compose-refs": "1.1.3",
+        "@radix-ui/react-context": "1.1.4",
+        "@radix-ui/react-primitive": "2.1.6",
+        "@radix-ui/react-slot": "1.3.0"
+      },
+      "peerDependencies": {
+        "@types/react": "*",
+        "@types/react-dom": "*",
+        "react": "^16.8 || ^17.0 || ^18.0 || ^19.0 || ^19.0.0-rc",
+        "react-dom": "^16.8 || ^17.0 || ^18.0 || ^19.0 || ^19.0.0-rc"
+      },
+      "peerDependenciesMeta": {
+        "@types/react": {
+          "optional": true
+        },
+        "@types/react-dom": {
+          "optional": true
+        }
+      }
+    },
     "node_modules/@radix-ui/react-compose-refs": {
       "version": "1.1.3",
       "resolved": "https://registry.npmjs.org/@radix-ui/react-compose-refs/-/react-compose-refs-1.1.3.tgz",
       "integrity": "sha512-rYOP8OMnuuPMQF1uhPVlGNcCDlkokKqGFE3JcxFViIkAXP7EvFWUliJAstrapypaBLJNHbZL6jGhbVDGTwmVhA==",
       "license": "MIT",
+      "peerDependencies": {
+        "@types/react": "*",
+        "react": "^16.8 || ^17.0 || ^18.0 || ^19.0 || ^19.0.0-rc"
+      },
+      "peerDependenciesMeta": {
+        "@types/react": {
+          "optional": true
+        }
+      }
+    },
+    "node_modules/@radix-ui/react-context": {
+      "version": "1.1.4",
+      "resolved": "https://registry.npmjs.org/@radix-ui/react-context/-/react-context-1.1.4.tgz",
+      "integrity": "sha512-QwH4PO5urrbO+FaGd5Aglg+YJgWTyyuZ3g/6mKvsqraLkglDdckw9JafgL5McL5VEJ6EPNduPaT3ZE9BttDAqg==",
+      "license": "MIT",
+      "peerDependencies": {
+        "@types/react": "*",
+        "react": "^16.8 || ^17.0 || ^18.0 || ^19.0 || ^19.0.0-rc"
+      },
+      "peerDependenciesMeta": {
+        "@types/react": {
+          "optional": true
+        }
+      }
+    },
+    "node_modules/@radix-ui/react-context-menu": {
+      "version": "2.3.1",
+      "resolved": "https://registry.npmjs.org/@radix-ui/react-context-menu/-/react-context-menu-2.3.1.tgz",
+      "integrity": "sha512-XbrxS68W5dyiE4fAb96yvJwSVU5x66B20A99sD5Mk3xSWK/LqeOnx6TZnim1KieMjXS/CTFq8reOAjWxas2G8Q==",
+      "license": "MIT",
+      "dependencies": {
+        "@radix-ui/primitive": "1.1.4",
+        "@radix-ui/react-context": "1.1.4",
+        "@radix-ui/react-menu": "2.1.18",
+        "@radix-ui/react-primitive": "2.1.6",
+        "@radix-ui/react-use-controllable-state": "1.2.3"
+      },
+      "peerDependencies": {
+        "@types/react": "*",
+        "@types/react-dom": "*",
+        "react": "^16.8 || ^17.0 || ^18.0 || ^19.0 || ^19.0.0-rc",
+        "react-dom": "^16.8 || ^17.0 || ^18.0 || ^19.0 || ^19.0.0-rc"
+      },
+      "peerDependenciesMeta": {
+        "@types/react": {
+          "optional": true
+        },
+        "@types/react-dom": {
+          "optional": true
+        }
+      }
+    },
+    "node_modules/@radix-ui/react-dialog": {
+      "version": "1.1.17",
+      "resolved": "https://registry.npmjs.org/@radix-ui/react-dialog/-/react-dialog-1.1.17.tgz",
+      "integrity": "sha512-TDTYmpdq8dI2+Xgvgj9AJ8Ghqq+Eph/TRVEdaFQPDItIY+6QSkU7MJMeevw1568Yw/2Ijz8BTphPSP2XejKphw==",
+      "license": "MIT",
+      "dependencies": {
+        "@radix-ui/primitive": "1.1.4",
+        "@radix-ui/react-compose-refs": "1.1.3",
+        "@radix-ui/react-context": "1.1.4",
+        "@radix-ui/react-dismissable-layer": "1.1.13",
+        "@radix-ui/react-focus-guards": "1.1.4",
+        "@radix-ui/react-focus-scope": "1.1.10",
+        "@radix-ui/react-id": "1.1.2",
+        "@radix-ui/react-portal": "1.1.12",
+        "@radix-ui/react-presence": "1.1.6",
+        "@radix-ui/react-primitive": "2.1.6",
+        "@radix-ui/react-slot": "1.3.0",
+        "@radix-ui/react-use-controllable-state": "1.2.3",
+        "aria-hidden": "^1.2.4",
+        "react-remove-scroll": "^2.7.2"
+      },
+      "peerDependencies": {
+        "@types/react": "*",
+        "@types/react-dom": "*",
+        "react": "^16.8 || ^17.0 || ^18.0 || ^19.0 || ^19.0.0-rc",
+        "react-dom": "^16.8 || ^17.0 || ^18.0 || ^19.0 || ^19.0.0-rc"
+      },
+      "peerDependenciesMeta": {
+        "@types/react": {
+          "optional": true
+        },
+        "@types/react-dom": {
+          "optional": true
+        }
+      }
+    },
+    "node_modules/@radix-ui/react-direction": {
+      "version": "1.1.2",
+      "resolved": "https://registry.npmjs.org/@radix-ui/react-direction/-/react-direction-1.1.2.tgz",
+      "integrity": "sha512-C3vFhbyi4SW3PmbAi6Awpu4OzJtd0MxGurvSsYtr7p7nM8RNB3VAF3CUmnp2j50knpkrRcB7+ycVXzgLgF6yNA==",
+      "license": "MIT",
+      "peerDependencies": {
+        "@types/react": "*",
+        "react": "^16.8 || ^17.0 || ^18.0 || ^19.0 || ^19.0.0-rc"
+      },
+      "peerDependenciesMeta": {
+        "@types/react": {
+          "optional": true
+        }
+      }
+    },
+    "node_modules/@radix-ui/react-dismissable-layer": {
+      "version": "1.1.13",
+      "resolved": "https://registry.npmjs.org/@radix-ui/react-dismissable-layer/-/react-dismissable-layer-1.1.13.tgz",
+      "integrity": "sha512-2v+zNAWWe0ySxgC0D0yeXMPQ23xZVgXZTerTz+JKlmdRj6gfTqmCcR29jb6d290DezXPGgruHWDX/vYUebtErg==",
+      "license": "MIT",
+      "dependencies": {
+        "@radix-ui/primitive": "1.1.4",
+        "@radix-ui/react-compose-refs": "1.1.3",
+        "@radix-ui/react-primitive": "2.1.6",
+        "@radix-ui/react-use-callback-ref": "1.1.2",
+        "@radix-ui/react-use-escape-keydown": "1.1.2"
+      },
+      "peerDependencies": {
+        "@types/react": "*",
+        "@types/react-dom": "*",
+        "react": "^16.8 || ^17.0 || ^18.0 || ^19.0 || ^19.0.0-rc",
+        "react-dom": "^16.8 || ^17.0 || ^18.0 || ^19.0 || ^19.0.0-rc"
+      },
+      "peerDependenciesMeta": {
+        "@types/react": {
+          "optional": true
+        },
+        "@types/react-dom": {
+          "optional": true
+        }
+      }
+    },
+    "node_modules/@radix-ui/react-dropdown-menu": {
+      "version": "2.1.18",
+      "resolved": "https://registry.npmjs.org/@radix-ui/react-dropdown-menu/-/react-dropdown-menu-2.1.18.tgz",
+      "integrity": "sha512-PZGV82gFk0WltDRI//SsG28ZIjlo9ANTmoNYg0jLNzXXiDsAy5PkOOYQaVD1pPxY6t7gxffb1QMD6qaUvsBZdw==",
+      "license": "MIT",
+      "dependencies": {
+        "@radix-ui/primitive": "1.1.4",
+        "@radix-ui/react-compose-refs": "1.1.3",
+        "@radix-ui/react-context": "1.1.4",
+        "@radix-ui/react-id": "1.1.2",
+        "@radix-ui/react-menu": "2.1.18",
+        "@radix-ui/react-primitive": "2.1.6",
+        "@radix-ui/react-use-controllable-state": "1.2.3"
+      },
+      "peerDependencies": {
+        "@types/react": "*",
+        "@types/react-dom": "*",
+        "react": "^16.8 || ^17.0 || ^18.0 || ^19.0 || ^19.0.0-rc",
+        "react-dom": "^16.8 || ^17.0 || ^18.0 || ^19.0 || ^19.0.0-rc"
+      },
+      "peerDependenciesMeta": {
+        "@types/react": {
+          "optional": true
+        },
+        "@types/react-dom": {
+          "optional": true
+        }
+      }
+    },
+    "node_modules/@radix-ui/react-focus-guards": {
+      "version": "1.1.4",
+      "resolved": "https://registry.npmjs.org/@radix-ui/react-focus-guards/-/react-focus-guards-1.1.4.tgz",
+      "integrity": "sha512-cot/aB/mOm0IYVYTTmQcEEK1M48lZWi8FlYe5nDPQQ8NYZUlXEFgncJ9p2Kzer3RKSrY7cTTpEMLZKNo9QoP5Q==",
+      "license": "MIT",
+      "peerDependencies": {
+        "@types/react": "*",
+        "react": "^16.8 || ^17.0 || ^18.0 || ^19.0 || ^19.0.0-rc"
+      },
+      "peerDependenciesMeta": {
+        "@types/react": {
+          "optional": true
+        }
+      }
+    },
+    "node_modules/@radix-ui/react-focus-scope": {
+      "version": "1.1.10",
+      "resolved": "https://registry.npmjs.org/@radix-ui/react-focus-scope/-/react-focus-scope-1.1.10.tgz",
+      "integrity": "sha512-Fas/lXQqhVvqwAb64s5RFeHiHYElZ6SUQbZaNd6EkfhP/Al7wTIQ9WIR4QVX475tlu5yFCEdDcJH6/UwsZjMWw==",
+      "license": "MIT",
+      "dependencies": {
+        "@radix-ui/react-compose-refs": "1.1.3",
+        "@radix-ui/react-primitive": "2.1.6",
+        "@radix-ui/react-use-callback-ref": "1.1.2"
+      },
+      "peerDependencies": {
+        "@types/react": "*",
+        "@types/react-dom": "*",
+        "react": "^16.8 || ^17.0 || ^18.0 || ^19.0 || ^19.0.0-rc",
+        "react-dom": "^16.8 || ^17.0 || ^18.0 || ^19.0 || ^19.0.0-rc"
+      },
+      "peerDependenciesMeta": {
+        "@types/react": {
+          "optional": true
+        },
+        "@types/react-dom": {
+          "optional": true
+        }
+      }
+    },
+    "node_modules/@radix-ui/react-hover-card": {
+      "version": "1.1.17",
+      "resolved": "https://registry.npmjs.org/@radix-ui/react-hover-card/-/react-hover-card-1.1.17.tgz",
+      "integrity": "sha512-GjZQIEANVkuuWeztlKz6QEHe31ZX2iDfHzcTMCQVZXC0JyQrgfKWSC+LOOEw6aVV64zyjzobIzSA4AU4eKWrHA==",
+      "license": "MIT",
+      "dependencies": {
+        "@radix-ui/primitive": "1.1.4",
+        "@radix-ui/react-compose-refs": "1.1.3",
+        "@radix-ui/react-context": "1.1.4",
+        "@radix-ui/react-dismissable-layer": "1.1.13",
+        "@radix-ui/react-popper": "1.3.1",
+        "@radix-ui/react-portal": "1.1.12",
+        "@radix-ui/react-presence": "1.1.6",
+        "@radix-ui/react-primitive": "2.1.6",
+        "@radix-ui/react-use-controllable-state": "1.2.3"
+      },
+      "peerDependencies": {
+        "@types/react": "*",
+        "@types/react-dom": "*",
+        "react": "^16.8 || ^17.0 || ^18.0 || ^19.0 || ^19.0.0-rc",
+        "react-dom": "^16.8 || ^17.0 || ^18.0 || ^19.0 || ^19.0.0-rc"
+      },
+      "peerDependenciesMeta": {
+        "@types/react": {
+          "optional": true
+        },
+        "@types/react-dom": {
+          "optional": true
+        }
+      }
+    },
+    "node_modules/@radix-ui/react-id": {
+      "version": "1.1.2",
+      "resolved": "https://registry.npmjs.org/@radix-ui/react-id/-/react-id-1.1.2.tgz",
+      "integrity": "sha512-orBC88futVpqCmhX1p4cvquNHsELQ+w+vBJnuj3ftETI5bJb0bZn3Tqu3SWN2IOcPycTnMGnhwoermvISt72sA==",
+      "license": "MIT",
+      "dependencies": {
+        "@radix-ui/react-use-layout-effect": "1.1.2"
+      },
       "peerDependencies": {
         "@types/react": "*",
         "react": "^16.8 || ^17.0 || ^18.0 || ^19.0 || ^19.0.0-rc"
@@ -1413,6 +2400,230 @@
       "license": "MIT",
       "dependencies": {
         "@radix-ui/react-primitive": "2.1.6"
+      },
+      "peerDependencies": {
+        "@types/react": "*",
+        "@types/react-dom": "*",
+        "react": "^16.8 || ^17.0 || ^18.0 || ^19.0 || ^19.0.0-rc",
+        "react-dom": "^16.8 || ^17.0 || ^18.0 || ^19.0 || ^19.0.0-rc"
+      },
+      "peerDependenciesMeta": {
+        "@types/react": {
+          "optional": true
+        },
+        "@types/react-dom": {
+          "optional": true
+        }
+      }
+    },
+    "node_modules/@radix-ui/react-menu": {
+      "version": "2.1.18",
+      "resolved": "https://registry.npmjs.org/@radix-ui/react-menu/-/react-menu-2.1.18.tgz",
+      "integrity": "sha512-lj8Rxjtn6zJq1oSbE/uDtAwCbB9BnxgHD+8MwJMuTh6u1dPamYhW9iuELr/Z8d0D/UysFblYYHeBPwi7T4k0YQ==",
+      "license": "MIT",
+      "dependencies": {
+        "@radix-ui/primitive": "1.1.4",
+        "@radix-ui/react-collection": "1.1.10",
+        "@radix-ui/react-compose-refs": "1.1.3",
+        "@radix-ui/react-context": "1.1.4",
+        "@radix-ui/react-direction": "1.1.2",
+        "@radix-ui/react-dismissable-layer": "1.1.13",
+        "@radix-ui/react-focus-guards": "1.1.4",
+        "@radix-ui/react-focus-scope": "1.1.10",
+        "@radix-ui/react-id": "1.1.2",
+        "@radix-ui/react-popper": "1.3.1",
+        "@radix-ui/react-portal": "1.1.12",
+        "@radix-ui/react-presence": "1.1.6",
+        "@radix-ui/react-primitive": "2.1.6",
+        "@radix-ui/react-roving-focus": "1.1.13",
+        "@radix-ui/react-slot": "1.3.0",
+        "@radix-ui/react-use-callback-ref": "1.1.2",
+        "aria-hidden": "^1.2.4",
+        "react-remove-scroll": "^2.7.2"
+      },
+      "peerDependencies": {
+        "@types/react": "*",
+        "@types/react-dom": "*",
+        "react": "^16.8 || ^17.0 || ^18.0 || ^19.0 || ^19.0.0-rc",
+        "react-dom": "^16.8 || ^17.0 || ^18.0 || ^19.0 || ^19.0.0-rc"
+      },
+      "peerDependenciesMeta": {
+        "@types/react": {
+          "optional": true
+        },
+        "@types/react-dom": {
+          "optional": true
+        }
+      }
+    },
+    "node_modules/@radix-ui/react-menubar": {
+      "version": "1.1.18",
+      "resolved": "https://registry.npmjs.org/@radix-ui/react-menubar/-/react-menubar-1.1.18.tgz",
+      "integrity": "sha512-hX7EGx/oFq6DPY27GQuP/2wP48GHf5LG6r06VgNJlG+znmDS8OfopZcRcGly3L4lsB9FqpmLx6JQSE9P3BUpyw==",
+      "license": "MIT",
+      "dependencies": {
+        "@radix-ui/primitive": "1.1.4",
+        "@radix-ui/react-collection": "1.1.10",
+        "@radix-ui/react-compose-refs": "1.1.3",
+        "@radix-ui/react-context": "1.1.4",
+        "@radix-ui/react-direction": "1.1.2",
+        "@radix-ui/react-id": "1.1.2",
+        "@radix-ui/react-menu": "2.1.18",
+        "@radix-ui/react-primitive": "2.1.6",
+        "@radix-ui/react-roving-focus": "1.1.13",
+        "@radix-ui/react-use-controllable-state": "1.2.3"
+      },
+      "peerDependencies": {
+        "@types/react": "*",
+        "@types/react-dom": "*",
+        "react": "^16.8 || ^17.0 || ^18.0 || ^19.0 || ^19.0.0-rc",
+        "react-dom": "^16.8 || ^17.0 || ^18.0 || ^19.0 || ^19.0.0-rc"
+      },
+      "peerDependenciesMeta": {
+        "@types/react": {
+          "optional": true
+        },
+        "@types/react-dom": {
+          "optional": true
+        }
+      }
+    },
+    "node_modules/@radix-ui/react-navigation-menu": {
+      "version": "1.2.16",
+      "resolved": "https://registry.npmjs.org/@radix-ui/react-navigation-menu/-/react-navigation-menu-1.2.16.tgz",
+      "integrity": "sha512-nJ0SkrSQgudyYhMiYeHA1ayLVuduEJCFLan1RZZN7c9kqzzCFLaU9kuy81uNtqzweM9YaQPgWzxi9MwQ9jZ04g==",
+      "license": "MIT",
+      "dependencies": {
+        "@radix-ui/primitive": "1.1.4",
+        "@radix-ui/react-collection": "1.1.10",
+        "@radix-ui/react-compose-refs": "1.1.3",
+        "@radix-ui/react-context": "1.1.4",
+        "@radix-ui/react-direction": "1.1.2",
+        "@radix-ui/react-dismissable-layer": "1.1.13",
+        "@radix-ui/react-id": "1.1.2",
+        "@radix-ui/react-presence": "1.1.6",
+        "@radix-ui/react-primitive": "2.1.6",
+        "@radix-ui/react-use-callback-ref": "1.1.2",
+        "@radix-ui/react-use-controllable-state": "1.2.3",
+        "@radix-ui/react-use-layout-effect": "1.1.2",
+        "@radix-ui/react-use-previous": "1.1.2",
+        "@radix-ui/react-visually-hidden": "1.2.6"
+      },
+      "peerDependencies": {
+        "@types/react": "*",
+        "@types/react-dom": "*",
+        "react": "^16.8 || ^17.0 || ^18.0 || ^19.0 || ^19.0.0-rc",
+        "react-dom": "^16.8 || ^17.0 || ^18.0 || ^19.0 || ^19.0.0-rc"
+      },
+      "peerDependenciesMeta": {
+        "@types/react": {
+          "optional": true
+        },
+        "@types/react-dom": {
+          "optional": true
+        }
+      }
+    },
+    "node_modules/@radix-ui/react-popover": {
+      "version": "1.1.17",
+      "resolved": "https://registry.npmjs.org/@radix-ui/react-popover/-/react-popover-1.1.17.tgz",
+      "integrity": "sha512-/YSAOdJ7YJvdn7bn5sdSx2egW+SKY+u7O5RyAVs94Ymrg2fg5QTSFPMRkzvhGyFuE4/qsmPBdrwYoZMZh/4f+g==",
+      "license": "MIT",
+      "dependencies": {
+        "@radix-ui/primitive": "1.1.4",
+        "@radix-ui/react-compose-refs": "1.1.3",
+        "@radix-ui/react-context": "1.1.4",
+        "@radix-ui/react-dismissable-layer": "1.1.13",
+        "@radix-ui/react-focus-guards": "1.1.4",
+        "@radix-ui/react-focus-scope": "1.1.10",
+        "@radix-ui/react-id": "1.1.2",
+        "@radix-ui/react-popper": "1.3.1",
+        "@radix-ui/react-portal": "1.1.12",
+        "@radix-ui/react-presence": "1.1.6",
+        "@radix-ui/react-primitive": "2.1.6",
+        "@radix-ui/react-slot": "1.3.0",
+        "@radix-ui/react-use-controllable-state": "1.2.3",
+        "aria-hidden": "^1.2.4",
+        "react-remove-scroll": "^2.7.2"
+      },
+      "peerDependencies": {
+        "@types/react": "*",
+        "@types/react-dom": "*",
+        "react": "^16.8 || ^17.0 || ^18.0 || ^19.0 || ^19.0.0-rc",
+        "react-dom": "^16.8 || ^17.0 || ^18.0 || ^19.0 || ^19.0.0-rc"
+      },
+      "peerDependenciesMeta": {
+        "@types/react": {
+          "optional": true
+        },
+        "@types/react-dom": {
+          "optional": true
+        }
+      }
+    },
+    "node_modules/@radix-ui/react-popper": {
+      "version": "1.3.1",
+      "resolved": "https://registry.npmjs.org/@radix-ui/react-popper/-/react-popper-1.3.1.tgz",
+      "integrity": "sha512-bhnq/0DEPTi2lsOD3J5rTL65qUKHbKbhqHsmN9TMiclSXpipi651ooUKPPp6G5lF/WiHBdn1s0Wuqsn+myVAvw==",
+      "license": "MIT",
+      "dependencies": {
+        "@floating-ui/react-dom": "^2.0.0",
+        "@radix-ui/react-arrow": "1.1.10",
+        "@radix-ui/react-compose-refs": "1.1.3",
+        "@radix-ui/react-context": "1.1.4",
+        "@radix-ui/react-primitive": "2.1.6",
+        "@radix-ui/react-use-callback-ref": "1.1.2",
+        "@radix-ui/react-use-layout-effect": "1.1.2",
+        "@radix-ui/react-use-rect": "1.1.2",
+        "@radix-ui/react-use-size": "1.1.2",
+        "@radix-ui/rect": "1.1.2"
+      },
+      "peerDependencies": {
+        "@types/react": "*",
+        "@types/react-dom": "*",
+        "react": "^16.8 || ^17.0 || ^18.0 || ^19.0 || ^19.0.0-rc",
+        "react-dom": "^16.8 || ^17.0 || ^18.0 || ^19.0 || ^19.0.0-rc"
+      },
+      "peerDependenciesMeta": {
+        "@types/react": {
+          "optional": true
+        },
+        "@types/react-dom": {
+          "optional": true
+        }
+      }
+    },
+    "node_modules/@radix-ui/react-portal": {
+      "version": "1.1.12",
+      "resolved": "https://registry.npmjs.org/@radix-ui/react-portal/-/react-portal-1.1.12.tgz",
+      "integrity": "sha512-m309havGzsjLHHaIX50G5PlvRs3xkgPCsGk/5PTvYm8D5q33yG0J7w/712PTOhid7NTaFETtnSXjngHQavvhVw==",
+      "license": "MIT",
+      "dependencies": {
+        "@radix-ui/react-primitive": "2.1.6",
+        "@radix-ui/react-use-layout-effect": "1.1.2"
+      },
+      "peerDependencies": {
+        "@types/react": "*",
+        "@types/react-dom": "*",
+        "react": "^16.8 || ^17.0 || ^18.0 || ^19.0 || ^19.0.0-rc",
+        "react-dom": "^16.8 || ^17.0 || ^18.0 || ^19.0 || ^19.0.0-rc"
+      },
+      "peerDependenciesMeta": {
+        "@types/react": {
+          "optional": true
+        },
+        "@types/react-dom": {
+          "optional": true
+        }
+      }
+    },
+    "node_modules/@radix-ui/react-presence": {
+      "version": "1.1.6",
+      "resolved": "https://registry.npmjs.org/@radix-ui/react-presence/-/react-presence-1.1.6.tgz",
+      "integrity": "sha512-zdTk4PlUO0E18HnZ3wYbW0KkJJxWCdiNYp6g6X1PtONFhxVkg01vliTJAmwIszU6mHiyBOoW9P0rAugl5/hULQ==",
+      "license": "MIT",
+      "dependencies": {
+        "@radix-ui/react-use-layout-effect": "1.1.2"
       },
       "peerDependencies": {
         "@types/react": "*",
@@ -1452,6 +2663,224 @@
         }
       }
     },
+    "node_modules/@radix-ui/react-progress": {
+      "version": "1.1.10",
+      "resolved": "https://registry.npmjs.org/@radix-ui/react-progress/-/react-progress-1.1.10.tgz",
+      "integrity": "sha512-JYzEg60lk79PwKM27WZyKd7PW8O4OM5jOaFfRPfOyeXmMw7tLJh5kSj+CEjVTehszuwml/AdCzPGMXBTGf4BBw==",
+      "license": "MIT",
+      "dependencies": {
+        "@radix-ui/react-context": "1.1.4",
+        "@radix-ui/react-primitive": "2.1.6"
+      },
+      "peerDependencies": {
+        "@types/react": "*",
+        "@types/react-dom": "*",
+        "react": "^16.8 || ^17.0 || ^18.0 || ^19.0 || ^19.0.0-rc",
+        "react-dom": "^16.8 || ^17.0 || ^18.0 || ^19.0 || ^19.0.0-rc"
+      },
+      "peerDependenciesMeta": {
+        "@types/react": {
+          "optional": true
+        },
+        "@types/react-dom": {
+          "optional": true
+        }
+      }
+    },
+    "node_modules/@radix-ui/react-radio-group": {
+      "version": "1.4.1",
+      "resolved": "https://registry.npmjs.org/@radix-ui/react-radio-group/-/react-radio-group-1.4.1.tgz",
+      "integrity": "sha512-/SSxZdKEo2Eo29FFRKd06EfFDYp8HryKg0WYg7QLXaydPzl52YfSvCH2a3QDBRdtcuwACroJT8UVjQVgOJ7P9A==",
+      "license": "MIT",
+      "dependencies": {
+        "@radix-ui/primitive": "1.1.4",
+        "@radix-ui/react-compose-refs": "1.1.3",
+        "@radix-ui/react-context": "1.1.4",
+        "@radix-ui/react-direction": "1.1.2",
+        "@radix-ui/react-presence": "1.1.6",
+        "@radix-ui/react-primitive": "2.1.6",
+        "@radix-ui/react-roving-focus": "1.1.13",
+        "@radix-ui/react-use-controllable-state": "1.2.3",
+        "@radix-ui/react-use-previous": "1.1.2",
+        "@radix-ui/react-use-size": "1.1.2"
+      },
+      "peerDependencies": {
+        "@types/react": "*",
+        "@types/react-dom": "*",
+        "react": "^16.8 || ^17.0 || ^18.0 || ^19.0 || ^19.0.0-rc",
+        "react-dom": "^16.8 || ^17.0 || ^18.0 || ^19.0 || ^19.0.0-rc"
+      },
+      "peerDependenciesMeta": {
+        "@types/react": {
+          "optional": true
+        },
+        "@types/react-dom": {
+          "optional": true
+        }
+      }
+    },
+    "node_modules/@radix-ui/react-roving-focus": {
+      "version": "1.1.13",
+      "resolved": "https://registry.npmjs.org/@radix-ui/react-roving-focus/-/react-roving-focus-1.1.13.tgz",
+      "integrity": "sha512-9gkwneI0guf8JDmrFxPjJF6Ozzgioyw+/lonYNCwefS9ZHA05er0BVHiXr+LbWGHxUfczvMY6G1oiZZi1VzjRw==",
+      "license": "MIT",
+      "dependencies": {
+        "@radix-ui/primitive": "1.1.4",
+        "@radix-ui/react-collection": "1.1.10",
+        "@radix-ui/react-compose-refs": "1.1.3",
+        "@radix-ui/react-context": "1.1.4",
+        "@radix-ui/react-direction": "1.1.2",
+        "@radix-ui/react-id": "1.1.2",
+        "@radix-ui/react-primitive": "2.1.6",
+        "@radix-ui/react-use-callback-ref": "1.1.2",
+        "@radix-ui/react-use-controllable-state": "1.2.3"
+      },
+      "peerDependencies": {
+        "@types/react": "*",
+        "@types/react-dom": "*",
+        "react": "^16.8 || ^17.0 || ^18.0 || ^19.0 || ^19.0.0-rc",
+        "react-dom": "^16.8 || ^17.0 || ^18.0 || ^19.0 || ^19.0.0-rc"
+      },
+      "peerDependenciesMeta": {
+        "@types/react": {
+          "optional": true
+        },
+        "@types/react-dom": {
+          "optional": true
+        }
+      }
+    },
+    "node_modules/@radix-ui/react-scroll-area": {
+      "version": "1.2.12",
+      "resolved": "https://registry.npmjs.org/@radix-ui/react-scroll-area/-/react-scroll-area-1.2.12.tgz",
+      "integrity": "sha512-xuafVzQiTCLsyEjakowTdG3OgTXsmO7IdCiO77otIa+z44xoLNs9Do5eg7POFumIOCjtG6djfm6RKUKpUa/csA==",
+      "license": "MIT",
+      "dependencies": {
+        "@radix-ui/number": "1.1.2",
+        "@radix-ui/primitive": "1.1.4",
+        "@radix-ui/react-compose-refs": "1.1.3",
+        "@radix-ui/react-context": "1.1.4",
+        "@radix-ui/react-direction": "1.1.2",
+        "@radix-ui/react-presence": "1.1.6",
+        "@radix-ui/react-primitive": "2.1.6",
+        "@radix-ui/react-use-callback-ref": "1.1.2",
+        "@radix-ui/react-use-layout-effect": "1.1.2"
+      },
+      "peerDependencies": {
+        "@types/react": "*",
+        "@types/react-dom": "*",
+        "react": "^16.8 || ^17.0 || ^18.0 || ^19.0 || ^19.0.0-rc",
+        "react-dom": "^16.8 || ^17.0 || ^18.0 || ^19.0 || ^19.0.0-rc"
+      },
+      "peerDependenciesMeta": {
+        "@types/react": {
+          "optional": true
+        },
+        "@types/react-dom": {
+          "optional": true
+        }
+      }
+    },
+    "node_modules/@radix-ui/react-select": {
+      "version": "2.3.1",
+      "resolved": "https://registry.npmjs.org/@radix-ui/react-select/-/react-select-2.3.1.tgz",
+      "integrity": "sha512-w6eDvY78LE9ZUiNnXCA1QVK8RYN7k9galFv09kjVydJqBAgHd7Y9A6h0UJ/6DCZNGZMZrB2ohcSW1Bo9d8+wWA==",
+      "license": "MIT",
+      "dependencies": {
+        "@radix-ui/number": "1.1.2",
+        "@radix-ui/primitive": "1.1.4",
+        "@radix-ui/react-collection": "1.1.10",
+        "@radix-ui/react-compose-refs": "1.1.3",
+        "@radix-ui/react-context": "1.1.4",
+        "@radix-ui/react-direction": "1.1.2",
+        "@radix-ui/react-dismissable-layer": "1.1.13",
+        "@radix-ui/react-focus-guards": "1.1.4",
+        "@radix-ui/react-focus-scope": "1.1.10",
+        "@radix-ui/react-id": "1.1.2",
+        "@radix-ui/react-popper": "1.3.1",
+        "@radix-ui/react-portal": "1.1.12",
+        "@radix-ui/react-presence": "1.1.6",
+        "@radix-ui/react-primitive": "2.1.6",
+        "@radix-ui/react-slot": "1.3.0",
+        "@radix-ui/react-use-callback-ref": "1.1.2",
+        "@radix-ui/react-use-controllable-state": "1.2.3",
+        "@radix-ui/react-use-layout-effect": "1.1.2",
+        "@radix-ui/react-use-previous": "1.1.2",
+        "@radix-ui/react-visually-hidden": "1.2.6",
+        "aria-hidden": "^1.2.4",
+        "react-remove-scroll": "^2.7.2"
+      },
+      "peerDependencies": {
+        "@types/react": "*",
+        "@types/react-dom": "*",
+        "react": "^16.8 || ^17.0 || ^18.0 || ^19.0 || ^19.0.0-rc",
+        "react-dom": "^16.8 || ^17.0 || ^18.0 || ^19.0 || ^19.0.0-rc"
+      },
+      "peerDependenciesMeta": {
+        "@types/react": {
+          "optional": true
+        },
+        "@types/react-dom": {
+          "optional": true
+        }
+      }
+    },
+    "node_modules/@radix-ui/react-separator": {
+      "version": "1.1.10",
+      "resolved": "https://registry.npmjs.org/@radix-ui/react-separator/-/react-separator-1.1.10.tgz",
+      "integrity": "sha512-Y6K6jLQCVfCnTL2MEtGxDLffkhNfEfHsEg3Wa8JU+IWdn3EWbLXd3OuOfQRN7p/W/cUce1WyTk3QeuAoDBzN9g==",
+      "license": "MIT",
+      "dependencies": {
+        "@radix-ui/react-primitive": "2.1.6"
+      },
+      "peerDependencies": {
+        "@types/react": "*",
+        "@types/react-dom": "*",
+        "react": "^16.8 || ^17.0 || ^18.0 || ^19.0 || ^19.0.0-rc",
+        "react-dom": "^16.8 || ^17.0 || ^18.0 || ^19.0 || ^19.0.0-rc"
+      },
+      "peerDependenciesMeta": {
+        "@types/react": {
+          "optional": true
+        },
+        "@types/react-dom": {
+          "optional": true
+        }
+      }
+    },
+    "node_modules/@radix-ui/react-slider": {
+      "version": "1.4.1",
+      "resolved": "https://registry.npmjs.org/@radix-ui/react-slider/-/react-slider-1.4.1.tgz",
+      "integrity": "sha512-r91WSpQucNGFKAIxT8FT0H0zyjd5tJlqObLp7LOMV4z49KoDCwjy01w3vDOU4e1wxhF9IgjYco7SB6byOW7Buw==",
+      "license": "MIT",
+      "dependencies": {
+        "@radix-ui/number": "1.1.2",
+        "@radix-ui/primitive": "1.1.4",
+        "@radix-ui/react-collection": "1.1.10",
+        "@radix-ui/react-compose-refs": "1.1.3",
+        "@radix-ui/react-context": "1.1.4",
+        "@radix-ui/react-direction": "1.1.2",
+        "@radix-ui/react-primitive": "2.1.6",
+        "@radix-ui/react-use-controllable-state": "1.2.3",
+        "@radix-ui/react-use-layout-effect": "1.1.2",
+        "@radix-ui/react-use-previous": "1.1.2",
+        "@radix-ui/react-use-size": "1.1.2"
+      },
+      "peerDependencies": {
+        "@types/react": "*",
+        "@types/react-dom": "*",
+        "react": "^16.8 || ^17.0 || ^18.0 || ^19.0 || ^19.0.0-rc",
+        "react-dom": "^16.8 || ^17.0 || ^18.0 || ^19.0 || ^19.0.0-rc"
+      },
+      "peerDependenciesMeta": {
+        "@types/react": {
+          "optional": true
+        },
+        "@types/react-dom": {
+          "optional": true
+        }
+      }
+    },
     "node_modules/@radix-ui/react-slot": {
       "version": "1.3.0",
       "resolved": "https://registry.npmjs.org/@radix-ui/react-slot/-/react-slot-1.3.0.tgz",
@@ -1469,6 +2898,367 @@
           "optional": true
         }
       }
+    },
+    "node_modules/@radix-ui/react-switch": {
+      "version": "1.3.1",
+      "resolved": "https://registry.npmjs.org/@radix-ui/react-switch/-/react-switch-1.3.1.tgz",
+      "integrity": "sha512-55bQtCnOB0BohomSHi6qvQXpJEEqUGDm6hRrM0Bph5OXwhSegqkd8IqgBAQkM1IlgUlWZIxpxRcpOEfRIgimyw==",
+      "license": "MIT",
+      "dependencies": {
+        "@radix-ui/primitive": "1.1.4",
+        "@radix-ui/react-compose-refs": "1.1.3",
+        "@radix-ui/react-context": "1.1.4",
+        "@radix-ui/react-primitive": "2.1.6",
+        "@radix-ui/react-use-controllable-state": "1.2.3",
+        "@radix-ui/react-use-previous": "1.1.2",
+        "@radix-ui/react-use-size": "1.1.2"
+      },
+      "peerDependencies": {
+        "@types/react": "*",
+        "@types/react-dom": "*",
+        "react": "^16.8 || ^17.0 || ^18.0 || ^19.0 || ^19.0.0-rc",
+        "react-dom": "^16.8 || ^17.0 || ^18.0 || ^19.0 || ^19.0.0-rc"
+      },
+      "peerDependenciesMeta": {
+        "@types/react": {
+          "optional": true
+        },
+        "@types/react-dom": {
+          "optional": true
+        }
+      }
+    },
+    "node_modules/@radix-ui/react-tabs": {
+      "version": "1.1.15",
+      "resolved": "https://registry.npmjs.org/@radix-ui/react-tabs/-/react-tabs-1.1.15.tgz",
+      "integrity": "sha512-kxc9gI6/HfcU4nfMMVS3AmQK414kbU1IE6UCJmMmxjhO3cRPXOyYnmvyKD+ODt7q56nRq9l7Wovi6uaGwKgMlg==",
+      "license": "MIT",
+      "dependencies": {
+        "@radix-ui/primitive": "1.1.4",
+        "@radix-ui/react-context": "1.1.4",
+        "@radix-ui/react-direction": "1.1.2",
+        "@radix-ui/react-id": "1.1.2",
+        "@radix-ui/react-presence": "1.1.6",
+        "@radix-ui/react-primitive": "2.1.6",
+        "@radix-ui/react-roving-focus": "1.1.13",
+        "@radix-ui/react-use-controllable-state": "1.2.3"
+      },
+      "peerDependencies": {
+        "@types/react": "*",
+        "@types/react-dom": "*",
+        "react": "^16.8 || ^17.0 || ^18.0 || ^19.0 || ^19.0.0-rc",
+        "react-dom": "^16.8 || ^17.0 || ^18.0 || ^19.0 || ^19.0.0-rc"
+      },
+      "peerDependenciesMeta": {
+        "@types/react": {
+          "optional": true
+        },
+        "@types/react-dom": {
+          "optional": true
+        }
+      }
+    },
+    "node_modules/@radix-ui/react-toast": {
+      "version": "1.2.17",
+      "resolved": "https://registry.npmjs.org/@radix-ui/react-toast/-/react-toast-1.2.17.tgz",
+      "integrity": "sha512-uL4kyyWy000pPL43fGGCV5qT6ZchCWEQZOSlkYiPwPt8Hy1iW38RjeptIvz1/SZesrW6Vn58Ct3sV7tfEfiAbw==",
+      "license": "MIT",
+      "dependencies": {
+        "@radix-ui/primitive": "1.1.4",
+        "@radix-ui/react-collection": "1.1.10",
+        "@radix-ui/react-compose-refs": "1.1.3",
+        "@radix-ui/react-context": "1.1.4",
+        "@radix-ui/react-dismissable-layer": "1.1.13",
+        "@radix-ui/react-portal": "1.1.12",
+        "@radix-ui/react-presence": "1.1.6",
+        "@radix-ui/react-primitive": "2.1.6",
+        "@radix-ui/react-use-callback-ref": "1.1.2",
+        "@radix-ui/react-use-controllable-state": "1.2.3",
+        "@radix-ui/react-use-layout-effect": "1.1.2",
+        "@radix-ui/react-visually-hidden": "1.2.6"
+      },
+      "peerDependencies": {
+        "@types/react": "*",
+        "@types/react-dom": "*",
+        "react": "^16.8 || ^17.0 || ^18.0 || ^19.0 || ^19.0.0-rc",
+        "react-dom": "^16.8 || ^17.0 || ^18.0 || ^19.0 || ^19.0.0-rc"
+      },
+      "peerDependenciesMeta": {
+        "@types/react": {
+          "optional": true
+        },
+        "@types/react-dom": {
+          "optional": true
+        }
+      }
+    },
+    "node_modules/@radix-ui/react-toggle": {
+      "version": "1.1.12",
+      "resolved": "https://registry.npmjs.org/@radix-ui/react-toggle/-/react-toggle-1.1.12.tgz",
+      "integrity": "sha512-AsAVsYNZIlRBsci7BhE+QyQeKd1h6TffJYt+lF0QQkd5OpQ3klfIByPsCb4G0h/Fq6PJwh1FYNluzBFYzhk4+w==",
+      "license": "MIT",
+      "dependencies": {
+        "@radix-ui/primitive": "1.1.4",
+        "@radix-ui/react-primitive": "2.1.6",
+        "@radix-ui/react-use-controllable-state": "1.2.3"
+      },
+      "peerDependencies": {
+        "@types/react": "*",
+        "@types/react-dom": "*",
+        "react": "^16.8 || ^17.0 || ^18.0 || ^19.0 || ^19.0.0-rc",
+        "react-dom": "^16.8 || ^17.0 || ^18.0 || ^19.0 || ^19.0.0-rc"
+      },
+      "peerDependenciesMeta": {
+        "@types/react": {
+          "optional": true
+        },
+        "@types/react-dom": {
+          "optional": true
+        }
+      }
+    },
+    "node_modules/@radix-ui/react-toggle-group": {
+      "version": "1.1.13",
+      "resolved": "https://registry.npmjs.org/@radix-ui/react-toggle-group/-/react-toggle-group-1.1.13.tgz",
+      "integrity": "sha512-Xb9PLtlvU66F36LiKba6dFswu6V2mDkgidO4fNSbQHQwmZ9ObxMIO17MN/LJ4aWJecVuSVLAHPZjyeMzJrgeiA==",
+      "license": "MIT",
+      "dependencies": {
+        "@radix-ui/primitive": "1.1.4",
+        "@radix-ui/react-context": "1.1.4",
+        "@radix-ui/react-direction": "1.1.2",
+        "@radix-ui/react-primitive": "2.1.6",
+        "@radix-ui/react-roving-focus": "1.1.13",
+        "@radix-ui/react-toggle": "1.1.12",
+        "@radix-ui/react-use-controllable-state": "1.2.3"
+      },
+      "peerDependencies": {
+        "@types/react": "*",
+        "@types/react-dom": "*",
+        "react": "^16.8 || ^17.0 || ^18.0 || ^19.0 || ^19.0.0-rc",
+        "react-dom": "^16.8 || ^17.0 || ^18.0 || ^19.0 || ^19.0.0-rc"
+      },
+      "peerDependenciesMeta": {
+        "@types/react": {
+          "optional": true
+        },
+        "@types/react-dom": {
+          "optional": true
+        }
+      }
+    },
+    "node_modules/@radix-ui/react-tooltip": {
+      "version": "1.2.10",
+      "resolved": "https://registry.npmjs.org/@radix-ui/react-tooltip/-/react-tooltip-1.2.10.tgz",
+      "integrity": "sha512-NlNe8D0dWEpVfXFli90IO6X07Josx/b1iu98tDnx9Xv0HT4wLIL+m2VOheMHhK7qbp2HoTBqALEFzGyZs/levw==",
+      "license": "MIT",
+      "dependencies": {
+        "@radix-ui/primitive": "1.1.4",
+        "@radix-ui/react-compose-refs": "1.1.3",
+        "@radix-ui/react-context": "1.1.4",
+        "@radix-ui/react-dismissable-layer": "1.1.13",
+        "@radix-ui/react-id": "1.1.2",
+        "@radix-ui/react-popper": "1.3.1",
+        "@radix-ui/react-portal": "1.1.12",
+        "@radix-ui/react-presence": "1.1.6",
+        "@radix-ui/react-primitive": "2.1.6",
+        "@radix-ui/react-slot": "1.3.0",
+        "@radix-ui/react-use-controllable-state": "1.2.3",
+        "@radix-ui/react-visually-hidden": "1.2.6"
+      },
+      "peerDependencies": {
+        "@types/react": "*",
+        "@types/react-dom": "*",
+        "react": "^16.8 || ^17.0 || ^18.0 || ^19.0 || ^19.0.0-rc",
+        "react-dom": "^16.8 || ^17.0 || ^18.0 || ^19.0 || ^19.0.0-rc"
+      },
+      "peerDependenciesMeta": {
+        "@types/react": {
+          "optional": true
+        },
+        "@types/react-dom": {
+          "optional": true
+        }
+      }
+    },
+    "node_modules/@radix-ui/react-use-callback-ref": {
+      "version": "1.1.2",
+      "resolved": "https://registry.npmjs.org/@radix-ui/react-use-callback-ref/-/react-use-callback-ref-1.1.2.tgz",
+      "integrity": "sha512-xCso9j1/u8sEgP1RNHjFrXJLApL8LiqOkI1R4ywuN00rxWdYg4oQXuwKLS3i0j5NWLromUD27/4nlxj2UFVvIw==",
+      "license": "MIT",
+      "peerDependencies": {
+        "@types/react": "*",
+        "react": "^16.8 || ^17.0 || ^18.0 || ^19.0 || ^19.0.0-rc"
+      },
+      "peerDependenciesMeta": {
+        "@types/react": {
+          "optional": true
+        }
+      }
+    },
+    "node_modules/@radix-ui/react-use-controllable-state": {
+      "version": "1.2.3",
+      "resolved": "https://registry.npmjs.org/@radix-ui/react-use-controllable-state/-/react-use-controllable-state-1.2.3.tgz",
+      "integrity": "sha512-PLzC90MS+ReootmjC597dvopoelpZ8Q61HJkDXZSExitIq7PL55vHNnesAHwguHK0aPfBnpdNzQtv1uliaqQrA==",
+      "license": "MIT",
+      "dependencies": {
+        "@radix-ui/react-use-effect-event": "0.0.3",
+        "@radix-ui/react-use-layout-effect": "1.1.2"
+      },
+      "peerDependencies": {
+        "@types/react": "*",
+        "react": "^16.8 || ^17.0 || ^18.0 || ^19.0 || ^19.0.0-rc"
+      },
+      "peerDependenciesMeta": {
+        "@types/react": {
+          "optional": true
+        }
+      }
+    },
+    "node_modules/@radix-ui/react-use-effect-event": {
+      "version": "0.0.3",
+      "resolved": "https://registry.npmjs.org/@radix-ui/react-use-effect-event/-/react-use-effect-event-0.0.3.tgz",
+      "integrity": "sha512-6c8ZqvPTWILEKnyVkP53EGRCcpnJiKTC21sS/6R1GF5xKyHJJWQEPfkqlcgUkdRQivd6tb23abUwe4ngWmY0JA==",
+      "license": "MIT",
+      "dependencies": {
+        "@radix-ui/react-use-layout-effect": "1.1.2"
+      },
+      "peerDependencies": {
+        "@types/react": "*",
+        "react": "^16.8 || ^17.0 || ^18.0 || ^19.0 || ^19.0.0-rc"
+      },
+      "peerDependenciesMeta": {
+        "@types/react": {
+          "optional": true
+        }
+      }
+    },
+    "node_modules/@radix-ui/react-use-escape-keydown": {
+      "version": "1.1.2",
+      "resolved": "https://registry.npmjs.org/@radix-ui/react-use-escape-keydown/-/react-use-escape-keydown-1.1.2.tgz",
+      "integrity": "sha512-2uVLvLjgO7NZCWw01/FdqRwmA42J0BcjPMUCA+koFEOAb+zjqIP7SiFz/7zWPrKnVmSqr76Omq2ALyCuX4dhLw==",
+      "license": "MIT",
+      "dependencies": {
+        "@radix-ui/react-use-callback-ref": "1.1.2"
+      },
+      "peerDependencies": {
+        "@types/react": "*",
+        "react": "^16.8 || ^17.0 || ^18.0 || ^19.0 || ^19.0.0-rc"
+      },
+      "peerDependenciesMeta": {
+        "@types/react": {
+          "optional": true
+        }
+      }
+    },
+    "node_modules/@radix-ui/react-use-is-hydrated": {
+      "version": "0.1.1",
+      "resolved": "https://registry.npmjs.org/@radix-ui/react-use-is-hydrated/-/react-use-is-hydrated-0.1.1.tgz",
+      "integrity": "sha512-qwOiz4Tjo8CNnrOLAYUMXeZwDzXgXpvK4TKQPmWLECM9XoWvA6+0Z2/7Ag3A4ivjS4ovbLJPbskkxioFyBhr8A==",
+      "license": "MIT",
+      "peerDependencies": {
+        "@types/react": "*",
+        "react": "^16.8 || ^17.0 || ^18.0 || ^19.0 || ^19.0.0-rc"
+      },
+      "peerDependenciesMeta": {
+        "@types/react": {
+          "optional": true
+        }
+      }
+    },
+    "node_modules/@radix-ui/react-use-layout-effect": {
+      "version": "1.1.2",
+      "resolved": "https://registry.npmjs.org/@radix-ui/react-use-layout-effect/-/react-use-layout-effect-1.1.2.tgz",
+      "integrity": "sha512-jrBWOxZITuGcnjRCM2t2U5ZPkCLxD+Ym6DjfssS5haTj2iiak/DOb64JeN6OdLfLgptb6/e2kKR+ZuTrGoZTPA==",
+      "license": "MIT",
+      "peerDependencies": {
+        "@types/react": "*",
+        "react": "^16.8 || ^17.0 || ^18.0 || ^19.0 || ^19.0.0-rc"
+      },
+      "peerDependenciesMeta": {
+        "@types/react": {
+          "optional": true
+        }
+      }
+    },
+    "node_modules/@radix-ui/react-use-previous": {
+      "version": "1.1.2",
+      "resolved": "https://registry.npmjs.org/@radix-ui/react-use-previous/-/react-use-previous-1.1.2.tgz",
+      "integrity": "sha512-IGBQPtRFdhN6MQ8dbegVmBq1LVZluya3F1jWY+puIcQC3MHctRwTDSBWCkL/3ZcnMJLTMJ++Z+ktmvg0F89iCw==",
+      "license": "MIT",
+      "peerDependencies": {
+        "@types/react": "*",
+        "react": "^16.8 || ^17.0 || ^18.0 || ^19.0 || ^19.0.0-rc"
+      },
+      "peerDependenciesMeta": {
+        "@types/react": {
+          "optional": true
+        }
+      }
+    },
+    "node_modules/@radix-ui/react-use-rect": {
+      "version": "1.1.2",
+      "resolved": "https://registry.npmjs.org/@radix-ui/react-use-rect/-/react-use-rect-1.1.2.tgz",
+      "integrity": "sha512-d8a+bBY/FxikNPlgJJoaBHZX+zKVbWHYJGTLnLvveQgFSTntkGdEKv3JDtHrMS0DNYpllz2nRsTLGLKYttbpmw==",
+      "license": "MIT",
+      "dependencies": {
+        "@radix-ui/rect": "1.1.2"
+      },
+      "peerDependencies": {
+        "@types/react": "*",
+        "react": "^16.8 || ^17.0 || ^18.0 || ^19.0 || ^19.0.0-rc"
+      },
+      "peerDependenciesMeta": {
+        "@types/react": {
+          "optional": true
+        }
+      }
+    },
+    "node_modules/@radix-ui/react-use-size": {
+      "version": "1.1.2",
+      "resolved": "https://registry.npmjs.org/@radix-ui/react-use-size/-/react-use-size-1.1.2.tgz",
+      "integrity": "sha512-giWQp+4mxjBPt4KZ0MmyuykFNWfbDxKt4x+fPkRYmgRFJSbCZFzUglvMb/Kjn38tm10YP4ufiQZDx3zna4LU6w==",
+      "license": "MIT",
+      "dependencies": {
+        "@radix-ui/react-use-layout-effect": "1.1.2"
+      },
+      "peerDependencies": {
+        "@types/react": "*",
+        "react": "^16.8 || ^17.0 || ^18.0 || ^19.0 || ^19.0.0-rc"
+      },
+      "peerDependenciesMeta": {
+        "@types/react": {
+          "optional": true
+        }
+      }
+    },
+    "node_modules/@radix-ui/react-visually-hidden": {
+      "version": "1.2.6",
+      "resolved": "https://registry.npmjs.org/@radix-ui/react-visually-hidden/-/react-visually-hidden-1.2.6.tgz",
+      "integrity": "sha512-jCE0WljWifTI4niIMCll06kGpsJTAPiZVU9H4WR1N6qW7At9ystHbN7dDB+we2xH535roFHj7qKS+RGj0FMDWQ==",
+      "license": "MIT",
+      "dependencies": {
+        "@radix-ui/react-primitive": "2.1.6"
+      },
+      "peerDependencies": {
+        "@types/react": "*",
+        "@types/react-dom": "*",
+        "react": "^16.8 || ^17.0 || ^18.0 || ^19.0 || ^19.0.0-rc",
+        "react-dom": "^16.8 || ^17.0 || ^18.0 || ^19.0 || ^19.0.0-rc"
+      },
+      "peerDependenciesMeta": {
+        "@types/react": {
+          "optional": true
+        },
+        "@types/react-dom": {
+          "optional": true
+        }
+      }
+    },
+    "node_modules/@radix-ui/rect": {
+      "version": "1.1.2",
+      "resolved": "https://registry.npmjs.org/@radix-ui/rect/-/rect-1.1.2.tgz",
+      "integrity": "sha512-xnXE7wG13PI+cxieVssYXlQJuYVRhH9NBoxt3KNwzghDIA69GMm7d4wXRouHIYjE+KvS6U/MsMO73NdS2MH9ZA==",
+      "license": "MIT"
     },
     "node_modules/@rtsao/scc": {
       "version": "1.1.0",
@@ -1769,6 +3559,32 @@
         "tailwindcss": "4.3.1"
       }
     },
+    "node_modules/@tanstack/query-core": {
+      "version": "5.101.1",
+      "resolved": "https://registry.npmjs.org/@tanstack/query-core/-/query-core-5.101.1.tgz",
+      "integrity": "sha512-Y6Y92dkXtNqx67m2pMSxUsA3zOCwv862JexZRP8/EPwvKXMPu9m8rv43spiXWzOUIggQ3SQApttALStzhA8B4g==",
+      "license": "MIT",
+      "funding": {
+        "type": "github",
+        "url": "https://github.com/sponsors/tannerlinsley"
+      }
+    },
+    "node_modules/@tanstack/react-query": {
+      "version": "5.101.1",
+      "resolved": "https://registry.npmjs.org/@tanstack/react-query/-/react-query-5.101.1.tgz",
+      "integrity": "sha512-ZnONUuQKJe1bJMStXUL1s5uKN9FcfC28j5cK+iDZcdSHtUv1wtin1cGc/Oewhf2Oc4eKY7lggtpvT/AbMmhHew==",
+      "license": "MIT",
+      "dependencies": {
+        "@tanstack/query-core": "5.101.1"
+      },
+      "funding": {
+        "type": "github",
+        "url": "https://github.com/sponsors/tannerlinsley"
+      },
+      "peerDependencies": {
+        "react": "^18 || ^19"
+      }
+    },
     "node_modules/@tybys/wasm-util": {
       "version": "0.10.3",
       "resolved": "https://registry.npmjs.org/@tybys/wasm-util/-/wasm-util-0.10.3.tgz",
@@ -1780,11 +3596,67 @@
         "tslib": "^2.4.0"
       }
     },
-    "node_modules/@types/bcryptjs": {
-      "version": "2.4.6",
-      "resolved": "https://registry.npmjs.org/@types/bcryptjs/-/bcryptjs-2.4.6.tgz",
-      "integrity": "sha512-9xlo6R2qDs5uixm0bcIqCeMCE6HiQsIyel9KQySStiyqNl2tnj2mP3DX1Nf56MD6KMenNNlBBsy3LJ7gUEQPXQ==",
-      "dev": true,
+    "node_modules/@types/d3-array": {
+      "version": "3.2.2",
+      "resolved": "https://registry.npmjs.org/@types/d3-array/-/d3-array-3.2.2.tgz",
+      "integrity": "sha512-hOLWVbm7uRza0BYXpIIW5pxfrKe0W+D5lrFiAEYR+pb6w3N2SwSMaJbXdUfSEv+dT4MfHBLtn5js0LAWaO6otw==",
+      "license": "MIT"
+    },
+    "node_modules/@types/d3-color": {
+      "version": "3.1.3",
+      "resolved": "https://registry.npmjs.org/@types/d3-color/-/d3-color-3.1.3.tgz",
+      "integrity": "sha512-iO90scth9WAbmgv7ogoq57O9YpKmFBbmoEoCHDB2xMBY0+/KVrqAaCDyCE16dUspeOvIxFFRI+0sEtqDqy2b4A==",
+      "license": "MIT"
+    },
+    "node_modules/@types/d3-ease": {
+      "version": "3.0.2",
+      "resolved": "https://registry.npmjs.org/@types/d3-ease/-/d3-ease-3.0.2.tgz",
+      "integrity": "sha512-NcV1JjO5oDzoK26oMzbILE6HW7uVXOHLQvHshBUW4UMdZGfiY6v5BeQwh9a9tCzv+CeefZQHJt5SRgK154RtiA==",
+      "license": "MIT"
+    },
+    "node_modules/@types/d3-interpolate": {
+      "version": "3.0.4",
+      "resolved": "https://registry.npmjs.org/@types/d3-interpolate/-/d3-interpolate-3.0.4.tgz",
+      "integrity": "sha512-mgLPETlrpVV1YRJIglr4Ez47g7Yxjl1lj7YKsiMCb27VJH9W8NVM6Bb9d8kkpG/uAQS5AmbA48q2IAolKKo1MA==",
+      "license": "MIT",
+      "dependencies": {
+        "@types/d3-color": "*"
+      }
+    },
+    "node_modules/@types/d3-path": {
+      "version": "3.1.1",
+      "resolved": "https://registry.npmjs.org/@types/d3-path/-/d3-path-3.1.1.tgz",
+      "integrity": "sha512-VMZBYyQvbGmWyWVea0EHs/BwLgxc+MKi1zLDCONksozI4YJMcTt8ZEuIR4Sb1MMTE8MMW49v0IwI5+b7RmfWlg==",
+      "license": "MIT"
+    },
+    "node_modules/@types/d3-scale": {
+      "version": "4.0.9",
+      "resolved": "https://registry.npmjs.org/@types/d3-scale/-/d3-scale-4.0.9.tgz",
+      "integrity": "sha512-dLmtwB8zkAeO/juAMfnV+sItKjlsw2lKdZVVy6LRr0cBmegxSABiLEpGVmSJJ8O08i4+sGR6qQtb6WtuwJdvVw==",
+      "license": "MIT",
+      "dependencies": {
+        "@types/d3-time": "*"
+      }
+    },
+    "node_modules/@types/d3-shape": {
+      "version": "3.1.8",
+      "resolved": "https://registry.npmjs.org/@types/d3-shape/-/d3-shape-3.1.8.tgz",
+      "integrity": "sha512-lae0iWfcDeR7qt7rA88BNiqdvPS5pFVPpo5OfjElwNaT2yyekbM0C9vK+yqBqEmHr6lDkRnYNoTBYlAgJa7a4w==",
+      "license": "MIT",
+      "dependencies": {
+        "@types/d3-path": "*"
+      }
+    },
+    "node_modules/@types/d3-time": {
+      "version": "3.0.4",
+      "resolved": "https://registry.npmjs.org/@types/d3-time/-/d3-time-3.0.4.tgz",
+      "integrity": "sha512-yuzZug1nkAAaBlBBikKZTgzCeA+k1uy4ZFwWANOfKw5z5LRhV0gNA7gNkKm7HoK+HRN0wX3EkxGk0fpbWhmB7g==",
+      "license": "MIT"
+    },
+    "node_modules/@types/d3-timer": {
+      "version": "3.0.2",
+      "resolved": "https://registry.npmjs.org/@types/d3-timer/-/d3-timer-3.0.2.tgz",
+      "integrity": "sha512-Ps3T8E8dZDam6fUyNiMkekK3XUsaUEik+idO9/YjPtfj2qruF8tFBXS7XhtE4iIXBLxhmLjP3SXpLhVf21I9Lw==",
       "license": "MIT"
     },
     "node_modules/@types/estree": {
@@ -2517,6 +4389,18 @@
       "dev": true,
       "license": "Python-2.0"
     },
+    "node_modules/aria-hidden": {
+      "version": "1.2.6",
+      "resolved": "https://registry.npmjs.org/aria-hidden/-/aria-hidden-1.2.6.tgz",
+      "integrity": "sha512-ik3ZgC9dY/lYVVM++OISsaYDeg1tb0VtP5uL3ouh1koGOaUMDPpbFIei4JkFimWUFPn90sbMNMXQAIVOlnYKJA==",
+      "license": "MIT",
+      "dependencies": {
+        "tslib": "^2.0.0"
+      },
+      "engines": {
+        "node": ">=10"
+      }
+    },
     "node_modules/aria-query": {
       "version": "5.3.2",
       "resolved": "https://registry.npmjs.org/aria-query/-/aria-query-5.3.2.tgz",
@@ -2759,15 +4643,6 @@
         "node": ">=6.0.0"
       }
     },
-    "node_modules/bcryptjs": {
-      "version": "3.0.3",
-      "resolved": "https://registry.npmjs.org/bcryptjs/-/bcryptjs-3.0.3.tgz",
-      "integrity": "sha512-GlF5wPWnSa/X5LKM1o0wz0suXIINz1iHRLvTS+sLyi7XPbe5ycmYI3DlZqVGZZtDgl4DmasFg7gOB3JYbphV5g==",
-      "license": "BSD-3-Clause",
-      "bin": {
-        "bcrypt": "bin/bcrypt"
-      }
-    },
     "node_modules/brace-expansion": {
       "version": "1.1.15",
       "resolved": "https://registry.npmjs.org/brace-expansion/-/brace-expansion-1.1.15.tgz",
@@ -3002,6 +4877,22 @@
         "node": ">=6"
       }
     },
+    "node_modules/cmdk": {
+      "version": "1.1.1",
+      "resolved": "https://registry.npmjs.org/cmdk/-/cmdk-1.1.1.tgz",
+      "integrity": "sha512-Vsv7kFaXm+ptHDMZ7izaRsP70GgrW9NBNGswt9OZaVBLlE0SNpDq8eu/VGXyF9r7M0azK3Wy7OlYXsuyYLFzHg==",
+      "license": "MIT",
+      "dependencies": {
+        "@radix-ui/react-compose-refs": "^1.1.1",
+        "@radix-ui/react-dialog": "^1.1.6",
+        "@radix-ui/react-id": "^1.1.0",
+        "@radix-ui/react-primitive": "^2.0.2"
+      },
+      "peerDependencies": {
+        "react": "^18 || ^19 || ^19.0.0-rc",
+        "react-dom": "^18 || ^19 || ^19.0.0-rc"
+      }
+    },
     "node_modules/color-convert": {
       "version": "2.0.1",
       "resolved": "https://registry.npmjs.org/color-convert/-/color-convert-2.0.1.tgz",
@@ -3070,8 +4961,128 @@
       "version": "3.2.3",
       "resolved": "https://registry.npmjs.org/csstype/-/csstype-3.2.3.tgz",
       "integrity": "sha512-z1HGKcYy2xA8AGQfwrn0PAy+PB7X/GSj3UVJW9qKyn43xWa+gl5nXmU4qqLMRzWVLFC8KusUX8T/0kCiOYpAIQ==",
-      "devOptional": true,
       "license": "MIT"
+    },
+    "node_modules/d3-array": {
+      "version": "3.2.4",
+      "resolved": "https://registry.npmjs.org/d3-array/-/d3-array-3.2.4.tgz",
+      "integrity": "sha512-tdQAmyA18i4J7wprpYq8ClcxZy3SC31QMeByyCFyRt7BVHdREQZ5lpzoe5mFEYZUWe+oq8HBvk9JjpibyEV4Jg==",
+      "license": "ISC",
+      "dependencies": {
+        "internmap": "1 - 2"
+      },
+      "engines": {
+        "node": ">=12"
+      }
+    },
+    "node_modules/d3-color": {
+      "version": "3.1.0",
+      "resolved": "https://registry.npmjs.org/d3-color/-/d3-color-3.1.0.tgz",
+      "integrity": "sha512-zg/chbXyeBtMQ1LbD/WSoW2DpC3I0mpmPdW+ynRTj/x2DAWYrIY7qeZIHidozwV24m4iavr15lNwIwLxRmOxhA==",
+      "license": "ISC",
+      "engines": {
+        "node": ">=12"
+      }
+    },
+    "node_modules/d3-ease": {
+      "version": "3.0.1",
+      "resolved": "https://registry.npmjs.org/d3-ease/-/d3-ease-3.0.1.tgz",
+      "integrity": "sha512-wR/XK3D3XcLIZwpbvQwQ5fK+8Ykds1ip7A2Txe0yxncXSdq1L9skcG7blcedkOX+ZcgxGAmLX1FrRGbADwzi0w==",
+      "license": "BSD-3-Clause",
+      "engines": {
+        "node": ">=12"
+      }
+    },
+    "node_modules/d3-format": {
+      "version": "3.1.2",
+      "resolved": "https://registry.npmjs.org/d3-format/-/d3-format-3.1.2.tgz",
+      "integrity": "sha512-AJDdYOdnyRDV5b6ArilzCPPwc1ejkHcoyFarqlPqT7zRYjhavcT3uSrqcMvsgh2CgoPbK3RCwyHaVyxYcP2Arg==",
+      "license": "ISC",
+      "engines": {
+        "node": ">=12"
+      }
+    },
+    "node_modules/d3-interpolate": {
+      "version": "3.0.1",
+      "resolved": "https://registry.npmjs.org/d3-interpolate/-/d3-interpolate-3.0.1.tgz",
+      "integrity": "sha512-3bYs1rOD33uo8aqJfKP3JWPAibgw8Zm2+L9vBKEHJ2Rg+viTR7o5Mmv5mZcieN+FRYaAOWX5SJATX6k1PWz72g==",
+      "license": "ISC",
+      "dependencies": {
+        "d3-color": "1 - 3"
+      },
+      "engines": {
+        "node": ">=12"
+      }
+    },
+    "node_modules/d3-path": {
+      "version": "3.1.0",
+      "resolved": "https://registry.npmjs.org/d3-path/-/d3-path-3.1.0.tgz",
+      "integrity": "sha512-p3KP5HCf/bvjBSSKuXid6Zqijx7wIfNW+J/maPs+iwR35at5JCbLUT0LzF1cnjbCHWhqzQTIN2Jpe8pRebIEFQ==",
+      "license": "ISC",
+      "engines": {
+        "node": ">=12"
+      }
+    },
+    "node_modules/d3-scale": {
+      "version": "4.0.2",
+      "resolved": "https://registry.npmjs.org/d3-scale/-/d3-scale-4.0.2.tgz",
+      "integrity": "sha512-GZW464g1SH7ag3Y7hXjf8RoUuAFIqklOAq3MRl4OaWabTFJY9PN/E1YklhXLh+OQ3fM9yS2nOkCoS+WLZ6kvxQ==",
+      "license": "ISC",
+      "dependencies": {
+        "d3-array": "2.10.0 - 3",
+        "d3-format": "1 - 3",
+        "d3-interpolate": "1.2.0 - 3",
+        "d3-time": "2.1.1 - 3",
+        "d3-time-format": "2 - 4"
+      },
+      "engines": {
+        "node": ">=12"
+      }
+    },
+    "node_modules/d3-shape": {
+      "version": "3.2.0",
+      "resolved": "https://registry.npmjs.org/d3-shape/-/d3-shape-3.2.0.tgz",
+      "integrity": "sha512-SaLBuwGm3MOViRq2ABk3eLoxwZELpH6zhl3FbAoJ7Vm1gofKx6El1Ib5z23NUEhF9AsGl7y+dzLe5Cw2AArGTA==",
+      "license": "ISC",
+      "dependencies": {
+        "d3-path": "^3.1.0"
+      },
+      "engines": {
+        "node": ">=12"
+      }
+    },
+    "node_modules/d3-time": {
+      "version": "3.1.0",
+      "resolved": "https://registry.npmjs.org/d3-time/-/d3-time-3.1.0.tgz",
+      "integrity": "sha512-VqKjzBLejbSMT4IgbmVgDjpkYrNWUYJnbCGo874u7MMKIWsILRX+OpX/gTk8MqjpT1A/c6HY2dCA77ZN0lkQ2Q==",
+      "license": "ISC",
+      "dependencies": {
+        "d3-array": "2 - 3"
+      },
+      "engines": {
+        "node": ">=12"
+      }
+    },
+    "node_modules/d3-time-format": {
+      "version": "4.1.0",
+      "resolved": "https://registry.npmjs.org/d3-time-format/-/d3-time-format-4.1.0.tgz",
+      "integrity": "sha512-dJxPBlzC7NugB2PDLwo9Q8JiTR3M3e4/XANkreKSUxF8vvXKqm1Yfq4Q5dl8budlunRVlUUaDUgFt7eA8D6NLg==",
+      "license": "ISC",
+      "dependencies": {
+        "d3-time": "1 - 3"
+      },
+      "engines": {
+        "node": ">=12"
+      }
+    },
+    "node_modules/d3-timer": {
+      "version": "3.0.1",
+      "resolved": "https://registry.npmjs.org/d3-timer/-/d3-timer-3.0.1.tgz",
+      "integrity": "sha512-ndfJ/JxxMd3nw31uyKoY2naivF+r29V+Lc0svZxe1JvvIRmi8hUsrMvdOwgS1o6uBHmiz91geQ0ylPP0aj1VUA==",
+      "license": "ISC",
+      "engines": {
+        "node": ">=12"
+      }
     },
     "node_modules/damerau-levenshtein": {
       "version": "1.0.8",
@@ -3134,6 +5145,16 @@
         "url": "https://github.com/sponsors/ljharb"
       }
     },
+    "node_modules/date-fns": {
+      "version": "4.4.0",
+      "resolved": "https://registry.npmjs.org/date-fns/-/date-fns-4.4.0.tgz",
+      "integrity": "sha512-+1UMbeh68lH1SegH83CGWwpb6OHHbpSgr3+s5Eww5M4CAgswBpoWS0AjTOfEJ33HiYKz1hdj/KTFprzXHmq/6w==",
+      "license": "MIT",
+      "funding": {
+        "type": "github",
+        "url": "https://github.com/sponsors/kossnocorp"
+      }
+    },
     "node_modules/debug": {
       "version": "4.4.3",
       "resolved": "https://registry.npmjs.org/debug/-/debug-4.4.3.tgz",
@@ -3151,6 +5172,12 @@
           "optional": true
         }
       }
+    },
+    "node_modules/decimal.js-light": {
+      "version": "2.5.1",
+      "resolved": "https://registry.npmjs.org/decimal.js-light/-/decimal.js-light-2.5.1.tgz",
+      "integrity": "sha512-qIMFpTMZmny+MMIitAB6D7iVPEorVw6YQRWkvarTkT4tBeSLLiHzcwj6q0MmYSFCiVpiqPJTJEYIrpcPzVEIvg==",
+      "license": "MIT"
     },
     "node_modules/deep-is": {
       "version": "0.1.4",
@@ -3226,6 +5253,12 @@
         "node": ">=8"
       }
     },
+    "node_modules/detect-node-es": {
+      "version": "1.1.0",
+      "resolved": "https://registry.npmjs.org/detect-node-es/-/detect-node-es-1.1.0.tgz",
+      "integrity": "sha512-ypdmJU/TbBby2Dxibuv7ZLW3Bs1QEmM7nHjEANfohJLvE0XVujisn1qPJcZxg+qDucsr+bP6fLD1rPS3AhJ7EQ==",
+      "license": "MIT"
+    },
     "node_modules/doctrine": {
       "version": "2.1.0",
       "resolved": "https://registry.npmjs.org/doctrine/-/doctrine-2.1.0.tgz",
@@ -3237,6 +5270,16 @@
       },
       "engines": {
         "node": ">=0.10.0"
+      }
+    },
+    "node_modules/dom-helpers": {
+      "version": "5.2.1",
+      "resolved": "https://registry.npmjs.org/dom-helpers/-/dom-helpers-5.2.1.tgz",
+      "integrity": "sha512-nRCa7CK3VTrM2NmGkIy4cbK7IZlgBE/PYMn55rrXefr5xXDP0LdtfPnblFDoVdcAfslJ7or6iqAUnx0CCGIWQA==",
+      "license": "MIT",
+      "dependencies": {
+        "@babel/runtime": "^7.8.7",
+        "csstype": "^3.0.2"
       }
     },
     "node_modules/dotenv": {
@@ -3282,6 +5325,34 @@
       "integrity": "sha512-v/qV5aV5EUA2pGilzUCq5/eyOloZAqDZBu9UMBIzgPpLlprjSR6zswsWBTv0KpqxLGUAZEwhO95ZCt7srymNVA==",
       "dev": true,
       "license": "ISC"
+    },
+    "node_modules/embla-carousel": {
+      "version": "8.6.0",
+      "resolved": "https://registry.npmjs.org/embla-carousel/-/embla-carousel-8.6.0.tgz",
+      "integrity": "sha512-SjWyZBHJPbqxHOzckOfo8lHisEaJWmwd23XppYFYVh10bU66/Pn5tkVkbkCMZVdbUE5eTCI2nD8OyIP4Z+uwkA==",
+      "license": "MIT"
+    },
+    "node_modules/embla-carousel-react": {
+      "version": "8.6.0",
+      "resolved": "https://registry.npmjs.org/embla-carousel-react/-/embla-carousel-react-8.6.0.tgz",
+      "integrity": "sha512-0/PjqU7geVmo6F734pmPqpyHqiM99olvyecY7zdweCw+6tKEXnrE90pBiBbMMU8s5tICemzpQ3hi5EpxzGW+JA==",
+      "license": "MIT",
+      "dependencies": {
+        "embla-carousel": "8.6.0",
+        "embla-carousel-reactive-utils": "8.6.0"
+      },
+      "peerDependencies": {
+        "react": "^16.8.0 || ^17.0.1 || ^18.0.0 || ^19.0.0 || ^19.0.0-rc"
+      }
+    },
+    "node_modules/embla-carousel-reactive-utils": {
+      "version": "8.6.0",
+      "resolved": "https://registry.npmjs.org/embla-carousel-reactive-utils/-/embla-carousel-reactive-utils-8.6.0.tgz",
+      "integrity": "sha512-fMVUDUEx0/uIEDM0Mz3dHznDhfX+znCCDCeIophYb1QGVM7YThSWX+wz11zlYwWFOr74b4QLGg0hrGPJeG2s4A==",
+      "license": "MIT",
+      "peerDependencies": {
+        "embla-carousel": "8.6.0"
+      }
     },
     "node_modules/emoji-regex": {
       "version": "9.2.2",
@@ -3941,6 +6012,12 @@
         "node": ">=0.10.0"
       }
     },
+    "node_modules/eventemitter3": {
+      "version": "4.0.7",
+      "resolved": "https://registry.npmjs.org/eventemitter3/-/eventemitter3-4.0.7.tgz",
+      "integrity": "sha512-8guHBZCwKnFhYdHr2ysuRWErTwhoN2X8XELRlrRwpmfeY2jjuUN4taQMsULKUVo1K4DvZl+0pgfyoysHxvmvEw==",
+      "license": "MIT"
+    },
     "node_modules/exsolve": {
       "version": "1.1.0",
       "resolved": "https://registry.npmjs.org/exsolve/-/exsolve-1.1.0.tgz",
@@ -3975,6 +6052,15 @@
       "integrity": "sha512-f3qQ9oQy9j2AhBe/H9VC91wLmKBCCU/gDOnKNAYG5hswO7BLKj09Hc5HYNz9cGI++xlpDCIgDaitVs03ATR84Q==",
       "dev": true,
       "license": "MIT"
+    },
+    "node_modules/fast-equals": {
+      "version": "5.4.0",
+      "resolved": "https://registry.npmjs.org/fast-equals/-/fast-equals-5.4.0.tgz",
+      "integrity": "sha512-jt2DW/aNFNwke7AUd+Z+e6pz39KO5rzdbbFCg2sGafS4mk13MI7Z8O5z9cADNn5lhGODIgLwug6TZO2ctf7kcw==",
+      "license": "MIT",
+      "engines": {
+        "node": ">=6.0.0"
+      }
     },
     "node_modules/fast-glob": {
       "version": "3.3.1",
@@ -4224,6 +6310,15 @@
       },
       "funding": {
         "url": "https://github.com/sponsors/ljharb"
+      }
+    },
+    "node_modules/get-nonce": {
+      "version": "1.0.1",
+      "resolved": "https://registry.npmjs.org/get-nonce/-/get-nonce-1.0.1.tgz",
+      "integrity": "sha512-FJhYRoDaiatfEkUK8HKlicmu/3SGFD51q3itKDGoSTysQJBnfOcxU5GxnhE1E6soB76MbT0MBtnKJuXyAx+96Q==",
+      "license": "MIT",
+      "engines": {
+        "node": ">=6"
       }
     },
     "node_modules/get-proto": {
@@ -4512,6 +6607,15 @@
       },
       "engines": {
         "node": ">= 0.4"
+      }
+    },
+    "node_modules/internmap": {
+      "version": "2.0.3",
+      "resolved": "https://registry.npmjs.org/internmap/-/internmap-2.0.3.tgz",
+      "integrity": "sha512-5Hh7Y1wQbvY5ooGgPbDaL5iYLAPzMTUrjMulskHLH6wnv/A+1q5rgEaiuqEjB+oxGXIVZs1FF+R/KPN3ZSQYYg==",
+      "license": "ISC",
+      "engines": {
+        "node": ">=12"
       }
     },
     "node_modules/is-array-buffer": {
@@ -4986,20 +7090,10 @@
         "jiti": "lib/jiti-cli.mjs"
       }
     },
-    "node_modules/jose": {
-      "version": "6.2.3",
-      "resolved": "https://registry.npmjs.org/jose/-/jose-6.2.3.tgz",
-      "integrity": "sha512-YYVDInQKFJfR/xa3ojUTl8c2KoTwiL1R5Wg9YCydwH0x0B9grbzlg5HC7mMjCtUJjbQ/YnGEZIhI5tCgfTb4Hw==",
-      "license": "MIT",
-      "funding": {
-        "url": "https://github.com/sponsors/panva"
-      }
-    },
     "node_modules/js-tokens": {
       "version": "4.0.0",
       "resolved": "https://registry.npmjs.org/js-tokens/-/js-tokens-4.0.0.tgz",
       "integrity": "sha512-RdJUflcE3cUzKiMqQgsCu06FPu9UdIJO0beYbPhHN4k6apgJtifcoCtT9bcxOpYBtpD2kCM6Sbzg4CausW/PKQ==",
-      "dev": true,
       "license": "MIT"
     },
     "node_modules/js-yaml": {
@@ -5409,6 +7503,12 @@
         "url": "https://github.com/sponsors/sindresorhus"
       }
     },
+    "node_modules/lodash": {
+      "version": "4.18.1",
+      "resolved": "https://registry.npmjs.org/lodash/-/lodash-4.18.1.tgz",
+      "integrity": "sha512-dMInicTPVE8d1e5otfwmmjlxkZoUpiVLwyeTdUsi/Caj/gfzzblBcCE5sRHV/AsjuCmxWrte2TNGSYuCeCq+0Q==",
+      "license": "MIT"
+    },
     "node_modules/lodash.merge": {
       "version": "4.6.2",
       "resolved": "https://registry.npmjs.org/lodash.merge/-/lodash.merge-4.6.2.tgz",
@@ -5420,7 +7520,6 @@
       "version": "1.4.0",
       "resolved": "https://registry.npmjs.org/loose-envify/-/loose-envify-1.4.0.tgz",
       "integrity": "sha512-lyuxPGr/Wfhrlem2CL/UcnUc1zcqKAImBDzukY7Y5F/yQiNdko6+fRLevlw1HgMySw7f611UIY408EtxRSoK3Q==",
-      "dev": true,
       "license": "MIT",
       "dependencies": {
         "js-tokens": "^3.0.0 || ^4.0.0"
@@ -5631,33 +7730,6 @@
         }
       }
     },
-    "node_modules/next-auth": {
-      "version": "5.0.0-beta.31",
-      "resolved": "https://registry.npmjs.org/next-auth/-/next-auth-5.0.0-beta.31.tgz",
-      "integrity": "sha512-1OBgCKPzo+S7UWWMp3xgvGvIJ0OpV7B3vR4ZDRqD9a4Ch+OT6dakLXG9ivhtmIWVa71nTSXattOHyCg8sNi8/Q==",
-      "license": "ISC",
-      "dependencies": {
-        "@auth/core": "0.41.2"
-      },
-      "peerDependencies": {
-        "@simplewebauthn/browser": "^9.0.1",
-        "@simplewebauthn/server": "^9.0.2",
-        "next": "^14.0.0-0 || ^15.0.0 || ^16.0.0",
-        "nodemailer": "^7.0.7",
-        "react": "^18.2.0 || ^19.0.0"
-      },
-      "peerDependenciesMeta": {
-        "@simplewebauthn/browser": {
-          "optional": true
-        },
-        "@simplewebauthn/server": {
-          "optional": true
-        },
-        "nodemailer": {
-          "optional": true
-        }
-      }
-    },
     "node_modules/next/node_modules/postcss": {
       "version": "8.4.31",
       "resolved": "https://registry.npmjs.org/postcss/-/postcss-8.4.31.tgz",
@@ -5744,20 +7816,10 @@
       "integrity": "sha512-+6vJA3L98yv+IdfKGZHBNiGW5KHn22e/JwID0Strsz8h4S/csAu/OuICwxrg44k5MRiZHWIo8XXuJgQTriRP4w==",
       "license": "MIT"
     },
-    "node_modules/oauth4webapi": {
-      "version": "3.8.6",
-      "resolved": "https://registry.npmjs.org/oauth4webapi/-/oauth4webapi-3.8.6.tgz",
-      "integrity": "sha512-iwemM91xz8nryHti2yTmg5fhyEMVOkOXwHNqbvcATjyajb5oQxCQzrNOA6uElRHuMhQQTKUyFKV9y/CNyg25BQ==",
-      "license": "MIT",
-      "funding": {
-        "url": "https://github.com/sponsors/panva"
-      }
-    },
     "node_modules/object-assign": {
       "version": "4.1.1",
       "resolved": "https://registry.npmjs.org/object-assign/-/object-assign-4.1.1.tgz",
       "integrity": "sha512-rJgTQnkUnH1sFw8yT6VSU3zD3sWmu6sZhIseY8VX+GRu3P6F7Fu+JNDoXfklElbLJSnc3FUQHVe4cU5hj+BcUg==",
-      "dev": true,
       "license": "MIT",
       "engines": {
         "node": ">=0.10.0"
@@ -6071,25 +8133,6 @@
         "node": "^10 || ^12 || >=14"
       }
     },
-    "node_modules/preact": {
-      "version": "10.24.3",
-      "resolved": "https://registry.npmjs.org/preact/-/preact-10.24.3.tgz",
-      "integrity": "sha512-Z2dPnBnMUfyQfSQ+GBdsGa16hz35YmLmtTLhM169uW944hYL6xzTYkJjC07j+Wosz733pMWx0fgON3JNw1jJQA==",
-      "license": "MIT",
-      "funding": {
-        "type": "opencollective",
-        "url": "https://opencollective.com/preact"
-      }
-    },
-    "node_modules/preact-render-to-string": {
-      "version": "6.5.11",
-      "resolved": "https://registry.npmjs.org/preact-render-to-string/-/preact-render-to-string-6.5.11.tgz",
-      "integrity": "sha512-ubnauqoGczeGISiOh6RjX0/cdaF8v/oDXIjO85XALCQjwQP+SB4RDXXtvZ6yTYSjG+PC1QRP2AhPgCEsM2EvUw==",
-      "license": "MIT",
-      "peerDependencies": {
-        "preact": ">=10"
-      }
-    },
     "node_modules/prelude-ls": {
       "version": "1.2.1",
       "resolved": "https://registry.npmjs.org/prelude-ls/-/prelude-ls-1.2.1.tgz",
@@ -6129,7 +8172,6 @@
       "version": "15.8.1",
       "resolved": "https://registry.npmjs.org/prop-types/-/prop-types-15.8.1.tgz",
       "integrity": "sha512-oj87CgZICdulUohogVAR7AjlC0327U4el4L6eAvOqCeudMDVU0NThNaV+b9Df4dXgSP1gXMTnPdhfe/2qDH5cg==",
-      "dev": true,
       "license": "MIT",
       "dependencies": {
         "loose-envify": "^1.4.0",
@@ -6235,8 +8277,107 @@
       "version": "16.13.1",
       "resolved": "https://registry.npmjs.org/react-is/-/react-is-16.13.1.tgz",
       "integrity": "sha512-24e6ynE2H+OKt4kqsOvNd8kBpV65zoxbA4BVsEOB3ARVWQki/DHzaUoC5KuON/BiccDaCCTZBuOcfZs70kR8bQ==",
-      "dev": true,
       "license": "MIT"
+    },
+    "node_modules/react-remove-scroll": {
+      "version": "2.7.2",
+      "resolved": "https://registry.npmjs.org/react-remove-scroll/-/react-remove-scroll-2.7.2.tgz",
+      "integrity": "sha512-Iqb9NjCCTt6Hf+vOdNIZGdTiH1QSqr27H/Ek9sv/a97gfueI/5h1s3yRi1nngzMUaOOToin5dI1dXKdXiF+u0Q==",
+      "license": "MIT",
+      "dependencies": {
+        "react-remove-scroll-bar": "^2.3.7",
+        "react-style-singleton": "^2.2.3",
+        "tslib": "^2.1.0",
+        "use-callback-ref": "^1.3.3",
+        "use-sidecar": "^1.1.3"
+      },
+      "engines": {
+        "node": ">=10"
+      },
+      "peerDependencies": {
+        "@types/react": "*",
+        "react": "^16.8.0 || ^17.0.0 || ^18.0.0 || ^19.0.0 || ^19.0.0-rc"
+      },
+      "peerDependenciesMeta": {
+        "@types/react": {
+          "optional": true
+        }
+      }
+    },
+    "node_modules/react-remove-scroll-bar": {
+      "version": "2.3.8",
+      "resolved": "https://registry.npmjs.org/react-remove-scroll-bar/-/react-remove-scroll-bar-2.3.8.tgz",
+      "integrity": "sha512-9r+yi9+mgU33AKcj6IbT9oRCO78WriSj6t/cF8DWBZJ9aOGPOTEDvdUDz1FwKim7QXWwmHqtdHnRJfhAxEG46Q==",
+      "license": "MIT",
+      "dependencies": {
+        "react-style-singleton": "^2.2.2",
+        "tslib": "^2.0.0"
+      },
+      "engines": {
+        "node": ">=10"
+      },
+      "peerDependencies": {
+        "@types/react": "*",
+        "react": "^16.8.0 || ^17.0.0 || ^18.0.0 || ^19.0.0"
+      },
+      "peerDependenciesMeta": {
+        "@types/react": {
+          "optional": true
+        }
+      }
+    },
+    "node_modules/react-smooth": {
+      "version": "4.0.4",
+      "resolved": "https://registry.npmjs.org/react-smooth/-/react-smooth-4.0.4.tgz",
+      "integrity": "sha512-gnGKTpYwqL0Iii09gHobNolvX4Kiq4PKx6eWBCYYix+8cdw+cGo3do906l1NBPKkSWx1DghC1dlWG9L2uGd61Q==",
+      "license": "MIT",
+      "dependencies": {
+        "fast-equals": "^5.0.1",
+        "prop-types": "^15.8.1",
+        "react-transition-group": "^4.4.5"
+      },
+      "peerDependencies": {
+        "react": "^16.8.0 || ^17.0.0 || ^18.0.0 || ^19.0.0",
+        "react-dom": "^16.8.0 || ^17.0.0 || ^18.0.0 || ^19.0.0"
+      }
+    },
+    "node_modules/react-style-singleton": {
+      "version": "2.2.3",
+      "resolved": "https://registry.npmjs.org/react-style-singleton/-/react-style-singleton-2.2.3.tgz",
+      "integrity": "sha512-b6jSvxvVnyptAiLjbkWLE/lOnR4lfTtDAl+eUC7RZy+QQWc6wRzIV2CE6xBuMmDxc2qIihtDCZD5NPOFl7fRBQ==",
+      "license": "MIT",
+      "dependencies": {
+        "get-nonce": "^1.0.0",
+        "tslib": "^2.0.0"
+      },
+      "engines": {
+        "node": ">=10"
+      },
+      "peerDependencies": {
+        "@types/react": "*",
+        "react": "^16.8.0 || ^17.0.0 || ^18.0.0 || ^19.0.0 || ^19.0.0-rc"
+      },
+      "peerDependenciesMeta": {
+        "@types/react": {
+          "optional": true
+        }
+      }
+    },
+    "node_modules/react-transition-group": {
+      "version": "4.4.5",
+      "resolved": "https://registry.npmjs.org/react-transition-group/-/react-transition-group-4.4.5.tgz",
+      "integrity": "sha512-pZcd1MCJoiKiBR2NRxeCRg13uCXbydPnmB4EOeRrY7480qNWO8IIgQG6zlDkm6uRMsURXPuKq0GWtiM59a5Q6g==",
+      "license": "BSD-3-Clause",
+      "dependencies": {
+        "@babel/runtime": "^7.5.5",
+        "dom-helpers": "^5.0.1",
+        "loose-envify": "^1.4.0",
+        "prop-types": "^15.6.2"
+      },
+      "peerDependencies": {
+        "react": ">=16.6.0",
+        "react-dom": ">=16.6.0"
+      }
     },
     "node_modules/readdirp": {
       "version": "4.1.2",
@@ -6250,6 +8391,45 @@
         "type": "individual",
         "url": "https://paulmillr.com/funding/"
       }
+    },
+    "node_modules/recharts": {
+      "version": "2.15.4",
+      "resolved": "https://registry.npmjs.org/recharts/-/recharts-2.15.4.tgz",
+      "integrity": "sha512-UT/q6fwS3c1dHbXv2uFgYJ9BMFHu3fwnd7AYZaEQhXuYQ4hgsxLvsUXzGdKeZrW5xopzDCvuA2N41WJ88I7zIw==",
+      "deprecated": "1.x and 2.x branches are no longer active. Bump to Recharts v3 to receive latest features and bugfixes. See https://github.com/recharts/recharts/wiki/3.0-migration-guide",
+      "license": "MIT",
+      "dependencies": {
+        "clsx": "^2.0.0",
+        "eventemitter3": "^4.0.1",
+        "lodash": "^4.17.21",
+        "react-is": "^18.3.1",
+        "react-smooth": "^4.0.4",
+        "recharts-scale": "^0.4.4",
+        "tiny-invariant": "^1.3.1",
+        "victory-vendor": "^36.6.8"
+      },
+      "engines": {
+        "node": ">=14"
+      },
+      "peerDependencies": {
+        "react": "^16.0.0 || ^17.0.0 || ^18.0.0 || ^19.0.0",
+        "react-dom": "^16.0.0 || ^17.0.0 || ^18.0.0 || ^19.0.0"
+      }
+    },
+    "node_modules/recharts-scale": {
+      "version": "0.4.5",
+      "resolved": "https://registry.npmjs.org/recharts-scale/-/recharts-scale-0.4.5.tgz",
+      "integrity": "sha512-kivNFO+0OcUNu7jQquLXAxz1FIwZj8nrj+YkOKc5694NbjCvcT6aSZiIzNzd2Kul4o4rTto8QVR9lMNtxD4G1w==",
+      "license": "MIT",
+      "dependencies": {
+        "decimal.js-light": "^2.4.1"
+      }
+    },
+    "node_modules/recharts/node_modules/react-is": {
+      "version": "18.3.1",
+      "resolved": "https://registry.npmjs.org/react-is/-/react-is-18.3.1.tgz",
+      "integrity": "sha512-/LLMVyas0ljjAtoYiPqYiL8VWXzUUdThrmU5+n20DZv+a+ClRoevUzw5JxU+Ieh5/c87ytoTBV9G1FiKfNJdmg==",
+      "license": "MIT"
     },
     "node_modules/reflect.getprototypeof": {
       "version": "1.0.10",
@@ -6651,6 +8831,16 @@
         "url": "https://github.com/sponsors/ljharb"
       }
     },
+    "node_modules/sonner": {
+      "version": "2.0.7",
+      "resolved": "https://registry.npmjs.org/sonner/-/sonner-2.0.7.tgz",
+      "integrity": "sha512-W6ZN4p58k8aDKA4XPcx2hpIQXBRAgyiWVkYhT7CvK6D3iAu7xjvVyhQHg2/iaKJZ1XVJ4r7XuwGL+WGEK37i9w==",
+      "license": "MIT",
+      "peerDependencies": {
+        "react": "^18.0.0 || ^19.0.0 || ^19.0.0-rc",
+        "react-dom": "^18.0.0 || ^19.0.0 || ^19.0.0-rc"
+      }
+    },
     "node_modules/source-map-js": {
       "version": "1.2.1",
       "resolved": "https://registry.npmjs.org/source-map-js/-/source-map-js-1.2.1.tgz",
@@ -6905,6 +9095,12 @@
         "type": "opencollective",
         "url": "https://opencollective.com/webpack"
       }
+    },
+    "node_modules/tiny-invariant": {
+      "version": "1.3.3",
+      "resolved": "https://registry.npmjs.org/tiny-invariant/-/tiny-invariant-1.3.3.tgz",
+      "integrity": "sha512-+FbBPE1o9QAYvviau/qC5SE3caw21q3xkvWKBtja5vgqOWIHHJ3ioaq1VPfn/Szqctz2bU/oYeKd9/z5BL+PVg==",
+      "license": "MIT"
     },
     "node_modules/tinyexec": {
       "version": "1.2.4",
@@ -7256,6 +9452,49 @@
         "punycode": "^2.1.0"
       }
     },
+    "node_modules/use-callback-ref": {
+      "version": "1.3.3",
+      "resolved": "https://registry.npmjs.org/use-callback-ref/-/use-callback-ref-1.3.3.tgz",
+      "integrity": "sha512-jQL3lRnocaFtu3V00JToYz/4QkNWswxijDaCVNZRiRTO3HQDLsdu1ZtmIUvV4yPp+rvWm5j0y0TG/S61cuijTg==",
+      "license": "MIT",
+      "dependencies": {
+        "tslib": "^2.0.0"
+      },
+      "engines": {
+        "node": ">=10"
+      },
+      "peerDependencies": {
+        "@types/react": "*",
+        "react": "^16.8.0 || ^17.0.0 || ^18.0.0 || ^19.0.0 || ^19.0.0-rc"
+      },
+      "peerDependenciesMeta": {
+        "@types/react": {
+          "optional": true
+        }
+      }
+    },
+    "node_modules/use-sidecar": {
+      "version": "1.1.3",
+      "resolved": "https://registry.npmjs.org/use-sidecar/-/use-sidecar-1.1.3.tgz",
+      "integrity": "sha512-Fedw0aZvkhynoPYlA5WXrMCAMm+nSWdZt6lzJQ7Ok8S6Q+VsHmHpRWndVRJ8Be0ZbkfPc5LRYH+5XrzXcEeLRQ==",
+      "license": "MIT",
+      "dependencies": {
+        "detect-node-es": "^1.1.0",
+        "tslib": "^2.0.0"
+      },
+      "engines": {
+        "node": ">=10"
+      },
+      "peerDependencies": {
+        "@types/react": "*",
+        "react": "^16.8.0 || ^17.0.0 || ^18.0.0 || ^19.0.0 || ^19.0.0-rc"
+      },
+      "peerDependenciesMeta": {
+        "@types/react": {
+          "optional": true
+        }
+      }
+    },
     "node_modules/uuid": {
       "version": "14.0.1",
       "resolved": "https://registry.npmjs.org/uuid/-/uuid-14.0.1.tgz",
@@ -7267,6 +9506,28 @@
       "license": "MIT",
       "bin": {
         "uuid": "dist-node/bin/uuid"
+      }
+    },
+    "node_modules/victory-vendor": {
+      "version": "36.9.2",
+      "resolved": "https://registry.npmjs.org/victory-vendor/-/victory-vendor-36.9.2.tgz",
+      "integrity": "sha512-PnpQQMuxlwYdocC8fIJqVXvkeViHYzotI+NJrCuav0ZYFoq912ZHBk3mCeuj+5/VpodOjPe1z0Fk2ihgzlXqjQ==",
+      "license": "MIT AND ISC",
+      "dependencies": {
+        "@types/d3-array": "^3.0.3",
+        "@types/d3-ease": "^3.0.0",
+        "@types/d3-interpolate": "^3.0.1",
+        "@types/d3-scale": "^4.0.2",
+        "@types/d3-shape": "^3.1.0",
+        "@types/d3-time": "^3.0.0",
+        "@types/d3-timer": "^3.0.0",
+        "d3-array": "^3.1.6",
+        "d3-ease": "^3.0.1",
+        "d3-interpolate": "^3.0.1",
+        "d3-scale": "^4.0.2",
+        "d3-shape": "^3.1.0",
+        "d3-time": "^3.0.0",
+        "d3-timer": "^3.0.1"
       }
     },
     "node_modules/which": {
@@ -7425,6 +9686,3797 @@
       "peerDependencies": {
         "zod": "^3.25.0 || ^4.0.0"
       }
+    },
+    "node_modules/zustand": {
+      "version": "5.0.14",
+      "resolved": "https://registry.npmjs.org/zustand/-/zustand-5.0.14.tgz",
+      "integrity": "sha512-/8tAspM5LMPr28b3fwLYrtdj77ECpfZviaP75CMTnwO8ISyaE4GDIG/9rDDYq/cH9D2Xw2A2RXglLInmVBQB/g==",
+      "license": "MIT",
+      "engines": {
+        "node": ">=12.20.0"
+      },
+      "peerDependencies": {
+        "@types/react": ">=18.0.0",
+        "immer": ">=9.0.6",
+        "react": ">=18.0.0",
+        "use-sync-external-store": ">=1.2.0"
+      },
+      "peerDependenciesMeta": {
+        "@types/react": {
+          "optional": true
+        },
+        "immer": {
+          "optional": true
+        },
+        "react": {
+          "optional": true
+        },
+        "use-sync-external-store": {
+          "optional": true
+        }
+      }
     }
   }
 }
+
+```
+
+---
+
+#### <span id="package-json">12. `package.json`</span>
+
+**Язык:** `json` | **Размер:** `2.4 KB`
+
+```json
+{
+  "name": "ithub-aggregator",
+  "version": "1.0.0",
+  "private": true,
+  "scripts": {
+    "dev": "next dev -p 3000 2>&1 | tee dev.log",
+    "build": "next build",
+    "start": "next start",
+    "lint": "next lint",
+    "db:push": "prisma db push",
+    "db:generate": "prisma generate"
+  },
+  "dependencies": {
+    "@hookform/resolvers": "^5.1.1",
+    "@prisma/client": "^6.11.1",
+    "@radix-ui/react-accordion": "^1.2.11",
+    "@radix-ui/react-alert-dialog": "^1.1.14",
+    "@radix-ui/react-aspect-ratio": "^1.1.7",
+    "@radix-ui/react-avatar": "^1.1.10",
+    "@radix-ui/react-checkbox": "^1.3.2",
+    "@radix-ui/react-collapsible": "^1.1.11",
+    "@radix-ui/react-context-menu": "^2.2.15",
+    "@radix-ui/react-dialog": "^1.1.14",
+    "@radix-ui/react-dropdown-menu": "^2.1.15",
+    "@radix-ui/react-hover-card": "^1.1.14",
+    "@radix-ui/react-label": "^2.1.7",
+    "@radix-ui/react-menubar": "^1.1.15",
+    "@radix-ui/react-navigation-menu": "^1.2.13",
+    "@radix-ui/react-popover": "^1.1.14",
+    "@radix-ui/react-progress": "^1.1.7",
+    "@radix-ui/react-radio-group": "^1.3.7",
+    "@radix-ui/react-scroll-area": "^1.2.9",
+    "@radix-ui/react-select": "^2.2.5",
+    "@radix-ui/react-separator": "^1.1.7",
+    "@radix-ui/react-slider": "^1.3.5",
+    "@radix-ui/react-slot": "^1.2.3",
+    "@radix-ui/react-switch": "^1.2.5",
+    "@radix-ui/react-tabs": "^1.1.12",
+    "@radix-ui/react-toast": "^1.2.14",
+    "@radix-ui/react-toggle": "^1.1.9",
+    "@radix-ui/react-toggle-group": "^1.1.10",
+    "@radix-ui/react-tooltip": "^1.2.7",
+    "@tanstack/react-query": "^5.82.0",
+    "class-variance-authority": "^0.7.1",
+    "clsx": "^2.1.1",
+    "cmdk": "^1.1.1",
+    "date-fns": "^4.1.0",
+    "embla-carousel-react": "^8.6.0",
+    "framer-motion": "^12.23.2",
+    "lucide-react": "^0.525.0",
+    "next": "^16.1.1",
+    "prisma": "^6.11.1",
+    "react": "^19.0.0",
+    "react-dom": "^19.0.0",
+    "react-hook-form": "^7.60.0",
+    "recharts": "^2.15.4",
+    "sonner": "^2.0.6",
+    "tailwind-merge": "^3.3.1",
+    "tailwindcss-animate": "^1.0.7",
+    "uuid": "^14.0.0",
+    "zod": "^4.0.2",
+    "zustand": "^5.0.6"
+  },
+  "devDependencies": {
+    "@tailwindcss/postcss": "^4",
+    "@types/node": "25.5.2",
+    "@types/react": "19.2.14",
+    "@types/uuid": "^10.0.0",
+    "eslint": "^9",
+    "eslint-config-next": "^16.1.1",
+    "tailwindcss": "^4"
+  }
+}
+
+```
+
+---
+
+#### <span id="postcss-config-mjs">13. `postcss.config.mjs`</span>
+
+**Язык:** `javascript` | **Размер:** `0.1 KB`
+
+```javascript
+const config = {
+  plugins: ["@tailwindcss/postcss"],
+};
+
+export default config;
+
+```
+
+---
+
+### 📂 public/
+
+#### <span id="public\robots-txt">14. `public\robots.txt`</span>
+
+**Язык:** `text` | **Размер:** `0.2 KB`
+
+```text
+User-agent: Googlebot
+Allow: /
+
+User-agent: Bingbot
+Allow: /
+
+User-agent: Twitterbot
+Allow: /
+
+User-agent: facebookexternalhit
+Allow: /
+
+User-agent: *
+Allow: /
+
+```
+
+---
+
+### 📂 src\app\about/
+
+#### <span id="src\app\about\page-jsx">15. `src\app\about\page.jsx`</span>
+
+**Язык:** `jsx` | **Размер:** `12.6 KB`
+
+```jsx
+'use client';
+
+// ============================================================
+// СТРАНИЦА "О ПРОЕКТЕ"
+// ============================================================
+// Информация о проекте IThub, его возможностях и команде
+// ============================================================
+
+import { motion } from "framer-motion";
+import Link from "next/link";
+import { BookOpen, Link2, Folder, Zap, Users, Heart, Github, Sparkles } from "lucide-react";
+
+// ------------------ КОМПОНЕНТ КАРТОЧКИ ВОЗМОЖНОСТИ ------------------
+function FeatureCard({ icon: Icon, title, description, color }) {
+  return (
+    <motion.div
+      initial={{ opacity: 0, y: 20 }}
+      animate={{ opacity: 1, y: 0 }}
+      className="bg-white border border-black/5 rounded-xl p-6 hover:shadow-md transition-shadow"
+    >
+      {/* Иконка */}
+      <div
+        className="w-12 h-12 rounded-xl flex items-center justify-center mb-4"
+        style={{ backgroundColor: `${color}15` }} // 15 = 15% прозрачности
+      >
+        <Icon className="w-6 h-6" style={{ color }} />
+      </div>
+      {/* Заголовок */}
+      <h3 className="text-lg font-medium text-stone-800 mb-2">{title}</h3>
+      {/* Описание */}
+      <p className="text-sm text-stone-500 leading-relaxed">{description}</p>
+    </motion.div>
+  );
+}
+
+// ------------------ КОМПОНЕНТ КАРТОЧКИ СТАТИСТИКИ ------------------
+function StatCard({ value, label }) {
+  return (
+    <motion.div
+      initial={{ opacity: 0, scale: 0.9 }}
+      animate={{ opacity: 1, scale: 1 }}
+      className="text-center p-6"
+    >
+      <div className="text-4xl md:text-5xl font-light text-rose-600 mb-2">{value}</div>
+      <div className="text-sm text-stone-400">{label}</div>
+    </motion.div>
+  );
+}
+
+// ------------------ ГЛАВНЫЙ КОМПОНЕНТ ------------------
+export default function AboutPage() {
+  // Данные о возможностях проекта
+  const features = [
+    {
+      icon: Link2,
+      title: "Каталог ресурсов",
+      description: "Коллекция инструментов, платформ и сервисов для разработчиков.",
+      color: "#3b82f6", // Синий
+    },
+    {
+      icon: BookOpen,
+      title: "Справочник терминов",
+      description: "Словарь IT-терминов с определениями и примерами.",
+      color: "#10b981", // Зелёный
+    },
+    {
+      icon: Folder,
+      title: "Категории",
+      description: "Классификация ресурсов по категориям для удобного поиска.",
+      color: "#f59e0b", // Оранжевый
+    },
+    {
+      icon: Zap,
+      title: "Быстрый поиск",
+      description: "Мгновенный поиск по всем ресурсам и терминам.",
+      color: "#8b5cf6", // Фиолетовый
+    },
+    {
+      icon: Users,
+      title: "Открытый проект",
+      description: "Любой может добавить ресурс или термин.",
+      color: "#ec4899", // Розовый
+    },
+    {
+      icon: Heart,
+      title: "Сделано с любовью",
+      description: "Проект создан разработчиками для разработчиков.",
+      color: "#ef4444", // Красный
+    },
+  ];
+
+  return (
+    <div className="min-h-screen flex flex-col bg-[#faf9f7]">
+      {/* Шапка */}
+      <header className="sticky top-0 z-50 border-b border-black/5 bg-[#faf9f7]/80 backdrop-blur-md">
+        <div className="max-w-7xl mx-auto px-4 md:px-8 lg:px-16 py-4">
+          <div className="flex items-center justify-between">
+            <div className="flex items-center gap-4">
+              <Link href="/" className="text-xl font-medium tracking-tight">
+                IT<span className="text-rose-600">hub</span>
+              </Link>
+              <div className="hidden sm:block w-px h-4 bg-black/10" />
+              <span className="hidden sm:block text-xs text-stone-400">О проекте</span>
+            </div>
+            <Link href="/" className="flex items-center gap-2 text-sm text-stone-500 hover:text-stone-700 transition-colors">
+              ← На главную
+            </Link>
+          </div>
+        </div>
+      </header>
+
+      {/* Основной контент */}
+      <main className="flex-1">
+        {/* Hero-секция */}
+        <section className="px-4 md:px-8 lg:px-16 pt-12 md:pt-20 pb-12">
+          <div className="max-w-4xl">
+            <motion.h1
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              className="text-4xl md:text-5xl lg:text-6xl font-light tracking-tight mb-6"
+            >
+              О проекте
+              <br />
+              <span className="text-rose-600">IThub</span>
+            </motion.h1>
+
+            <motion.p
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ delay: 0.1 }}
+              className="text-stone-500 max-w-2xl text-lg leading-relaxed mb-8"
+            >
+              IThub — это открытый справочник IT-ресурсов, созданный чтобы помочь
+              разработчикам находить нужные инструменты и материалы.
+            </motion.p>
+
+            {/* Кнопки действий */}
+            <motion.div
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ delay: 0.2 }}
+              className="flex flex-wrap gap-4"
+            >
+              <Link
+                href="/"
+                className="inline-flex items-center gap-2 px-6 py-3 bg-rose-600 text-white rounded-lg text-sm hover:bg-rose-700 transition-colors"
+              >
+                Перейти к ресурсам
+              </Link>
+              <Link
+                href="/dictionary"
+                className="inline-flex items-center gap-2 px-6 py-3 border border-stone-200 rounded-lg text-sm hover:bg-stone-50 transition-colors"
+              >
+                Открыть справочник
+              </Link>
+            </motion.div>
+          </div>
+        </section>
+
+        {/* Статистика */}
+        <section className="border-y border-black/5 bg-white/50">
+          <div className="max-w-7xl mx-auto px-4 md:px-8 lg:px-16">
+            <div className="grid grid-cols-2 md:grid-cols-4 divide-x divide-black/5">
+              <StatCard value="100+" label="Ресурсов" />
+              <StatCard value="50+" label="Терминов" />
+              <StatCard value="6" label="Категорий" />
+              <StatCard value="∞" label="Возможностей" />
+            </div>
+          </div>
+        </section>
+
+        {/* Возможности */}
+        <section className="px-4 md:px-8 lg:px-16 py-16">
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ delay: 0.3 }}
+            className="mb-12"
+          >
+            <h2 className="text-2xl md:text-3xl font-light mb-4">Что внутри?</h2>
+            <p className="text-stone-500 max-w-2xl">IThub объединяет несколько функций в одном месте</p>
+          </motion.div>
+
+          {/* Сетка карточек */}
+          <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
+            {features.map((feature, index) => (
+              <motion.div
+                key={feature.title}
+                initial={{ opacity: 0, y: 20 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ delay: 0.4 + index * 0.1 }}
+              >
+                <FeatureCard {...feature} />
+              </motion.div>
+            ))}
+          </div>
+        </section>
+
+        {/* Миссия */}
+        <section className="px-4 md:px-8 lg:px-16 py-16 bg-gradient-to-b from-transparent to-white/50">
+          <div className="max-w-4xl mx-auto text-center">
+            <motion.div
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ delay: 0.5 }}
+            >
+              <Sparkles className="w-12 h-12 text-rose-600 mx-auto mb-6" />
+              <h2 className="text-2xl md:text-3xl font-light mb-6">Наша миссия</h2>
+              <p className="text-stone-600 text-lg leading-relaxed max-w-3xl mx-auto">
+                Мы верим, что доступ к качественным ресурсам должен быть простым.
+                IThub — это попытка собрать разрозненную информацию в одном месте,
+                создать структурированный справочник, который поможет как начинающим,
+                так и опытным разработчикам.
+              </p>
+            </motion.div>
+          </div>
+        </section>
+
+        {/* Участие */}
+        <section className="px-4 md:px-8 lg:px-16 py-16">
+          <div className="max-w-4xl mx-auto">
+            <div className="bg-gradient-to-br from-rose-50 to-stone-50 border border-rose-100 rounded-2xl p-8 md:p-12">
+              <motion.div
+                initial={{ opacity: 0, y: 20 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ delay: 0.6 }}
+              >
+                <h2 className="text-2xl font-light mb-4">Хотите внести вклад?</h2>
+                <p className="text-stone-600 leading-relaxed mb-6">
+                  IThub — открытый проект. Вы можете помочь, добавляя новые ресурсы и термины.
+                </p>
+                <div className="flex flex-wrap gap-4">
+                  <a
+                    href="#"
+                    className="inline-flex items-center gap-2 px-5 py-2.5 bg-stone-900 text-white rounded-lg text-sm hover:bg-stone-800 transition-colors"
+                  >
+                    <Github className="w-4 h-4" />
+                    GitHub
+                  </a>
+                  <a
+                    href="#"
+                    className="inline-flex items-center gap-2 px-5 py-2.5 border border-stone-200 rounded-lg text-sm hover:bg-white transition-colors"
+                  >
+                    Telegram группа
+                  </a>
+                </div>
+              </motion.div>
+            </div>
+          </div>
+        </section>
+
+        {/* Технологии */}
+        <section className="px-4 md:px-8 lg:px-16 py-16 border-t border-black/5">
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ delay: 0.7 }}
+            className="mb-8"
+          >
+            <h2 className="text-2xl font-light mb-4">Технологии</h2>
+          </motion.div>
+          <div className="flex flex-wrap gap-3">
+            {["Next.js 16", "React 19", "Tailwind CSS 4", "Prisma", "SQLite", "Framer Motion", "Lucide Icons"].map((tech) => (
+              <span
+                key={tech}
+                className="px-4 py-2 bg-white border border-black/5 rounded-lg text-sm text-stone-600"
+              >
+                {tech}
+              </span>
+            ))}
+          </div>
+        </section>
+      </main>
+
+      {/* Подвал */}
+      <footer className="border-t border-black/5 px-4 md:px-8 lg:px-16 py-8 bg-white/50">
+        <div className="max-w-7xl mx-auto">
+          <div className="flex flex-col md:flex-row items-center justify-between gap-4">
+            <div className="text-xs text-stone-400">
+              © 2024 IThub. Открытый проект.
+            </div>
+            <div className="flex items-center gap-6">
+              <Link href="/" className="text-xs text-stone-400 hover:text-stone-600 transition-colors">
+                Главная
+              </Link>
+              <Link href="/dictionary" className="text-xs text-stone-400 hover:text-stone-600 transition-colors">
+                Справочник
+              </Link>
+            </div>
+          </div>
+        </div>
+      </footer>
+    </div>
+  );
+}
+
+```
+
+---
+
+### 📂 src\app\api\categories/
+
+#### <span id="src\app\api\categories\route-js">16. `src\app\api\categories\route.js`</span>
+
+**Язык:** `javascript` | **Размер:** `2.7 KB`
+
+```javascript
+// ============================================================
+// API ROUTE: КАТЕГОРИИ
+// ============================================================
+// Обрабатывает запросы к /api/categories
+// Поддерживает: GET (получить все) и POST (создать новую)
+// ============================================================
+
+import { PrismaClient } from "@prisma/client";
+
+const prisma = globalThis.__prisma || new PrismaClient();
+if (process.env.NODE_ENV !== "production") globalThis.__prisma = prisma;
+
+// ------------------ GET /api/categories ------------------
+export async function GET() {
+  try {
+    // Получаем все категории с подсчётом ресурсов в каждой
+    const categories = await prisma.category.findMany({
+      include: {
+        // _count — специальное поле Prisma для подсчёта связанных записей
+        _count: {
+          select: { resources: true }, // Считаем ресурсы в категории
+        },
+      },
+      orderBy: {
+        name: "asc", // Сортировка по имени (алфавит)
+      },
+    });
+
+    return new Response(JSON.stringify(categories), {
+      status: 200,
+      headers: { "Content-Type": "application/json" },
+    });
+  } catch (error) {
+    console.error("Error fetching categories:", error);
+    return new Response(JSON.stringify({ error: "Ошибка при получении категорий" }), {
+      status: 500,
+      headers: { "Content-Type": "application/json" },
+    });
+  }
+}
+
+// ------------------ POST /api/categories ------------------
+export async function POST(request) {
+  try {
+    const body = await request.json();
+    const { name, description, color } = body;
+
+    if (!name) {
+      return new Response(JSON.stringify({ error: "Название обязательно" }), {
+        status: 400,
+        headers: { "Content-Type": "application/json" },
+      });
+    }
+
+    const category = await prisma.category.create({
+      data: {
+        name,
+        description: description || null,
+        color: color || "#64748b", // Цвет по умолчанию
+      },
+    });
+
+    return new Response(JSON.stringify(category), {
+      status: 201,
+      headers: { "Content-Type": "application/json" },
+    });
+  } catch (error) {
+    console.error("Error creating category:", error);
+    return new Response(JSON.stringify({ error: "Ошибка при создании категории" }), {
+      status: 500,
+      headers: { "Content-Type": "application/json" },
+    });
+  }
+}
+
+```
+
+---
+
+### 📂 src\app\api\health/
+
+#### <span id="src\app\api\health\route-js">17. `src\app\api\health\route.js`</span>
+
+**Язык:** `javascript` | **Размер:** `0.6 KB`
+
+```javascript
+import { prisma } from '@/lib/prisma'
+
+export async function GET() {
+  const healthcheck = {
+    uptime: process.uptime(),
+    timestamp: Date.now(),
+    environment: process.env.NODE_ENV,
+    status: 'ok',
+    version: '1.0.0'
+  }
+  
+  try {
+    // Проверка подключения к SQLite
+    await prisma.$queryRaw`SELECT 1`
+    healthcheck.database = 'connected'
+  } catch (error) {
+    healthcheck.status = 'error'
+    healthcheck.database = 'disconnected'
+    healthcheck.error = error.message
+  }
+  
+  const statusCode = healthcheck.status === 'ok' ? 200 : 503
+  return Response.json(healthcheck, { status: statusCode })
+}
+
+```
+
+---
+
+### 📂 src\app\api\qa-seed/
+
+#### <span id="src\app\api\qa-seed\route-js">18. `src\app\api\qa-seed\route.js`</span>
+
+**Язык:** `javascript` | **Размер:** `3.5 KB`
+
+```javascript
+import { prisma } from "@/lib/prisma";
+
+export async function GET() {
+  try {
+    const existingQuestions = await prisma.question.count();
+    if (existingQuestions > 0) {
+      return Response.json({ message: "Q&A данные уже загружены" });
+    }
+
+    const user = await prisma.user.upsert({
+      where: { email: "demo@ithub.local" },
+      update: {},
+      create: {
+        email: "demo@ithub.local",
+        name: "Демо Пользователь",
+        reputation: 150,
+        badge: "SILVER"
+      }
+    });
+
+    const tagsData = [
+      { name: "React", slug: "react", color: "#61dafb" },
+      { name: "Next.js", slug: "nextjs", color: "#000000" },
+      { name: "Prisma", slug: "prisma", color: "#2d3748" },
+      { name: "TypeScript", slug: "typescript", color: "#3178c6" },
+      { name: "Tailwind CSS", slug: "tailwindcss", color: "#06b6d4" },
+      { name: "JavaScript", slug: "javascript", color: "#f7df1e" }
+    ];
+
+    for (const tag of tagsData) {
+      await prisma.tag.upsert({ where: { name: tag.name }, update: {}, create: tag });
+    }
+
+    const q1 = await prisma.question.create({
+      data: {
+        title: "Как подключить Prisma к Next.js проекту?",
+        slug: "kak-podkluchit-prisma-k-nextjs-proektu",
+        body: "## Описание проблемы\n\nПытаюсь интегрировать Prisma ORM в существующий Next.js проект.",
+        authorId: user.id,
+        difficulty: "BEGINNER",
+        voteCount: 15, views: 234, answerCount: 3, isAnswered: true,
+        tags: {
+          create: [
+            { tag: { connect: { name: "Prisma" } } },
+            { tag: { connect: { name: "Next.js" } } }
+          ]
+        }
+      }
+    });
+
+    const q2 = await prisma.question.create({
+      data: {
+        title: "Ошибка AnimatePresence: two children with the same key",
+        slug: "oshibka-animatepresence-two-children-with-the-same-key",
+        body: "## Error Message\n\nEncountered two children with the same key",
+        authorId: user.id, difficulty: "INTERMEDIATE",
+        voteCount: 8, views: 156, answerCount: 2, isAnswered: true,
+        tags: { create: [{ tag: { connect: { name: "React" } } }, { tag: { connect: { name: "Next.js" } } }] }
+      }
+    });
+
+    const q3 = await prisma.question.create({
+      data: {
+        title: "Tailwind v4 vs v3 — какой выбрать?",
+        slug: "tailwind-v4-vs-v3-kakoy-vybrat",
+        body: "Начинаю новый проект на Next.js и вижу, что Tailwind выпустил версию 4.",
+        authorId: user.id, difficulty: "BEGINNER",
+        voteCount: 25, views: 445, answerCount: 5, isAnswered: false,
+        tags: { create: [{ tag: { connect: { name: "Tailwind CSS" } } }] }
+      }
+    });
+
+    const accepted = await prisma.answer.create({
+      data: {
+        body: "## Решение\n\n### Singleton паттерн\n\n```javascript\nimport { PrismaClient } from '@prisma/client'\nexport const prisma = globalThis.prisma || new PrismaClient()\n```",
+        questionId: q1.id, authorId: user.id, isAccepted: true, voteCount: 12
+      }
+    });
+
+    await prisma.question.update({ where: { id: q1.id }, data: { acceptedAnswerId: accepted.id } });
+
+    return Response.json({ message: "Q&A данные созданы", questions: 3, answers: 1 });
+  } catch (error) {
+    return Response.json({ error: error.message }, { status: 500 });
+  }
+}
+
+```
+
+---
+
+### 📂 src\app\api\questions\[id]\answers/
+
+#### <span id="src\app\api\questions\[id]\answers\route-js">19. `src\app\api\questions\[id]\answers\route.js`</span>
+
+**Язык:** `javascript` | **Размер:** `1.6 KB`
+
+```javascript
+import { prisma } from "@/lib/prisma";
+
+// POST /api/questions/[id]/answers - Добавить ответ
+export async function POST(request, { params }) {
+  try {
+    const { id: questionId } = params;
+    const { body } = await request.json();
+
+    if (!body) {
+      return Response.json({ error: "Содержание ответа обязательно" }, { status: 400 });
+    }
+
+    // Проверяем существование вопроса
+    const question = await prisma.question.findUnique({ where: { id: questionId } });
+    if (!question) {
+      return Response.json({ error: "Вопрос не найден" }, { status: 404 });
+    }
+
+    // Временный пользователь
+    let user = await prisma.user.findFirst();
+    if (!user) {
+      user = await prisma.user.create({
+        data: { email: `user-${Date.now()}@temp.local`, name: "Аноним" }
+      });
+    }
+
+    const answer = await prisma.answer.create({
+      data: {
+        body,
+        questionId,
+        authorId: user.id
+      },
+      include: {
+        author: { select: { id: true, name: true, avatar: true, reputation: true } }
+      }
+    });
+
+    // Обновляем счётчики
+    await prisma.question.update({
+      where: { id: questionId },
+      data: {
+        answerCount: { increment: 1 },
+        lastActivityAt: new Date()
+      }
+    });
+
+    return Response.json(answer, { status: 201 });
+  } catch (error) {
+    console.error("Error creating answer:", error);
+    return Response.json({ error: "Ошибка создания ответа" }, { status: 500 });
+  }
+}
+
+```
+
+---
+
+### 📂 src\app\api\questions\[id]/
+
+#### <span id="src\app\api\questions\[id]\route-js">20. `src\app\api\questions\[id]\route.js`</span>
+
+**Язык:** `javascript` | **Размер:** `1.4 KB`
+
+```javascript
+import { prisma } from "@/lib/prisma";
+
+export async function GET(request, { params }) {
+  try {
+    const { id } = await params;
+    
+    const question = await prisma.question.findFirst({
+      where: {
+        OR: [
+          { slug: id },
+          { id: id }
+        ]
+      },
+      include: {
+        author: { select: { id: true, name: true, avatar: true, reputation: true, badge: true } },
+        category: true,
+        tags: { include: { tag: true } },
+        images: { orderBy: { order: "asc" } },
+        answers: {
+          include: {
+            author: { select: { id: true, name: true, avatar: true, reputation: true, badge: true } },
+            images: { orderBy: { order: "asc" } },
+            _count: { select: { votes: true } }
+          },
+          orderBy: [{ isAccepted: "desc" }, { voteCount: "desc" }, { createdAt: "asc" }]
+        },
+        _count: { select: { answers: true, favorites: true, votes: true } }
+      }
+    });
+
+    if (!question) {
+      return Response.json({ error: "Вопрос не найден" }, { status: 404 });
+    }
+
+    await prisma.question.update({
+      where: { id: question.id },
+      data: { views: { increment: 1 } }
+    });
+
+    return Response.json(question);
+  } catch (error) {
+    console.error("Error fetching question:", error);
+    return Response.json({ error: "Ошибка загрузки вопроса" }, { status: 500 });
+  }
+}
+
+```
+
+---
+
+### 📂 src\app\api\questions/
+
+#### <span id="src\app\api\questions\route-js">21. `src\app\api\questions\route.js`</span>
+
+**Язык:** `javascript` | **Размер:** `3.4 KB`
+
+```javascript
+import { prisma } from "@/lib/prisma";
+import { slugify } from "../../../lib/utils";
+
+export async function GET(request) {
+  try {
+    const { searchParams } = new URL(request.url);
+    const sort = searchParams.get("sort") || "new";
+    const tag = searchParams.get("tag");
+    const page = parseInt(searchParams.get("page")) || 1;
+    const limit = parseInt(searchParams.get("limit")) || 20;
+    const search = searchParams.get("q");
+
+    const where = { status: "OPEN" };
+    
+    if (tag) {
+      where.tags = { some: { tag: { slug: tag } } };
+    }
+    
+    if (search) {
+      where.OR = [
+        { title: { contains: search,  } },
+        { body: { contains: search,  } }
+      ];
+    }
+
+    const orderBy = {
+      new: { createdAt: "desc" },
+      top: { voteCount: "desc" },
+      active: { lastActivityAt: "desc" },
+      unanswered: { answerCount: "asc" }
+    }[sort] || { createdAt: "desc" };
+
+    const [questions, total] = await Promise.all([
+      prisma.question.findMany({
+        where,
+        orderBy,
+        include: {
+          author: { select: { id: true, name: true, avatar: true, reputation: true, badge: true } },
+          tags: { include: { tag: true } },
+          _count: { select: { answers: true, favorites: true } }
+        },
+        skip: (page - 1) * limit,
+        take: limit
+      }),
+      prisma.question.count({ where })
+    ]);
+
+    return Response.json({ questions, total, page, pages: Math.ceil(total / limit) });
+  } catch (error) {
+    console.error("Error fetching questions:", error);
+    return Response.json({ error: "Ошибка загрузки вопросов" }, { status: 500 });
+  }
+}
+
+export async function POST(request) {
+  try {
+    const data = await request.json();
+    const { title, body: questionBody, tags, categoryId, difficulty } = data;
+
+    if (!title || !questionBody) {
+      return Response.json({ error: "Заголовок и содержание обязательны" }, { status: 400 });
+    }
+
+    const baseSlug = slugify(title);
+    let slug = baseSlug;
+    let counter = 1;
+    while (await prisma.question.findUnique({ where: { slug } })) {
+      slug = `${baseSlug}-${counter++}`;
+    }
+
+    let user = await prisma.user.findFirst();
+    if (!user) {
+      user = await prisma.user.create({
+        data: { email: `user-${Date.now()}@temp.local`, name: "Аноним" }
+      });
+    }
+
+    const question = await prisma.question.create({
+      data: {
+        title,
+        slug,
+        body: questionBody,
+        categoryId: categoryId || null,
+        difficulty: difficulty || null,
+        authorId: user.id,
+        tags: {
+          create: await Promise.all(
+            (tags || []).map(async (tagName) => ({
+              tag: {
+                connectOrCreate: {
+                  where: { name: tagName },
+                  create: { name: tagName, slug: slugify(tagName) }
+                }
+              }
+            }))
+          )
+        }
+      },
+      include: {
+        author: { select: { id: true, name: true, avatar: true } },
+        tags: { include: { tag: true } }
+      }
+    });
+
+    return Response.json(question, { status: 201 });
+  } catch (error) {
+    console.error("Error creating question:", error);
+    return Response.json({ error: "Ошибка создания вопроса" }, { status: 500 });
+  }
+}
+
+```
+
+---
+
+### 📂 src\app\api\resources/
+
+#### <span id="src\app\api\resources\route-js">22. `src\app\api\resources\route.js`</span>
+
+**Язык:** `javascript` | **Размер:** `4.3 KB`
+
+```javascript
+// ============================================================
+// API ROUTE: РЕСУРСЫ
+// ============================================================
+// Этот файл обрабатывает HTTP запросы к /api/resources
+// Поддерживает: GET (получить все) и POST (создать новый)
+// ============================================================
+
+// Импортируем Prisma Client для работы с базой данных
+import { PrismaClient } from "@prisma/client";
+
+// Создаём экземпляр Prisma Client
+// globalThis.__prisma — паттерн для предотвращения создания
+// множества соединений при горячей перезагрузке в development
+const prisma = globalThis.__prisma || new PrismaClient();
+if (process.env.NODE_ENV !== "production") globalThis.__prisma = prisma;
+
+// ------------------ GET /api/resources ------------------
+// Получение списка всех ресурсов
+// export async function GET — обработчик GET-запросов
+export async function GET() {
+  try {
+    // prisma.resource.findMany — получение всех записей из таблицы resources
+    // include — включить связанные данные (категорию)
+    // orderBy — сортировка по дате создания (новые первыми)
+    const resources = await prisma.resource.findMany({
+      include: {
+        category: true, // Включить связанную категорию
+      },
+      orderBy: {
+        createdAt: "desc", // Сортировка по убыванию даты
+      },
+    });
+
+    // Возвращаем JSON-ответ со статусом 200 (OK)
+    return new Response(JSON.stringify(resources), {
+      status: 200,
+      headers: { "Content-Type": "application/json" },
+    });
+  } catch (error) {
+    // Логируем ошибку для отладки
+    console.error("Error fetching resources:", error);
+
+    // Возвращаем ошибку со статусом 500 (Internal Server Error)
+    return new Response(JSON.stringify({ error: "Ошибка при получении ресурсов" }), {
+      status: 500,
+      headers: { "Content-Type": "application/json" },
+    });
+  }
+}
+
+// ------------------ POST /api/resources ------------------
+// Создание нового ресурса
+// export async function POST — обработчик POST-запросов
+// request — объект запроса с телом и метаданными
+export async function POST(request) {
+  try {
+    // Получаем тело запроса и парсим JSON
+    const body = await request.json();
+
+    // Деструктурируем поля из тела запроса
+    const { name, description, url, categoryId, tags } = body;
+
+    // Валидация обязательных полей
+    if (!name || !description || !categoryId) {
+      return new Response(JSON.stringify({ error: "Заполните обязательные поля" }), {
+        status: 400, // Bad Request
+        headers: { "Content-Type": "application/json" },
+      });
+    }
+
+    // prisma.resource.create — создание новой записи
+    // data — данные для создания
+    const resource = await prisma.resource.create({
+      data: {
+        name,          // Название ресурса
+        description,   // Описание
+        url: url || null, // URL (null если не указан)
+        categoryId,    // ID категории
+        // JSON.stringify преобразует массив в строку JSON для хранения
+        tags: tags ? JSON.stringify(tags) : null,
+      },
+    });
+
+    // Возвращаем созданный ресурс со статусом 201 (Created)
+    return new Response(JSON.stringify(resource), {
+      status: 201,
+      headers: { "Content-Type": "application/json" },
+    });
+  } catch (error) {
+    console.error("Error creating resource:", error);
+
+    return new Response(JSON.stringify({ error: "Ошибка при создании ресурса" }), {
+      status: 500,
+      headers: { "Content-Type": "application/json" },
+    });
+  }
+}
+
+```
+
+---
+
+### 📂 src\app\api\search/
+
+#### <span id="src\app\api\search\route-js">23. `src\app\api\search\route.js`</span>
+
+**Язык:** `javascript` | **Размер:** `3.1 KB`
+
+```javascript
+// ============================================================
+// API ROUTE: ПОИСК
+// ============================================================
+// Обрабатывает запросы к /api/search?q=запрос
+// Ищет по ресурсам, терминам и категориям
+// ============================================================
+
+import { PrismaClient } from "@prisma/client";
+
+const prisma = globalThis.__prisma || new PrismaClient();
+if (process.env.NODE_ENV !== "production") globalThis.__prisma = prisma;
+
+// GET /api/search?q=запрос
+// request — объект запроса Next.js
+export async function GET(request) {
+  try {
+    // Получаем URL из запроса
+    const url = new URL(request.url);
+
+    // Получаем параметр q из строки запроса (?q=запрос)
+    const query = url.searchParams.get("q") || "";
+
+    // Если запрос меньше 2 символов, возвращаем пустой результат
+    if (query.length < 2) {
+      return new Response(JSON.stringify({
+        resources: [],
+        terms: [],
+        categories: [],
+      }), {
+        status: 200,
+        headers: { "Content-Type": "application/json" },
+      });
+    }
+
+    // Ищем ресурсы
+    // OR — условие "ИЛИ" в Prisma
+    // contains — содержит подстроку (поиск)
+    // mode: "insensitive" — без учёта регистра
+    const resources = await prisma.resource.findMany({
+      where: {
+        OR: [
+          { name: { contains: query, mode: "insensitive" } },
+          { description: { contains: query, mode: "insensitive" } },
+        ],
+      },
+      include: {
+        category: true, // Включаем категорию для отображения
+      },
+      take: 10, // Ограничиваем количество результатов
+    });
+
+    // Ищем термины
+    const terms = await prisma.term.findMany({
+      where: {
+        OR: [
+          { term: { contains: query, mode: "insensitive" } },
+          { definition: { contains: query, mode: "insensitive" } },
+        ],
+      },
+      take: 10,
+    });
+
+    // Ищем категории
+    const categories = await prisma.category.findMany({
+      where: {
+        OR: [
+          { name: { contains: query, mode: "insensitive" } },
+          { description: { contains: query, mode: "insensitive" } },
+        ],
+      },
+      include: {
+        _count: {
+          select: { resources: true },
+        },
+      },
+      take: 10,
+    });
+
+    // Возвращаем объединённый результат
+    return new Response(JSON.stringify({
+      resources,
+      terms,
+      categories,
+    }), {
+      status: 200,
+      headers: { "Content-Type": "application/json" },
+    });
+  } catch (error) {
+    console.error("Error searching:", error);
+    return new Response(JSON.stringify({ error: "Ошибка при поиске" }), {
+      status: 500,
+      headers: { "Content-Type": "application/json" },
+    });
+  }
+}
+
+```
+
+---
+
+### 📂 src\app\api\seed/
+
+#### <span id="src\app\api\seed\route-js">24. `src\app\api\seed\route.js`</span>
+
+**Язык:** `javascript` | **Размер:** `6.2 KB`
+
+```javascript
+// ============================================================
+// API ROUTE: SEED (ЗАПОЛНЕНИЕ БАЗЫ ТЕСТОВЫМИ ДАННЫМИ)
+// ============================================================
+// Этот маршрут заполняет базу данных начальными данными
+// Вызывается при первом запуске приложения
+// ============================================================
+
+import { PrismaClient } from "@prisma/client";
+
+const prisma = globalThis.__prisma || new PrismaClient();
+if (process.env.NODE_ENV !== "production") globalThis.__prisma = prisma;
+
+// GET /api/seed
+export async function GET() {
+  try {
+    // Проверяем, есть ли уже категории
+    const existingCategories = await prisma.category.count();
+
+    // Если категории есть, не заполняем повторно
+    if (existingCategories > 0) {
+      return new Response(JSON.stringify({ message: "База уже заполнена" }), {
+        status: 200,
+        headers: { "Content-Type": "application/json" },
+      });
+    }
+
+    // Создаём категории
+    const categories = await prisma.category.createMany({
+      data: [
+        { name: "Документация", color: "#3b82f6" },
+        { name: "Инструменты", color: "#10b981" },
+        { name: "Обучение", color: "#f59e0b" },
+        { name: "Библиотеки", color: "#8b5cf6" },
+        { name: "API", color: "#ec4899" },
+        { name: "DevOps", color: "#ef4444" },
+      ],
+    });
+
+    // Создаём ресурсы
+    await prisma.resource.createMany({
+      data: [
+        {
+          name: "React Documentation",
+          description: "Официальная документация React — библиотеки для создания пользовательских интерфейсов",
+          url: "https://react.dev",
+          categoryId: 1,
+        },
+        {
+          name: "Next.js",
+          description: "Фреймворк React для создания полноценных веб-приложений",
+          url: "https://nextjs.org",
+          categoryId: 1,
+        },
+        {
+          name: "VS Code",
+          description: "Бесплатный редактор кода от Microsoft с множеством расширений",
+          url: "https://code.visualstudio.com",
+          categoryId: 2,
+        },
+        {
+          name: "MDN Web Docs",
+          description: "Документация по веб-технологиям от Mozilla",
+          url: "https://developer.mozilla.org",
+          categoryId: 3,
+        },
+        {
+          name: "Tailwind CSS",
+          description: "Utility-first CSS фреймворк для быстрой стилизации",
+          url: "https://tailwindcss.com",
+          categoryId: 4,
+        },
+        {
+          name: "GitHub REST API",
+          description: "REST API для работы с репозиториями GitHub",
+          url: "https://docs.github.com/rest",
+          categoryId: 5,
+        },
+        {
+          name: "Docker",
+          description: "Платформа для контейнеризации приложений",
+          url: "https://docker.com",
+          categoryId: 6,
+        },
+      ],
+    });
+
+    // Создаём термины
+    await prisma.term.createMany({
+      data: [
+        {
+          term: "API",
+          definition: "Application Programming Interface — интерфейс для взаимодействия между программами. Позволяет приложениям обмениваться данными и функциями.",
+          examples: JSON.stringify(["REST API для получения данных", "GraphQL API для гибких запросов"]),
+        },
+        {
+          term: "REST",
+          definition: "Representational State Transfer — архитектурный стиль для создания веб-сервисов. Использует HTTP методы (GET, POST, PUT, DELETE).",
+          examples: JSON.stringify(["GET /users — получить список пользователей", "POST /users — создать пользователя"]),
+        },
+        {
+          term: "CI/CD",
+          definition: "Continuous Integration / Continuous Deployment — практика автоматической сборки, тестирования и развёртывания кода.",
+          examples: JSON.stringify(["GitHub Actions для автоматического тестирования", "Автоматическое развёртывание при merge в main"]),
+        },
+        {
+          term: "DOM",
+          definition: "Document Object Model — объектная модель документа. Представляет HTML-страницу как дерево объектов, которым можно управлять через JavaScript.",
+          examples: JSON.stringify(["document.getElementById() — найти элемент по ID", "element.appendChild() — добавить дочерний элемент"]),
+        },
+        {
+          term: "JSON",
+          definition: "JavaScript Object Notation — текстовый формат обмена данными. Легко читается людьми и парсится программами.",
+          examples: JSON.stringify(['{"name": "IThub", "version": 1.0}', '[1, 2, 3, 4, 5]']),
+        },
+      ],
+    });
+
+    return new Response(JSON.stringify({
+      message: "База данных успешно заполнена",
+      categories: 6,
+      resources: 7,
+      terms: 5,
+    }), {
+      status: 200,
+      headers: { "Content-Type": "application/json" },
+    });
+  } catch (error) {
+    console.error("Error seeding database:", error);
+    return new Response(JSON.stringify({ error: "Ошибка при заполнении базы" }), {
+      status: 500,
+      headers: { "Content-Type": "application/json" },
+    });
+  }
+}
+
+```
+
+---
+
+### 📂 src\app\api\tags/
+
+#### <span id="src\app\api\tags\route-js">25. `src\app\api\tags\route.js`</span>
+
+**Язык:** `javascript` | **Размер:** `0.9 KB`
+
+```javascript
+import { prisma } from "@/lib/prisma";
+
+export async function GET() {
+  try {
+    const tags = await prisma.tag.findMany({
+      include: { _count: { select: { questions: true } } },
+      orderBy: { questionCount: "desc" }
+    });
+
+    return Response.json(tags);
+  } catch (error) {
+    return Response.json({ error: "Ошибка загрузки тегов" }, { status: 500 });
+  }
+}
+
+export async function POST(request) {
+  try {
+    const { name, color, description } = await request.json();
+    const { slugify } = await import("../../../lib/utils");
+
+    const tag = await prisma.tag.create({
+      data: {
+        name,
+        slug: slugify(name),
+        color: color || "#3b82f6",
+        description: description || null
+      }
+    });
+
+    return Response.json(tag, { status: 201 });
+  } catch (error) {
+    return Response.json({ error: "Ошибка создания тега" }, { status: 500 });
+  }
+}
+
+```
+
+---
+
+### 📂 src\app\api\terms/
+
+#### <span id="src\app\api\terms\route-js">26. `src\app\api\terms\route.js`</span>
+
+**Язык:** `javascript` | **Размер:** `2.3 KB`
+
+```javascript
+// ============================================================
+// API ROUTE: ТЕРМИНЫ
+// ============================================================
+// Обрабатывает запросы к /api/terms
+// Поддерживает: GET (получить все) и POST (создать новый)
+// ============================================================
+
+import { PrismaClient } from "@prisma/client";
+
+const prisma = globalThis.__prisma || new PrismaClient();
+if (process.env.NODE_ENV !== "production") globalThis.__prisma = prisma;
+
+// ------------------ GET /api/terms ------------------
+export async function GET() {
+  try {
+    const terms = await prisma.term.findMany({
+      orderBy: {
+        term: "asc", // Сортировка по алфавиту
+      },
+    });
+
+    return new Response(JSON.stringify(terms), {
+      status: 200,
+      headers: { "Content-Type": "application/json" },
+    });
+  } catch (error) {
+    console.error("Error fetching terms:", error);
+    return new Response(JSON.stringify({ error: "Ошибка при получении терминов" }), {
+      status: 500,
+      headers: { "Content-Type": "application/json" },
+    });
+  }
+}
+
+// ------------------ POST /api/terms ------------------
+export async function POST(request) {
+  try {
+    const body = await request.json();
+    const { term, definition, examples } = body;
+
+    if (!term || !definition) {
+      return new Response(JSON.stringify({ error: "Термин и определение обязательны" }), {
+        status: 400,
+        headers: { "Content-Type": "application/json" },
+      });
+    }
+
+    const newTerm = await prisma.term.create({
+      data: {
+        term,
+        definition,
+        // examples хранится как JSON-строка
+        examples: examples ? JSON.stringify(examples) : null,
+      },
+    });
+
+    return new Response(JSON.stringify(newTerm), {
+      status: 201,
+      headers: { "Content-Type": "application/json" },
+    });
+  } catch (error) {
+    console.error("Error creating term:", error);
+    return new Response(JSON.stringify({ error: "Ошибка при создании термина" }), {
+      status: 500,
+      headers: { "Content-Type": "application/json" },
+    });
+  }
+}
+
+```
+
+---
+
+### 📂 src\app\api\upload/
+
+#### <span id="src\app\api\upload\route-js">27. `src\app\api\upload\route.js`</span>
+
+**Язык:** `javascript` | **Размер:** `1.4 KB`
+
+```javascript
+import { writeFile, mkdir } from "fs/promises";
+import path from "path";
+import { v4 as uuidv4 } from "uuid";
+
+const ALLOWED_TYPES = ["image/jpeg", "image/png", "image/gif", "image/webp", "image/svg+xml"];
+const MAX_SIZE = 5 * 1024 * 1024; // 5MB
+
+export async function POST(request) {
+  try {
+    const formData = await request.formData();
+    const file = formData.get("file");
+
+    if (!file) {
+      return Response.json({ error: "Файл не предоставлен" }, { status: 400 });
+    }
+
+    if (!ALLOWED_TYPES.includes(file.type)) {
+      return Response.json({ error: "Тип файла не поддерживается" }, { status: 400 });
+    }
+
+    if (file.size > MAX_SIZE) {
+      return Response.json({ error: "Файл слишком большой (макс. 5MB)" }, { status: 400 });
+    }
+
+    const bytes = await file.arrayBuffer();
+    const buffer = Buffer.from(bytes);
+
+    const ext = path.extname(file.name);
+    const filename = `${uuidv4()}${ext}`;
+    const dir = "./public/uploads/images";
+
+    await mkdir(dir, { recursive: true });
+    await writeFile(path.join(dir, filename), buffer);
+
+    return Response.json({
+      url: `/uploads/images/${filename}`,
+      filename,
+      size: file.size,
+      mimeType: file.type
+    });
+  } catch (error) {
+    console.error("Upload error:", error);
+    return Response.json({ error: "Ошибка загрузки" }, { status: 500 });
+  }
+}
+
+```
+
+---
+
+### 📂 src\app\dictionary/
+
+#### <span id="src\app\dictionary\page-jsx">28. `src\app\dictionary\page.jsx`</span>
+
+**Язык:** `jsx` | **Размер:** `15.1 KB`
+
+```jsx
+'use client';
+
+// ============================================================
+// СТРАНИЦА СПРАВОЧНИКА ТЕРМИНОВ
+// ============================================================
+// Отображает все IT-термины с поиском и алфавитным фильтром
+// ============================================================
+
+import { useState, useEffect } from "react";
+import Link from "next/link";
+import { Search, BookOpen, ChevronDown, ChevronUp, X } from "lucide-react";
+import { motion } from "framer-motion";
+
+// ------------------ КОМПОНЕНТ КАРТОЧКИ ТЕРМИНА ------------------
+function TermCard({ term, isExpanded, onToggle }) {
+  // Парсим примеры из JSON-строки
+  const parseExamples = (examplesJson) => {
+    if (!examplesJson) return [];
+    try {
+      return JSON.parse(examplesJson);
+    } catch {
+      return [];
+    }
+  };
+
+  const examples = parseExamples(term.examples);
+  // Получаем первую букву термина для отображения
+  const firstLetter = term.term[0]?.toUpperCase() || "#";
+
+  return (
+    // motion.div — анимированный контейнер
+    <motion.div
+      initial={{ opacity: 0, y: 20 }}
+      animate={{ opacity: 1, y: 0 }}
+      className="bg-white rounded-xl border border-black/5 overflow-hidden"
+    >
+      {/* Кнопка-заголовок для раскрытия */}
+      <button
+        onClick={onToggle}
+        className="w-full p-6 text-left flex items-start gap-4 hover:bg-stone-50 transition-colors"
+      >
+        {/* Буква термина */}
+        <div className="w-10 h-10 rounded-lg bg-rose-50 flex items-center justify-center flex-shrink-0">
+          <span className="text-lg font-medium text-rose-600">{firstLetter}</span>
+        </div>
+        {/* Контент */}
+        <div className="flex-1 min-w-0">
+          <div className="flex items-center justify-between mb-2">
+            <h3 className="text-lg font-medium text-stone-800">{term.term}</h3>
+            {/* Иконка раскрытия */}
+            {isExpanded ? (
+              <ChevronUp className="w-5 h-5 text-stone-400" />
+            ) : (
+              <ChevronDown className="w-5 h-5 text-stone-400" />
+            )}
+          </div>
+          {/* Определение с ограничением в 2 строки если свёрнуто */}
+          <p className={`text-sm text-stone-500 leading-relaxed ${isExpanded ? "" : "line-clamp-2"}`}>
+            {term.definition}
+          </p>
+        </div>
+      </button>
+
+      {/* Раскрытое содержимое */}
+      {isExpanded && examples.length > 0 && (
+        <div className="px-6 pb-6 pt-2 ml-14">
+          <div className="text-xs font-medium text-stone-400 uppercase tracking-wide mb-2">
+            Примеры
+          </div>
+          <ul className="space-y-2">
+            {examples.map((example, i) => (
+              <li key={i} className="text-sm text-stone-600 pl-3 border-l-2 border-rose-200">
+                {example}
+              </li>
+            ))}
+          </ul>
+        </div>
+      )}
+    </motion.div>
+  );
+}
+
+// ------------------ КОМПОНЕНТ АЛФАВИТНОГО ФИЛЬТРА ------------------
+function AlphabetFilter({ activeLetter, onLetterClick, availableLetters }) {
+  // Английский алфавит + символ # для цифр и спецсимволов
+  const alphabet = "ABCDEFGHIJKLMNOPQRSTUVWXYZ#".split("");
+
+  return (
+    <div className="flex flex-wrap gap-1 justify-center">
+      {alphabet.map((letter) => {
+        // Доступна ли буква (есть ли термины на неё)
+        const isAvailable = availableLetters.includes(letter);
+        // Активна ли буква (выбрана ли сейчас)
+        const isActive = activeLetter === letter;
+
+        return (
+          <button
+            key={letter}
+            onClick={() => isAvailable && onLetterClick(letter)}
+            disabled={!isAvailable} // Отключаем если нет терминов
+            className={`w-8 h-8 rounded-md text-sm font-medium transition-colors ${
+              isActive
+                ? "bg-rose-600 text-white" // Активная буква
+                : isAvailable
+                ? "bg-white text-stone-600 hover:bg-rose-50 hover:text-rose-600 border border-black/5" // Доступная
+                : "bg-stone-100 text-stone-300 cursor-not-allowed" // Недоступная
+            }`}
+          >
+            {letter}
+          </button>
+        );
+      })}
+    </div>
+  );
+}
+
+// ------------------ ГЛАВНЫЙ КОМПОНЕНТ СТРАНИЦЫ ------------------
+export default function DictionaryPage() {
+  // Состояния
+  const [terms, setTerms] = useState([]);         // Все термины
+  const [searchQuery, setSearchQuery] = useState(""); // Поисковый запрос
+  const [activeLetter, setActiveLetter] = useState(null); // Выбранная буква
+  const [expandedTermId, setExpandedTermId] = useState(null); // Раскрытый термин
+  const [isLoading, setIsLoading] = useState(true);
+
+  // Загрузка терминов при монтировании
+  useEffect(() => {
+    const fetchTerms = async () => {
+      try {
+        const response = await fetch("/api/terms");
+        const data = await response.json();
+        setTerms(data);
+      } catch (error) {
+        console.error("Error fetching terms:", error);
+      } finally {
+        setIsLoading(false);
+      }
+    };
+    fetchTerms();
+  }, []); // [] — выполнить один раз при монтировании
+
+  // Получаем доступные буквы
+  const availableLetters = [...new Set(
+    terms.map((t) => t.term[0]?.toUpperCase() || "#")
+  )];
+
+  // Фильтрация терминов
+  const filteredTerms = terms.filter((term) => {
+    // Проверка поискового запроса
+    const matchesSearch = !searchQuery ||
+      term.term.toLowerCase().includes(searchQuery.toLowerCase()) ||
+      term.definition.toLowerCase().includes(searchQuery.toLowerCase());
+
+    // Проверка буквы
+    const matchesLetter = !activeLetter ||
+      (term.term[0]?.toUpperCase() || "#") === activeLetter;
+
+    return matchesSearch && matchesLetter;
+  });
+
+  // Группировка терминов по букве
+  const groupedTerms = filteredTerms.reduce((acc, term) => {
+    const letter = term.term[0]?.toUpperCase() || "#";
+    if (!acc[letter]) acc[letter] = [];
+    acc[letter].push(term);
+    return acc;
+  }, {});
+
+  // Сортировка групп
+  const sortedGroups = Object.keys(groupedTerms).sort((a, b) => {
+    if (a === "#") return 1;  // # в конце
+    if (b === "#") return -1;
+    return a.localeCompare(b); // Алфавитный порядок
+  });
+
+  // Обработчик клика по букве
+  const handleLetterClick = (letter) => {
+    // Если буква уже выбрана — снимаем выбор
+    setActiveLetter(activeLetter === letter ? null : letter);
+    setExpandedTermId(null); // Сворачиваем раскрытый термин
+  };
+
+  // Рендер
+  return (
+    <div className="min-h-screen">
+      {/* Фон */}
+      <div
+        className="fixed inset-0 z-0"
+        style={{
+          background: `linear-gradient(135deg, rgba(250, 249, 247, 0.92) 0%, rgba(250, 249, 247, 0.85) 50%, rgba(250, 249, 247, 0.95) 100%)`,
+          backgroundSize: "cover",
+          backgroundPosition: "center",
+        }}
+      />
+
+      <div className="relative z-10">
+        {/* Шапка */}
+        <header className="sticky top-0 z-50 border-b border-black/5 bg-[#faf9f7]/80 backdrop-blur-md">
+          <div className="max-w-4xl mx-auto px-4 md:px-8 py-4">
+            <div className="flex items-center justify-between">
+              {/* Ссылка на главную */}
+              <Link
+                href="/"
+                className="flex items-center gap-2 text-stone-500 hover:text-stone-700 transition-colors"
+              >
+                ← На главную
+              </Link>
+              {/* Логотип */}
+              <a href="/" className="text-xl font-medium tracking-tight">
+                IT<span className="text-rose-600">hub</span>
+              </a>
+              {/* Ссылка на страницу о проекте */}
+              <Link href="/about" className="text-sm text-stone-500 hover:text-stone-700 transition-colors">
+                О проекте
+              </Link>
+            </div>
+          </div>
+        </header>
+
+        {/* Основной контент */}
+        <main className="max-w-4xl mx-auto px-4 md:px-8 py-12">
+          {/* Заголовок */}
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            className="text-center mb-12"
+          >
+            <h1 className="text-4xl md:text-5xl font-light tracking-tight mb-4">
+              Справочник терминов
+            </h1>
+            <p className="text-stone-500 max-w-xl mx-auto">
+              Понятные определения IT-терминов с примерами использования.
+            </p>
+          </motion.div>
+
+          {/* Поиск */}
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ delay: 0.1 }}
+            className="max-w-md mx-auto mb-8"
+          >
+            <div className="relative">
+              <Search className="absolute left-4 top-1/2 -translate-y-1/2 w-4 h-4 text-stone-400" />
+              <input
+                type="text"
+                placeholder="Поиск терминов..."
+                value={searchQuery}
+                onChange={(e) => {
+                  setSearchQuery(e.target.value);
+                  setActiveLetter(null); // Сброс буквы при поиске
+                }}
+                className="w-full bg-white border border-black/10 rounded-lg py-3 pl-11 pr-10 text-sm focus:outline-none focus:ring-2 focus:ring-rose-500/20 focus:border-rose-600 transition-all"
+              />
+              {/* Кнопка очистки поиска */}
+              {searchQuery && (
+                <button
+                  onClick={() => setSearchQuery("")}
+                  className="absolute right-4 top-1/2 -translate-y-1/2 text-stone-400 hover:text-stone-600"
+                >
+                  <X className="w-4 h-4" />
+                </button>
+              )}
+            </div>
+          </motion.div>
+
+          {/* Алфавитный фильтр */}
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ delay: 0.2 }}
+            className="mb-8"
+          >
+            <AlphabetFilter
+              activeLetter={activeLetter}
+              onLetterClick={handleLetterClick}
+              availableLetters={availableLetters}
+            />
+          </motion.div>
+
+          {/* Статистика */}
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ delay: 0.3 }}
+            className="flex items-center justify-center gap-6 mb-8 text-sm text-stone-400"
+          >
+            <span className="flex items-center gap-2">
+              <BookOpen className="w-4 h-4" />
+              {terms.length} терминов
+            </span>
+            <span>•</span>
+            <span>{filteredTerms.length} найдено</span>
+          </motion.div>
+
+          {/* Список терминов */}
+          {isLoading ? (
+            // Скелетон загрузки
+            <div className="space-y-4">
+              {[1, 2, 3, 4].map((i) => (
+                <div key={i} className="animate-pulse bg-white rounded-xl border border-black/5 p-6">
+                  <div className="flex items-start gap-4">
+                    <div className="w-10 h-10 rounded-lg bg-stone-200" />
+                    <div className="flex-1">
+                      <div className="h-5 bg-stone-200 rounded w-1/4 mb-2" />
+                      <div className="h-4 bg-stone-200 rounded w-3/4" />
+                    </div>
+                  </div>
+                </div>
+              ))}
+            </div>
+          ) : filteredTerms.length > 0 ? (
+            // Группированный список
+            <div className="space-y-8">
+              {sortedGroups.map((letter) => (
+                <motion.div
+                  key={letter}
+                  initial={{ opacity: 0, y: 20 }}
+                  animate={{ opacity: 1, y: 0 }}
+                >
+                  {/* Заголовок буквы (если не выбрана конкретная буква) */}
+                  {!activeLetter && (
+                    <div className="flex items-center gap-4 mb-4">
+                      <span className="text-2xl font-light text-rose-600">{letter}</span>
+                      <div className="flex-1 h-px bg-black/5" />
+                      <span className="text-xs text-stone-400">
+                        {groupedTerms[letter].length}
+                      </span>
+                    </div>
+                  )}
+                  {/* Термины в группе */}
+                  <div className="space-y-3">
+                    {groupedTerms[letter].map((term) => (
+                      <TermCard
+                        key={term.id}
+                        term={term}
+                        isExpanded={expandedTermId === term.id}
+                        onToggle={() => setExpandedTermId(
+                          expandedTermId === term.id ? null : term.id
+                        )}
+                      />
+                    ))}
+                  </div>
+                </motion.div>
+              ))}
+            </div>
+          ) : (
+            // Сообщение если ничего не найдено
+            <motion.div
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              className="text-center py-16"
+            >
+              <BookOpen className="w-12 h-12 text-stone-200 mx-auto mb-4" />
+              <div className="text-stone-400 mb-2">Термины не найдены</div>
+              <div className="text-sm text-stone-400">
+                Попробуйте изменить поисковый запрос
+              </div>
+            </motion.div>
+          )}
+        </main>
+
+        {/* Подвал */}
+        <footer className="border-t border-black/5 px-4 md:px-8 py-6 bg-white/50 mt-12">
+          <div className="max-w-4xl mx-auto text-center text-xs text-stone-400">
+            IThub — Справочник IT-ресурсов
+          </div>
+        </footer>
+      </div>
+    </div>
+  );
+}
+
+```
+
+---
+
+### 📂 src\app/
+
+#### <span id="src\app\globals-css">29. `src\app\globals.css`</span>
+
+**Язык:** `css` | **Размер:** `4.2 KB`
+
+```css
+@import "tailwindcss";
+
+@custom-variant dark (&:is(.dark *));
+
+@theme inline {
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+  --font-sans: var(--font-geist-sans);
+  --font-mono: var(--font-geist-mono);
+  --color-sidebar-ring: var(--sidebar-ring);
+  --color-sidebar-border: var(--sidebar-border);
+  --color-sidebar-accent-foreground: var(--sidebar-accent-foreground);
+  --color-sidebar-accent: var(--sidebar-accent);
+  --color-sidebar-primary-foreground: var(--sidebar-primary-foreground);
+  --color-sidebar-primary: var(--sidebar-primary);
+  --color-sidebar-foreground: var(--sidebar-foreground);
+  --color-sidebar: var(--sidebar);
+  --color-chart-5: var(--chart-5);
+  --color-chart-4: var(--chart-4);
+  --color-chart-3: var(--chart-3);
+  --color-chart-2: var(--chart-2);
+  --color-chart-1: var(--chart-1);
+  --color-ring: var(--ring);
+  --color-input: var(--input);
+  --color-border: var(--border);
+  --color-destructive: var(--destructive);
+  --color-accent-foreground: var(--accent-foreground);
+  --color-accent: var(--accent);
+  --color-muted-foreground: var(--muted-foreground);
+  --color-muted: var(--muted);
+  --color-secondary-foreground: var(--secondary-foreground);
+  --color-secondary: var(--secondary);
+  --color-primary-foreground: var(--primary-foreground);
+  --color-primary: var(--primary);
+  --color-popover-foreground: var(--popover-foreground);
+  --color-popover: var(--popover);
+  --color-card-foreground: var(--card-foreground);
+  --color-card: var(--card);
+  --radius-sm: calc(var(--radius) - 4px);
+  --radius-md: calc(var(--radius) - 2px);
+  --radius-lg: var(--radius);
+  --radius-xl: calc(var(--radius) + 4px);
+}
+
+:root {
+  --radius: 0.625rem;
+  --background: #faf9f7;
+  --foreground: #1c1917;
+  --card: #ffffff;
+  --card-foreground: #1c1917;
+  --popover: #ffffff;
+  --popover-foreground: #1c1917;
+  --primary: #be123c;
+  --primary-foreground: #ffffff;
+  --secondary: #f5f4f2;
+  --secondary-foreground: #1c1917;
+  --muted: #f5f4f2;
+  --muted-foreground: #78716c;
+  --accent: rgba(190, 18, 60, 0.08);
+  --accent-foreground: #be123c;
+  --destructive: #dc2626;
+  --border: rgba(0, 0, 0, 0.06);
+  --input: rgba(0, 0, 0, 0.06);
+  --ring: #be123c;
+  --chart-1: #be123c;
+  --chart-2: #f59e0b;
+  --chart-3: #10b981;
+  --chart-4: #3b82f6;
+  --chart-5: #8b5cf6;
+}
+
+.dark {
+  --background: #0a0a0f;
+  --foreground: #f8fafc;
+  --card: #18181b;
+  --card-foreground: #f8fafc;
+  --popover: #18181b;
+  --popover-foreground: #f8fafc;
+  --primary: #f43f5e;
+  --primary-foreground: #ffffff;
+  --secondary: #27272a;
+  --secondary-foreground: #f8fafc;
+  --muted: #27272a;
+  --muted-foreground: #a1a1aa;
+  --accent: rgba(244, 63, 94, 0.1);
+  --accent-foreground: #f43f5e;
+  --border: rgba(255, 255, 255, 0.06);
+  --input: rgba(255, 255, 255, 0.06);
+  --ring: #f43f5e;
+}
+
+@layer base {
+  * {
+    @apply border-border outline-ring/50;
+  }
+  body {
+    @apply bg-background text-foreground;
+  }
+}
+
+/* Custom scrollbar */
+::-webkit-scrollbar {
+  width: 6px;
+  height: 6px;
+}
+
+::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+::-webkit-scrollbar-thumb {
+  background: rgba(0, 0, 0, 0.1);
+  border-radius: 3px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: rgba(0, 0, 0, 0.2);
+}
+
+/* Marquee animation */
+@keyframes marquee {
+  0% { transform: translateX(0); }
+  100% { transform: translateX(-50%); }
+}
+
+.animate-marquee {
+  animation: marquee 40s linear infinite;
+}
+
+.animate-marquee:hover {
+  animation-play-state: paused;
+}
+
+/* Fade up animation */
+@keyframes fadeUp {
+  from {
+    opacity: 0;
+    transform: translateY(30px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.animate-fade-up {
+  animation: fadeUp 0.8s ease-out forwards;
+  opacity: 0;
+}
+
+/* Stagger delays */
+.delay-100 { animation-delay: 100ms; }
+.delay-200 { animation-delay: 200ms; }
+.delay-300 { animation-delay: 300ms; }
+.delay-400 { animation-delay: 400ms; }
+.delay-500 { animation-delay: 500ms; }
+.delay-600 { animation-delay: 600ms; }
+
+/* Line clamp utility */
+.line-clamp-2 {
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+
+```
+
+---
+
+#### <span id="src\app\layout-jsx">30. `src\app\layout.jsx`</span>
+
+**Язык:** `jsx` | **Размер:** `0.7 KB`
+
+```jsx
+import "./globals.css";
+
+export const metadata = {
+  title: "IThub — Справочник IT-ресурсов",
+  description: "Аккуратная коллекция инструментов, платформ и материалов для разработчиков",
+  keywords: ["IT", "ресурсы", "разработчики", "справочник", "инструменты"],
+};
+
+export default function RootLayout({ children }) {
+  return (
+    <html lang="ru" suppressHydrationWarning>
+      <body className="antialiased bg-background text-foreground" style={{ fontFamily: "'Inter', system-ui, -apple-system, sans-serif" }}>
+        {children}
+      </body>
+    </html>
+  );
+}
+
+```
+
+---
+
+#### <span id="src\app\page-jsx">31. `src\app\page.jsx`</span>
+
+**Язык:** `jsx` | **Размер:** `35.8 KB`
+
+```jsx
+'use client';
+
+// ============================================================
+// ГЛАВНАЯ СТРАНИЦА ITHub
+// ============================================================
+// Этот файл — точка входа приложения.
+// Он отображает каталог IT-ресурсов и терминов.
+// ============================================================
+
+// ------------------ ИМПОРТЫ ------------------
+// Импортируем хуки React для управления состоянием и жизненным циклом
+import { useState, useEffect, useCallback } from "react";
+
+// Импортируем компонент Link для навигации между страницами без перезагрузки
+import Link from "next/link";
+
+// Импортируем иконки из библиотеки lucide-react
+import { Search, ExternalLink, Plus, X, Loader2, BookOpen, Folder } from "lucide-react";
+
+// Импортируем компоненты для анимаций
+import { motion, AnimatePresence } from "framer-motion";
+
+// ------------------ КОМПОНЕНТ HEADER ------------------
+// Шапка сайта с навигацией
+function Header() {
+  // useState создаёт переменную состояния и функцию для её изменения
+  // isMenuOpen — открыто ли мобильное меню (true/false)
+  // setIsMenuOpen — функция для изменения isMenuOpen
+  const [isMenuOpen, setIsMenuOpen] = useState(false);
+  const [searchQuery, setSearchQuery] = useState("");
+  const [showSearch, setShowSearch] = useState(false);
+
+  // Массив ссылок навигации
+  const navLinks = [
+    { href: "/questions", label: "Q&A" },
+    { href: "#catalog", label: "Каталог" },
+    { href: "/dictionary", label: "Справочник" },
+    { href: "/about", label: "О проекте" },
+  ];
+
+  const handleSearch = (e) => { e.preventDefault(); if (searchQuery.trim()) window.location.href="/questions?q="+encodeURIComponent(searchQuery.trim()); };
+  // Он похож на HTML, но позволяет вставлять JavaScript в {}
+  return (
+    // header — тег для шапки сайта
+    // className — аналог class в HTML, содержит Tailwind CSS классы
+    // sticky top-0 — закрепить сверху при прокрутке
+    // z-50 — z-index: 50 (поверх других элементов)
+    // border-b — нижняя граница
+    // bg-[#faf9f7]/80 — цвет фона с прозрачностью 80%
+    // backdrop-blur-md — размытие фона под элементом
+    <header className="sticky top-0 z-50 border-b border-black/5 bg-[#faf9f7]/80 backdrop-blur-md">
+      {/* div — контейнер для группировки элементов */}
+      {/* max-w-7xl — максимальная ширина 7xl (80rem) */}
+      {/* mx-auto — центрирование по горизонтали */}
+      {/* px-4 md:px-8 — отступы по горизонтали: 4 на мобильных, 8 на средних экранах */}
+      <div className="max-w-7xl mx-auto px-4 md:px-8 lg:px-16 py-4">
+        {/* flex — гибкий контейнер */}
+        {/* items-center — выравнивание по центру по вертикали */}
+        {/* justify-between — распределение элементов по краям */}
+        <div className="flex items-center justify-between">
+          {/* Левая часть: логотип и подзаголовок */}
+          <div className="flex items-center gap-4">
+            {/* Link — компонент Next.js для навигации */}
+            {/* href="/" — ссылка на главную страницу */}
+            <Link href="/" className="text-xl font-medium tracking-tight">
+              {/* IT — обычный текст */}
+              IT
+              {/* span — встроенный контейнер для стилизации части текста */}
+              {/* text-rose-600 — розовый цвет текста */}
+              <span className="text-rose-600">hub</span>
+            </Link>
+            {/* Вертикальная черта-разделитель */}
+            {/* hidden sm:block — скрыт на маленьких экранах, виден на sm и выше */}
+            <div className="hidden sm:block w-px h-4 bg-black/10" />
+            {/* Подзаголовок */}
+            <span className="hidden sm:block text-xs text-stone-400">
+              Справочник IT-ресурсов
+            </span>
+          </div>
+
+          {/* Навигация для десктопа */}
+          {/* hidden md:flex — скрыта на мобильных, видна на md и выше */}
+          <nav className="hidden md:flex items-center gap-8">
+            {/* map — метод массива для перебора элементов */}
+            {/* Для каждой ссылки создаём элемент */}
+            {navLinks.map((link) => (
+              // Условный рендеринг: если href начинается с #, используем <a>
+              // Иначе используем <Link> для клиентской навигации
+              link.href.startsWith('#') ? (
+                // <a> — обычная ссылка HTML (для якорей)
+                <a
+                  key={link.href}
+                  href={link.href}
+                  className="text-sm text-stone-500 hover:text-stone-700 transition-colors"
+                >
+                  {link.label}
+                </a>
+              ) : (
+                // <Link> — компонент Next.js (для страниц)
+                <Link
+                  key={link.href}
+                  href={link.href}
+                  className="text-sm text-stone-500 hover:text-stone-700 transition-colors"
+                >
+                  {link.label}
+                </Link>
+              )
+            ))}
+          </nav>
+
+          {/* Поиск */}
+          {showSearch ? (
+            <form onSubmit={handleSearch} className="flex items-center gap-2">
+              <input
+                value={searchQuery}
+                onChange={(e) => setSearchQuery(e.target.value)}
+                placeholder="Поиск вопросов..."
+                className="px-3 py-1.5 border border-stone-200 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-rose-500 w-48"
+                autoFocus
+              />
+              <button type="submit" className="p-1.5 hover:bg-stone-100 rounded-lg"><Search size={16} /></button>
+              <button onClick={() => setShowSearch(false)} className="p-1.5 hover:bg-stone-100 rounded-lg"><X size={16} /></button>
+            </form>
+          ) : (
+            <button onClick={() => setShowSearch(true)} className="p-2 text-stone-600 hover:bg-stone-100 rounded-lg transition-colors">
+              <Search className="w-5 h-5" />
+            </button>
+          )}
+
+
+          {/* Кнопка мобильного меню */}
+          {/* md:hidden — видна только на мобильных */}
+          <button
+            onClick={() => setIsMenuOpen(!isMenuOpen)} // Переключение состояния
+            className="md:hidden p-2 text-stone-600"
+          >
+            {/* Условный рендеринг иконки */}
+            {isMenuOpen ? <X className="w-5 h-5" /> : <Search className="w-5 h-5" />}
+          </button>
+        </div>
+
+        {/* Мобильное меню */}
+        {/* AnimatePresence — компонент для анимации появления/исчезновения */}
+        <AnimatePresence>
+          {/* Рендерим только если isMenuOpen === true */}
+          {isMenuOpen && (
+            // motion.nav — анимированный элемент nav
+            // initial — начальное состояние анимации
+            // animate — конечное состояние
+            // exit — состояние при исчезновении
+            <motion.nav
+              initial={{ opacity: 0, height: 0 }}
+              animate={{ opacity: 1, height: "auto" }}
+              exit={{ opacity: 0, height: 0 }}
+              className="md:hidden overflow-hidden"
+            >
+              <div className="py-4 space-y-2">
+                {navLinks.map((link) => (
+                  link.href.startsWith('#') ? (
+                    <a
+                      key={link.href}
+                      href={link.href}
+                      onClick={() => setIsMenuOpen(false)} // Закрыть меню при клике
+                      className="block py-2 text-sm text-stone-600 hover:text-stone-900"
+                    >
+                      {link.label}
+                    </a>
+                  ) : (
+                    <Link
+                      key={link.href}
+                      href={link.href}
+                      onClick={() => setIsMenuOpen(false)}
+                      className="block py-2 text-sm text-stone-600 hover:text-stone-900"
+                    >
+                      {link.label}
+                    </Link>
+                  )
+                ))}
+              </div>
+            </motion.nav>
+          )}
+        </AnimatePresence>
+      </div>
+    </header>
+  );
+}
+
+// ------------------ КОМПОНЕНТ МОДАЛЬНОГО ОКНА ------------------
+// Переиспользуемый компонент для всплывающих окон
+function Modal({ isOpen, onClose, title, children, modalKey = "default" }) {
+  if (!isOpen) return null;
+
+  return (
+    <AnimatePresence>
+      <motion.div
+        key={`overlay-${modalKey}`}
+        initial={{ opacity: 0 }}
+        animate={{ opacity: 1 }}
+        exit={{ opacity: 0 }}
+        onClick={onClose}
+        className="fixed inset-0 bg-black/30 z-50"
+      />
+      <motion.div
+        key={`content-${modalKey}`}
+        initial={{ opacity: 0, scale: 0.95, y: 20 }}
+        animate={{ opacity: 1, scale: 1, y: 0 }}
+        exit={{ opacity: 0, scale: 0.95, y: 0 }}
+        onClick={(e) => e.stopPropagation()}
+        className="fixed top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 z-50 w-full max-w-lg bg-white rounded-xl shadow-2xl max-h-[90vh] overflow-y-auto"
+      >
+        <div className="flex items-center justify-between p-6 border-b border-black/5">
+          <h2 className="text-lg font-medium">{title}</h2>
+          <button onClick={onClose} className="p-1 hover:bg-stone-100 rounded">
+            <X className="w-5 h-5" />
+          </button>
+        </div>
+        <div className="p-6">
+          {children}
+        </div>
+      </motion.div>
+    </AnimatePresence>
+  );
+}
+
+// ------------------ КОМПОНЕНТ ДОБАВЛЕНИЯ РЕСУРСА ------------------
+function AddResourceModal({ isOpen, onClose, categories, onSuccess }) {
+  // Состояния для полей формы
+  const [name, setName] = useState("");           // Название ресурса
+  const [description, setDescription] = useState(""); // Описание
+  const [url, setUrl] = useState("");             // URL
+  const [categoryId, setCategoryId] = useState("");  // ID категории
+  const [isLoading, setIsLoading] = useState(false); // Загрузка?
+
+  // Обработчик отправки формы
+  const handleSubmit = async (e) => {
+    // e.preventDefault() предотвращает перезагрузку страницы
+    e.preventDefault();
+
+    // Валидация: проверяем обязательные поля
+    if (!name || !description || !categoryId) {
+      alert("Заполните обязательные поля");
+      return;
+    }
+
+    // Устанавливаем состояние загрузки
+    setIsLoading(true);
+
+    try {
+      // fetch — функция для отправки HTTP-запросов
+      // POST — метод для создания ресурса
+      const response = await fetch("/api/resources", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          name,
+          description,
+          url: url || null, // Если url пустой, отправляем null
+          categoryId,
+        }),
+      });
+
+      // Проверяем успешность запроса
+      if (response.ok) {
+        // Очищаем форму
+        setName("");
+        setDescription("");
+        setUrl("");
+        // Вызываем callback успешного создания
+        onSuccess();
+        // Закрываем модальное окно
+        onClose();
+      } else {
+        // Обрабатываем ошибку
+        const error = await response.json();
+        alert(error.error || "Ошибка при создании ресурса");
+      }
+    } catch (error) {
+      // Обрабатываем ошибку сети
+      console.error("Error:", error);
+      alert("Ошибка при создании ресурса");
+    } finally {
+      // finally выполняется всегда (даже при ошибке)
+      setIsLoading(false);
+    }
+  };
+
+  // Рендерим модальное окно с формой
+  return (
+    <Modal isOpen={isOpen} onClose={onClose} title="Добавить ресурс" modalKey="resource">
+      {/* form — тег формы */}
+      {/* onSubmit — обработчик отправки */}
+      <form onSubmit={handleSubmit} className="space-y-4">
+        {/* Поле "Название" */}
+        <div>
+          {/* label — метка для поля ввода */}
+          <label className="block text-sm font-medium text-stone-700 mb-1.5">
+            Название *
+          </label>
+          {/* input — поле ввода */}
+          {/* value — привязка к состоянию */}
+          {/* onChange — обработчик изменения */}
+          <input
+            value={name}
+            onChange={(e) => setName(e.target.value)}
+            placeholder="Название ресурса"
+            required // Обязательное поле
+            className="w-full px-3 py-2 border border-stone-200 rounded-md text-sm focus:outline-none focus:ring-2 focus:ring-rose-500"
+          />
+        </div>
+
+        {/* Поле "Описание" */}
+        <div>
+          <label className="block text-sm font-medium text-stone-700 mb-1.5">
+            Описание *
+          </label>
+          {/* textarea — многострочное поле ввода */}
+          <textarea
+            value={description}
+            onChange={(e) => setDescription(e.target.value)}
+            placeholder="Краткое описание ресурса"
+            rows={3}
+            required
+            className="w-full px-3 py-2 border border-stone-200 rounded-md text-sm focus:outline-none focus:ring-2 focus:ring-rose-500"
+          />
+        </div>
+
+        {/* Поле "URL" */}
+        <div>
+          <label className="block text-sm font-medium text-stone-700 mb-1.5">
+            URL
+          </label>
+          <input
+            value={url}
+            onChange={(e) => setUrl(e.target.value)}
+            placeholder="https://example.com"
+            type="url" // Тип для валидации URL
+            className="w-full px-3 py-2 border border-stone-200 rounded-md text-sm focus:outline-none focus:ring-2 focus:ring-rose-500"
+          />
+        </div>
+
+        {/* Поле "Категория" */}
+        <div>
+          <label className="block text-sm font-medium text-stone-700 mb-1.5">
+            Категория *
+          </label>
+          {/* select — выпадающий список */}
+          <select
+            value={categoryId}
+            onChange={(e) => setCategoryId(e.target.value)}
+            className="w-full px-3 py-2 border border-stone-200 rounded-md text-sm"
+            required
+          >
+            <option value="">Выберите категорию</option>
+            {/* Перебираем категории и создаём варианты */}
+            {(categories || []).map((cat) => (
+              <option key={cat.id} value={cat.id}>
+                {cat.name}
+              </option>
+            ))}
+          </select>
+        </div>
+
+        {/* Кнопки */}
+        <div className="flex gap-3 pt-4">
+          {/* Кнопка "Отмена" */}
+          <button
+            type="button" // type="button" не отправляет форму
+            onClick={onClose}
+            className="flex-1 py-2.5 border border-stone-200 rounded-md text-sm hover:bg-stone-50 transition-colors"
+          >
+            Отмена
+          </button>
+          {/* Кнопка "Добавить" */}
+          <button
+            type="submit" // type="submit" отправляет форму
+            disabled={isLoading} // Отключена во время загрузки
+            className="flex-1 py-2.5 bg-rose-600 text-white rounded-md text-sm hover:bg-rose-700 transition-colors disabled:opacity-50"
+          >
+            {isLoading ? "Сохранение..." : "Добавить"}
+          </button>
+        </div>
+      </form>
+    </Modal>
+  );
+}
+
+// ------------------ КОМПОНЕНТ ДОБАВЛЕНИЯ ТЕРМИНА ------------------
+function AddTermModal({ isOpen, onClose, onSuccess }) {
+  // Состояния формы
+  const [term, setTerm] = useState("");           // Термин
+  const [definition, setDefinition] = useState(""); // Определение
+  const [isLoading, setIsLoading] = useState(false);
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    if (!term || !definition) {
+      alert("Заполните обязательные поля");
+      return;
+    }
+
+    setIsLoading(true);
+    try {
+      const response = await fetch("/api/terms", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ term, definition }),
+      });
+
+      if (response.ok) {
+        setTerm("");
+        setDefinition("");
+        onSuccess();
+        onClose();
+      } else {
+        alert("Ошибка при создании термина");
+      }
+    } catch (error) {
+      console.error("Error:", error);
+      alert("Ошибка при создании термина");
+    } finally {
+      setIsLoading(false);
+    }
+  };
+
+  return (
+    <Modal isOpen={isOpen} onClose={onClose} title="Добавить термин" modalKey="term">
+      <form onSubmit={handleSubmit} className="space-y-4">
+        <div>
+          <label className="block text-sm font-medium text-stone-700 mb-1.5">
+            Термин *
+          </label>
+          <input
+            value={term}
+            onChange={(e) => setTerm(e.target.value)}
+            placeholder="API, CI/CD, REST..."
+            required
+            className="w-full px-3 py-2 border border-stone-200 rounded-md text-sm focus:outline-none focus:ring-2 focus:ring-rose-500"
+          />
+        </div>
+
+        <div>
+          <label className="block text-sm font-medium text-stone-700 mb-1.5">
+            Определение *
+          </label>
+          <textarea
+            value={definition}
+            onChange={(e) => setDefinition(e.target.value)}
+            placeholder="Чёткое определение термина..."
+            rows={4}
+            required
+            className="w-full px-3 py-2 border border-stone-200 rounded-md text-sm focus:outline-none focus:ring-2 focus:ring-rose-500"
+          />
+        </div>
+
+        <div className="flex gap-3 pt-4">
+          <button
+            type="button"
+            onClick={onClose}
+            className="flex-1 py-2.5 border border-stone-200 rounded-md text-sm hover:bg-stone-50 transition-colors"
+          >
+            Отмена
+          </button>
+          <button
+            type="submit"
+            disabled={isLoading}
+            className="flex-1 py-2.5 bg-rose-600 text-white rounded-md text-sm hover:bg-rose-700 transition-colors disabled:opacity-50"
+          >
+            {isLoading ? "Сохранение..." : "Добавить"}
+          </button>
+        </div>
+      </form>
+    </Modal>
+  );
+}
+
+// ------------------ ГЛАВНЫЙ КОМПОНЕНТ СТРАНИЦЫ ------------------
+// export default — делает компонент доступным для импорта в других файлах
+// Это обязательное требование для страниц Next.js
+export default function Home() {
+  // Состояния для хранения данных
+  const [resources, setResources] = useState([]);   // Массив ресурсов
+  const [categories, setCategories] = useState([]); // Массив категорий
+  const [terms, setTerms] = useState([]);           // Массив терминов
+  const [isLoading, setIsLoading] = useState(true); // Загрузка данных?
+
+  // Состояния для модальных окон
+  const [isResourceModalOpen, setIsResourceModalOpen] = useState(false);
+  const [isTermModalOpen, setIsTermModalOpen] = useState(false);
+
+  // useCallback — хук для мемоизации функций
+  // Функция не пересоздаётся при каждом рендере
+  const fetchData = useCallback(async () => {
+    setIsLoading(true);
+    try {
+      // Promise.all — выполняет несколько промисов параллельно
+      // Это быстрее, чем последовательные запросы
+      const [resourcesRes, categoriesRes, termsRes] = await Promise.all([
+        fetch("/api/resources"),  // GET запрос к API
+        fetch("/api/categories"),
+        fetch("/api/terms"),
+      ]);
+
+      // Парсим JSON ответы параллельно
+      const [resourcesData, categoriesData, termsData] = await Promise.all([
+        resourcesRes.json(),
+        categoriesRes.json(),
+        termsRes.json(),
+      ]);
+
+      // Сохраняем данные в состояние
+      setResources(resourcesData);
+      setCategories(categoriesData);
+      setTerms(termsData);
+    } catch (error) {
+      console.error("Error fetching data:", error);
+    } finally {
+      setIsLoading(false);
+    }
+  }, []); // [] — зависимости пустые, функция создаётся один раз
+
+  // useEffect — хук для побочных эффектов
+  // Выполняется после рендера компонента
+  useEffect(() => {
+    // Функция для начальной загрузки данных
+    const init = async () => {
+      // Сначала заполняем базу тестовыми данными
+      await fetch("/api/seed");
+      // Затем загружаем данные
+      await fetchData();
+    };
+    init();
+  }, [fetchData]); // [fetchData] — выполнять при изменении fetchData
+
+  // Функция форматирования даты
+  const formatDate = (dateString) => {
+    const date = new Date(dateString);
+    // toLocaleDateString — локализованный формат даты
+    return date.toLocaleDateString("ru-RU", {
+      day: "2-digit",
+      month: "2-digit",
+      year: "numeric"
+    });
+  };
+
+  // Рендерим страницу
+  return (
+    // Корневой контейнер
+    // min-h-screen — минимальная высота на весь экран
+    // flex flex-col — flexbox с вертикальным направлением
+    <div className="min-h-screen flex flex-col">
+      {/* Фон страницы */}
+      {/* fixed inset-0 — позиционирование на весь экран */}
+      {/* z-0 — z-index: 0 (позади всего) */}
+      <div
+        className="fixed inset-0 z-0"
+        style={{
+          // inline-стили для градиента
+          background: `linear-gradient(135deg, rgba(250, 249, 247, 0.92) 0%, rgba(250, 249, 247, 0.85) 50%, rgba(250, 249, 247, 0.95) 100%), url('/bg.jpg')`,
+          backgroundSize: "cover",
+          backgroundPosition: "center",
+        }}
+      />
+
+      {/* Основной контент */}
+      {/* relative z-10 — позиционирование поверх фона */}
+      <div className="relative z-10 flex flex-col flex-1">
+        {/* Шапка */}
+        <Header />
+
+        {/* main — основной контент страницы */}
+        <main className="flex-1">
+          {/* Hero-секция */}
+          <section className="px-4 md:px-8 lg:px-16 pt-12 md:pt-16 pb-8">
+            {/* Анимированный заголовок */}
+            {/* motion.h1 — анимированный h1 */}
+            <motion.h1
+              initial={{ opacity: 0, y: 20 }}  // Начальное состояние: невидимый, смещён вниз
+              animate={{ opacity: 1, y: 0 }}    // Конечное состояние: видимый, на месте
+              className="text-4xl md:text-5xl lg:text-6xl font-light tracking-tight mb-6"
+            >
+              Каталог
+              <br />
+              {/* span для стилизации части текста */}
+              <span className="text-stone-400">IT-ресурсов</span>
+            </motion.h1>
+
+            {/* Описание */}
+            <motion.p
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ delay: 0.1 }} // Задержка анимации
+              className="text-stone-500 max-w-2xl text-base md:text-lg leading-relaxed mb-8"
+            >
+              Аккуратная коллекция инструментов, платформ и материалов для разработчиков.
+              Каждый ресурс проверен и классифицирован.
+            </motion.p>
+          </section>
+
+          {/* Секция категорий */}
+          {/* id="catalog" — якорь для навигации */}
+          <section id="catalog" className="px-4 md:px-8 lg:px-16 py-12">
+            <h2 className="text-xs font-medium tracking-widest uppercase text-stone-400 mb-8">
+              Категории
+            </h2>
+
+            {/* Сетка категорий */}
+            {/* grid — CSS Grid */}
+            {/* grid-cols-2 — 2 колонки на мобильных */}
+            {/* md:grid-cols-4 — 4 колонки на средних экранах */}
+            <div className="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-5 gap-4">
+              {categories.map((category, index) => (
+                // Анимированная карточка категории
+                <motion.button
+                  key={category.id}
+                  initial={{ opacity: 0, y: 20 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  transition={{ delay: index * 0.05 }} // Каскадная анимация
+                  className="text-left p-4 hover:bg-stone-100 transition-colors rounded-lg group"
+                >
+                  {/* Порядковый номер */}
+                  <div className="text-2xl font-light font-mono text-stone-300 mb-2">
+                    {String(index + 1).padStart(2, "0")}
+                  </div>
+                  {/* Название категории */}
+                  <div className="font-medium text-sm mb-1 group-hover:text-rose-600 transition-colors">
+                    {category.name}
+                  </div>
+                  {/* Количество ресурсов */}
+                  <div className="text-xs text-stone-400">
+                    {category._count?.resources || 0} ресурсов
+                  </div>
+                </motion.button>
+              ))}
+            </div>
+          </section>
+
+          {/* Разделитель */}
+          <div className="h-px bg-gradient-to-r from-transparent via-black/5 to-transparent mx-4 md:mx-8 lg:mx-16" />
+
+          {/* Секция ресурсов */}
+          <section className="px-4 md:px-8 lg:px-16 py-12">
+            <h2 className="text-xs font-medium tracking-widest uppercase text-stone-400 mb-8">
+              Ресурсы
+            </h2>
+
+            {/* Условный рендеринг: загрузка или список */}
+            {isLoading ? (
+              // Скелетон загрузки
+              <div className="space-y-4">
+                {[1, 2, 3].map((i) => (
+                  <div key={i} className="animate-pulse border-t border-black/5 py-6">
+                    <div className="h-4 bg-stone-200 rounded w-1/4 mb-2" />
+                    <div className="h-3 bg-stone-200 rounded w-3/4" />
+                  </div>
+                ))}
+              </div>
+            ) : (
+              // Список ресурсов
+              <div className="divide-y divide-black/5">
+                {resources.map((resource, index) => (
+                  <motion.article
+                    key={resource.id}
+                    initial={{ opacity: 0, y: 20 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    transition={{ delay: index * 0.03 }}
+                    className="py-6 hover:bg-stone-50 transition-colors"
+                  >
+                    <div className="flex flex-col md:flex-row md:items-start justify-between px-4 gap-4">
+                      <div className="flex-1">
+                        {/* Метка категории */}
+                        <div className="flex items-center gap-2 mb-2">
+                          <span className="text-xs px-2 py-0.5 bg-rose-50 text-rose-600 font-medium uppercase tracking-wide rounded">
+                            {resource.category?.name}
+                          </span>
+                          {/* Ссылка на внешний ресурс */}
+                          {resource.url && (
+                            <a
+                              href={resource.url}
+                              target="_blank" // Открыть в новой вкладке
+                              rel="noopener noreferrer" // Безопасность
+                              className="text-xs text-stone-400 hover:text-rose-600 transition-colors flex items-center gap-1"
+                            >
+                              <ExternalLink className="w-3 h-3" />
+                              сайт
+                            </a>
+                          )}
+                        </div>
+                        {/* Название ресурса */}
+                        <h3 className="text-lg font-medium mb-2">{resource.name}</h3>
+                        {/* Описание */}
+                        <p className="text-sm text-stone-500 max-w-2xl">
+                          {resource.description}
+                        </p>
+                      </div>
+                      {/* Дата добавления */}
+                      <div className="text-right text-stone-400 text-xs">
+                        {formatDate(resource.createdAt)}
+                      </div>
+                    </div>
+                  </motion.article>
+                ))}
+              </div>
+            )}
+
+            {/* Сообщение если ресурсов нет */}
+            {!isLoading && resources.length === 0 && (
+              <div className="text-center py-12 text-stone-400">
+                Ресурсы не найдены. Добавьте первый ресурс!
+              </div>
+            )}
+          </section>
+
+          {/* Разделитель */}
+          <div className="h-px bg-gradient-to-r from-transparent via-black/5 to-transparent mx-4 md:mx-8 lg:mx-16" />
+
+          {/* Секция терминов (превью) */}
+          <section className="px-4 md:px-8 lg:px-16 py-12">
+            <h2 className="text-xs font-medium tracking-widest uppercase text-stone-400 mb-8">
+              Справочник терминов
+            </h2>
+
+            {/* Сетка терминов */}
+            <div className="grid md:grid-cols-2 gap-8">
+              {/* Показываем только первые 6 терминов */}
+              {terms.slice(0, 6).map((term, index) => (
+                <motion.div
+                  key={term.id}
+                  initial={{ opacity: 0, y: 20 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  transition={{ delay: index * 0.05 }}
+                  className="p-4 hover:bg-stone-50 rounded-lg cursor-pointer transition-colors"
+                >
+                  <div className="text-xl font-medium mb-2 text-stone-800">
+                    {term.term}
+                  </div>
+                  {/* line-clamp-2 — ограничение в 2 строки */}
+                  <p className="text-sm text-stone-500 line-clamp-2">
+                    {term.definition}
+                  </p>
+                </motion.div>
+              ))}
+            </div>
+
+            {/* Ссылка на полный справочник */}
+            {terms.length > 0 && (
+              <div className="mt-8">
+                <Link
+                  href="/dictionary"
+                  className="text-sm text-rose-600 hover:text-rose-700 transition-colors"
+                >
+                  Открыть полный справочник →
+                </Link>
+              </div>
+            )}
+          </section>
+        </main>
+
+        {/* Подвал сайта */}
+        <footer className="mt-auto border-t border-black/5 px-4 md:px-8 lg:px-16 py-6 bg-white/50">
+          <div className="flex flex-col md:flex-row items-center justify-between gap-4">
+            <div className="font-medium tracking-tight">
+              IT<span className="text-rose-600">hub</span>
+            </div>
+            <div className="flex items-center gap-6">
+              <Link href="/dictionary" className="text-xs text-stone-400 hover:text-stone-600 transition-colors">
+                Справочник
+              </Link>
+              <Link href="/about" className="text-xs text-stone-400 hover:text-stone-600 transition-colors">
+                О проекте
+              </Link>
+            </div>
+          </div>
+        </footer>
+      </div>
+
+      {/* Плавающая кнопка добавления */}
+      {/* fixed bottom-6 right-6 — позиционирование в правом нижнем углу */}
+      <button
+        onClick={() => setIsResourceModalOpen(true)}
+        className="fixed bottom-6 right-6 z-50 w-14 h-14 rounded-full bg-rose-600 text-white shadow-lg hover:bg-rose-700 transition-colors flex items-center justify-center"
+      >
+        <Plus className="w-6 h-6" />
+      </button>
+
+      {/* Модальные окна */}
+      <AddResourceModal
+        isOpen={isResourceModalOpen}
+        onClose={() => setIsResourceModalOpen(false)}
+        categories={categories}
+        onSuccess={fetchData}
+      />
+
+      <AddTermModal
+        isOpen={isTermModalOpen}
+        onClose={() => setIsTermModalOpen(false)}
+        onSuccess={fetchData}
+      />
+    </div>
+  );
+}
+
+```
+
+---
+
+### 📂 src\app\questions\[slug]/
+
+#### <span id="src\app\questions\[slug]\page-jsx">32. `src\app\questions\[slug]\page.jsx`</span>
+
+**Язык:** `jsx` | **Размер:** `10.3 KB`
+
+```jsx
+'use client';
+import { useState, useEffect } from 'react';
+import { useParams, useRouter } from 'next/navigation';
+import { CheckCircle2, ThumbsUp, ThumbsDown, Eye, MessageSquare, ArrowLeft, Clock, User } from 'lucide-react';
+
+export default function QuestionDetail() {
+  const params = useParams();
+  const router = useRouter();
+  const [question, setQuestion] = useState(null);
+  const [loading, setLoading] = useState(true);
+  const [answerBody, setAnswerBody] = useState('');
+  const [submitting, setSubmitting] = useState(false);
+  const [voteType, setVoteType] = useState(null); // 'up' | 'down' | null
+
+  useEffect(() => {
+    fetch('/api/questions/' + params.slug)
+      .then(r => r.json())
+      .then(data => { 
+        if (data.error) { router.push('/questions'); return; }
+        setQuestion(data); 
+        setLoading(false); 
+      })
+      .catch(() => { setLoading(false); });
+  }, [params.slug]);
+
+  const handleVote = async (type, targetType, targetId) => {
+    // TODO: подключить API голосования
+    setVoteType(type === voteType ? null : type);
+  };
+
+  const handleAnswer = async () => {
+    if (!answerBody.trim()) return;
+    setSubmitting(true);
+    
+    const res = await fetch('/api/questions/' + params.slug + '/answers', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ body: answerBody })
+    });
+    
+    if (res.ok) {
+      setAnswerBody('');
+      fetch('/api/questions/' + params.slug).then(r => r.json()).then(setQuestion);
+    }
+    setSubmitting(false);
+  };
+
+  const timeAgo = (date) => {
+    const s = Math.floor((new Date() - new Date(date)) / 1000);
+    if (s < 60) return 'только что';
+    if (s < 3600) return Math.floor(s / 60) + ' мин.';
+    if (s < 86400) return Math.floor(s / 3600) + ' ч.';
+    return new Date(date).toLocaleDateString('ru-RU');
+  };
+
+  // Simple markdown renderer
+  const renderMarkdown = (text) => {
+    if (!text) return '';
+    return text
+      .replace(/^### (.*$)/gm, '<h3 class="text-lg font-bold mt-4 mb-2">$1</h3>')
+      .replace(/^## (.*$)/gm, '<h2 class="text-xl font-bold mt-6 mb-3">$1</h2>')
+      .replace(/^# (.*$)/gm, '<h1 class="text-2xl font-bold mt-8 mb-4">$1</h1>')
+      .replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>')
+      .replace(/`(.*?)`/g, '<code class="bg-stone-100 px-1 py-0.5 rounded text-sm">$1</code>')
+      .replace(/```([\s\S]*?)```/g, '<pre class="bg-stone-900 text-green-400 p-4 rounded-lg overflow-x-auto my-4 text-sm"><code>$1</code></pre>')
+        .replace(/!\[([^\]]*)\]\(([^)]+)\)/g, '<img src="$2" alt="$1" class="max-w-full h-auto rounded-lg my-4 border border-stone-200" />')
+      .replace(/\n/g, '<br/>');
+  };
+
+  if (loading) return (
+    <div className="min-h-screen bg-stone-50 flex items-center justify-center">
+      <div className="animate-pulse text-stone-500">Загрузка...</div>
+    </div>
+  );
+
+  if (!question) return (
+    <div className="min-h-screen bg-stone-50 flex items-center justify-center">
+      <div className="text-center">
+        <h2 className="text-xl text-stone-600">Вопрос не найден</h2>
+        <button onClick={() => router.push('/questions')} className="mt-4 text-rose-600 hover:underline">← Вернуться к вопросам</button>
+      </div>
+    </div>
+  );
+
+  return (
+    <div className="min-h-screen bg-stone-50">
+      <div className="max-w-4xl mx-auto px-4 py-6">
+        {/* Breadcrumb */}
+        <button onClick={() => router.push('/questions')} className="inline-flex items-center gap-1 text-sm text-rose-600 hover:underline mb-4">
+          <ArrowLeft size={16} /> Все вопросы
+        </button>
+
+        {/* Title */}
+        <h1 className="text-2xl font-bold text-stone-800">{question.title}</h1>
+
+        {/* Meta */}
+        <div className="flex flex-wrap items-center gap-4 mt-2 text-sm text-stone-500">
+          <span className="flex items-center gap-1"><User size={14} /> {question.author?.name || 'Аноним'}</span>
+          <span>•</span>
+          <span className="flex items-center gap-1"><Clock size={14} /> {timeAgo(question.createdAt)}</span>
+          <span>•</span>
+          <span className="flex items-center gap-1"><Eye size={14} /> {question.views}</span>
+          <span className="flex items-center gap-1"><MessageSquare size={14} /> {question._count?.answers || 0} ответов</span>
+          
+          {question.difficulty && (
+            <span className={`px-2 py-0.5 rounded-full text-xs font-medium ${
+              question.difficulty === 'BEGINNER' ? 'bg-green-100 text-green-700' :
+              question.difficulty === 'INTERMEDIATE' ? 'bg-yellow-100 text-yellow-700' :
+              'bg-red-100 text-red-700'
+            }`}>
+              {question.difficulty === 'BEGINNER' ? '🟢 Начальный' : question.difficulty === 'INTERMEDIATE' ? '🟡 Средний' : '🔴 Продвинутый'}
+            </span>
+          )}
+          
+          {question.isAnswered && (
+            <span className="flex items-center gap-1 text-green-600 font-medium"><CheckCircle2 size={14} /> Решено</span>
+          )}
+        </div>
+
+        {/* Tags */}
+        <div className="flex flex-wrap gap-2 mt-3">
+          {question.tags?.map(({ tag }) => (
+            <span key={tag.id} className="px-2.5 py-1 text-xs rounded-full font-medium" style={{ backgroundColor: tag.color + '20', color: tag.color }}>
+              {tag.name}
+            </span>
+          ))}
+        </div>
+
+        {/* Body */}
+        <div className="mt-6 bg-white rounded-xl border border-stone-200 p-6 prose prose-stone max-w-none">
+          <div dangerouslySetInnerHTML={{ __html: renderMarkdown(question.body) }} />
+        </div>
+
+        {/* Actions */}
+        <div className="mt-4 flex items-center gap-4">
+          <button onClick={() => handleVote('up', 'question', question.id)} className={'flex items-center gap-1 px-3 py-1.5 rounded-lg border transition-all ' + (voteType === 'up' ? 'border-green-500 bg-green-50 text-green-600' : 'border-stone-200 hover:border-stone-300')}>
+            <ThumbsUp size={18} />
+            <span className="font-medium">{question.voteCount}</span>
+          </button>
+          <button onClick={() => handleVote('down', 'question', question.id)} className={'flex items-center gap-1 px-3 py-1.5 rounded-lg border transition-all ' + (voteType === 'down' ? 'border-red-500 bg-red-50 text-red-600' : 'border-stone-200 hover:border-stone-300')}>
+            <ThumbsDown size={18} />
+          </button>
+        </div>
+
+        {/* Answers Section */}
+        <div className="mt-8">
+          <h2 className="text-lg font-bold text-stone-800 mb-4 flex items-center gap-2">
+            <MessageSquare size={20} /> {question._count?.answers || 0} {(question._count?.answers || 0) === 1 ? 'ответ' : 'ответов'}
+          </h2>
+
+          {/* Answers List */}
+          {question.answers?.length > 0 ? (
+            <div className="space-y-4">
+              {question.answers?.map((answer, idx) => (
+                <div key={answer.id} className={`bg-white rounded-xl border p-6 ${answer.isAccepted ? 'border-green-300 ring-1 ring-green-200' : 'border-stone-200'}`}>
+                  {answer.isAccepted && (
+                    <div className="flex items-center gap-1 text-green-600 text-sm font-medium mb-3">
+                      <CheckCircle2 size={16} /> Принятый ответ
+                    </div>
+                  )}
+                  <div className="flex items-start justify-between mb-2">
+                    <span className="font-medium text-stone-700">{answer.author?.name || 'Аноним'}</span>
+                    <span className="text-xs text-stone-400">{timeAgo(answer.createdAt)}</span>
+                  </div>
+                  <div dangerouslySetInnerHTML={{ __html: renderMarkdown(answer.body) }} />
+                  
+                  {/* Answer Vote */}
+                  <div className="mt-3 pt-3 border-t border-stone-100 flex items-center gap-3">
+                    <button onClick={() => handleVote('up', 'answer', answer.id)} className="flex items-center gap-1 text-sm text-stone-500 hover:text-green-600">
+                      <ThumbsUp size={14} />
+                      <span>{answer.voteCount || 0}</span>
+                    </button>
+                  </div>
+                </div>
+              ))}
+            </div>
+          ) : (
+            <div className="text-center py-8 text-stone-500 bg-white rounded-xl border border-dashed border-stone-300">
+              Пока нет ответов. Будь первым!
+            </div>
+          )}
+        </div>
+
+        {/* Answer Form */}
+        <div className="mt-8 bg-white rounded-xl border border-stone-200 p-6">
+          <h3 className="font-semibold text-stone-800 mb-3">Ваш ответ</h3>
+          <textarea
+            value={answerBody}
+            onChange={(e) => setAnswerBody(e.target.value)}
+            placeholder="Напишите ваш ответ здесь... Поддерживается Markdown"
+            rows={6}
+            className="w-full px-3 py-2 border border-stone-200 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-rose-500 resize-y"
+          />
+          <div className="flex justify-between items-center mt-3">
+            <span className="text-xs text-stone-400">Markdown поддерживается</span>
+            <button
+              onClick={handleAnswer}
+              disabled={!answerBody.trim() || submitting}
+              className="px-4 py-2 bg-rose-600 text-white rounded-lg text-sm font-medium hover:bg-rose-700 disabled:opacity-50 disabled:cursor-not-allowed transition-colors"
+            >
+              {submitting ? 'Отправка...' : 'Опубликовать ответ'}
+            </button>
+          </div>
+        </div>
+
+        {/* Related */}
+        <div className="mt-8 pt-6 border-t border-stone-200">
+          <a href="/questions" className="text-sm text-rose-600 hover:underline">← Все вопросы</a>
+          <span className="mx-2 text-stone-300">|</span>
+          <a href="/questions/ask" className="text-sm text-rose-600 hover:underline">Задать свой вопрос →</a>
+        </div>
+      </div>
+    </div>
+  );
+}
+
+```
+
+---
+
+### 📂 src\app\questions\ask/
+
+#### <span id="src\app\questions\ask\page-jsx">33. `src\app\questions\ask\page.jsx`</span>
+
+**Язык:** `jsx` | **Размер:** `3.1 KB`
+
+```jsx
+'use client';
+import { useState } from 'react';
+import { useRouter } from 'next/navigation';
+import ImageUploader from '../../../components/qa/ImageUploader';
+
+export default function AskPage() {
+  const router = useRouter();
+  const [title, setTitle] = useState('');
+  const [body, setBody] = useState('');
+  const [tags, setTags] = useState('');
+  const [loading, setLoading] = useState(false);
+  const [uploadedImages, setUploadedImages] = useState([]);
+
+
+  const handleSubmit = async () => {
+    if (!title.trim() || !body.trim()) return;
+    setLoading(true);
+    const res = await fetch('/api/questions', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        title,
+        body,
+        tags: tags.split(',').map(t => t.trim()).filter(Boolean),
+        difficulty: 'BEGINNER'
+      })
+    });
+    if (res.ok) {
+      const data = await res.json();
+      router.push('/questions/' + data.slug);
+    } else {
+      alert('Ошибка');
+      setLoading(false);
+    }
+  };
+
+  return (
+    <div className="min-h-screen bg-stone-50">
+      <div className="max-w-3xl mx-auto px-4 py-8">
+        <a href="/questions" className="text-sm text-rose-600 hover:underline mb-6 inline-block">← Назад</a>
+        <h1 className="text-2xl font-bold text-stone-800">Задать вопрос</h1>
+        
+        <div className="mt-6 space-y-5">
+          <div>
+            <label className="block text-sm font-medium text-stone-700 mb-1.5">Заголовок *</label>
+            <input value={title} onChange={e => setTitle(e.target.value)} placeholder="Как подключить Prisma?" required className="w-full px-3 py-2 border border-stone-200 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-rose-500" />
+          </div>
+          <div>
+            <label className="block text-sm font-medium text-stone-700 mb-1.5">Описание *</label>
+            <textarea value={body} onChange={e => setBody(e.target.value)} placeholder="Опиши проблему..." rows={8} required className="w-full px-3 py-2 border border-stone-200 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-rose-500 resize-y" />
+          </div>
+          <div>
+            <label className="block text-sm font-medium text-stone-700 mb-1.5">Теги</label>
+            <input value={tags} onChange={e => setTags(e.target.value)} placeholder="React, Next.js" className="w-full px-3 py-2 border border-stone-200 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-rose-500" />
+          </div>
+          <ImageUploader
+              onImageUpload={(url) => {
+                setUploadedImages(prev => [...prev, url]);
+                setBody(prev => prev + `\n\n![image](${url})`);
+              }}
+          />
+
+          <button onClick={handleSubmit} disabled={!title.trim() || !body.trim() || loading} className="px-6 py-2.5 bg-rose-600 text-white rounded-lg font-medium hover:bg-rose-700 disabled:opacity-50">
+            {loading ? 'Публикация...' : 'Опубликовать'}
+          </button>
+        </div>
+      </div>
+    </div>
+  );
+}
+
+```
+
+---
+
+### 📂 src\app\questions/
+
+#### <span id="src\app\questions\page-jsx">34. `src\app\questions\page.jsx`</span>
+
+**Язык:** `jsx` | **Размер:** `6.1 KB`
+
+```jsx
+"use client";
+import { useState, useEffect } from 'react';
+import Link from 'next/link';
+import { CheckCircle2, MessageSquare, User } from 'lucide-react';
+
+
+export default function QuestionsPage() {
+  const [questions, setQuestions] = useState([]);
+  const [loading, setLoading] = useState(true);
+  const [searchQuery, setSearchQuery] = useState('');
+  const [activeTab, setActiveTab] = useState('new');
+
+  useEffect(() => { loadQuestions('new'); }, []);
+
+  const loadQuestions = (sort, search) => {
+    setLoading(true);
+    let url = '/api/questions?sort=' + (sort || 'new');
+    if (search && search.trim()) url += '&q=' + encodeURIComponent(search.trim());
+    fetch(url).then(r => r.json()).then(d => { setQuestions(d.questions || []); setLoading(false); }).catch(() => setLoading(false));
+  };
+
+  return (
+    <div className="min-h-screen bg-stone-50">
+      <div className="bg-white border-b border-stone-200 sticky top-0 z-50">
+        <div className="max-w-4xl mx-auto px-4 py-4 flex items-center justify-between">
+          <Link href="/" className="flex items-center gap-2 text-stone-800 hover:text-rose-600 font-bold text-lg">&larr; IThub</Link>
+          <h1 className="text-xl font-bold text-stone-800">Вопросы</h1>
+        </div>
+      </div>
+
+      <div className="bg-white border-b border-stone-100">
+        <div className="max-w-4xl mx-auto px-4 py-4">
+          <form onSubmit={(e) => { e.preventDefault(); loadQuestions(activeTab, searchQuery); }} className="flex gap-2 mb-3">
+            <input value={searchQuery} onChange={(e) => setSearchQuery(e.target.value)} placeholder="Поиск..." className="flex-1 px-4 py-2.5 border border-stone-200 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-rose-500" />
+            <button type="submit" disabled={loading} className="px-5 py-2.5 bg-rose-600 text-white rounded-lg text-sm font-medium hover:bg-rose-700 disabled:opacity-50">Найти</button>
+          </form>
+          <div className="flex gap-1 bg-stone-100 rounded-lg p-1 w-fit">
+            {[{id:'new',label:'Новые'},{id:'top',label:'Лучшие'},{id:'unanswered',label:'Без ответов'}].map(tab => (
+              <button key={tab.id} onClick={() => { setActiveTab(tab.id); loadQuestions(tab.sort); }} className={"px-4 py-1.5 rounded-md text-sm font-medium transition-all cursor-pointer " + (activeTab===tab.id ? "bg-white text-stone-900 shadow-sm" : "text-stone-600 hover:text-stone-900")}>{tab.label}{tab.id==='unanswered' ? "("+questions.length+")" : ""}</button>
+            ))}
+          </div>
+        </div>
+      </div>
+
+      <div className="max-w-4xl mx-auto px-4 py-6">
+        {loading ? (
+          <div className="space-y-3">{[1,2,3,4,5,6].map(i=><div key={i} className="h-24 bg-white rounded-xl border border-stone-200 animate-pulse"></div>)}</div>
+        ) : questions.length === 0 ? (
+          <div className="text-center py-16"><div className="text-6xl mb-4">🔍</div><h2 className="text-xl font-semibold text-stone-700 mt-2">{searchQuery?"Ничего не найдено":"Вопросов пока нет"}</h2><p className="text-stone-500 mt-2">{searchQuery?"Попробуйте другие ключевые слова":"Будьте первым!"}</p>{!searchQuery && <a href="/questions/ask" className="inline-block mt-4 text-rose-600 hover:underline font-medium">Создать вопрос →</a>}</div>
+        ) : (
+          <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-3">
+            {questions.map(q => {
+              const slug = q.slug || "";
+              return (
+                <Link key={q.id} href={"/questions/" + slug} className="group block">
+                  <article className="bg-white rounded-xl border border-stone-200 p-5 hover:border-rose-300 hover:shadow-lg transition-all h-full flex flex-col">
+                    <div className="flex items-center justify-between text-sm mb-3 pb-3 border-b border-stone-100">
+                      <span className="font-bold text-lg text-stone-700">{q.voteCount}<span className="text-xs font-normal text-stone-400 ml-1">голосов</span></span>
+                      <span className="flex items-center gap-1 text-stone-500"><MessageSquare size={14}/><span>{q._count?.answers||0}</span></span>
+                      {q.isAnswered && <span className="flex items-center gap-1 text-green-600 text-xs font-medium"><CheckCircle2 size={14}/> Решено</span>}
+                    </div>
+                    <h2 className="font-semibold text-stone-800 group-hover:text-rose-600 line-clamp-2">{q.title}</h2>
+                    <div className="flex flex-wrap gap-1.5 mt-2">
+                      {q.tags?.map(({tag})=>(<span key={tag.id} style={{backgroundColor:tag.color+"20",color:tag.color}} className="px-2 py-0.5 text-xs rounded-full inline-block font-medium">{tag.name}</span>))}
+                      {q.difficulty && <span className={"px-2 py-0.5 text-xs rounded-full font-medium "+(q.difficulty==="BEGINNER"?"bg-green-100 text-green-700":q.difficulty==="INTERMEDIATE"?"bg-yellow-100 text-yellow-700":"bg-red-100 text-red-700")}>{q.difficulty==="BEGINNER"?"🟢 Начальный":q.difficulty==="INTERMEDIATE"?"🟡 Средний":"🔴 Продвинутый"}</span>}
+                    </div>
+                    <p className="text-sm text-stone-600 mt-2 line-clamp-3">{(q.body||"").substring(0,150)}...</p>
+                    <div className="flex items-center justify-between mt-auto pt-3 border-t border-stone-100 text-xs text-stone-400">
+                      <span className="flex items-center gap-1"><User size={12}/>{q.author?.name||"Аноним"}</span>
+                      <span>{new Date(q.createdAt).toLocaleDateString("ru-RU")}</span>
+                    </div>
+                  </article>
+                </Link>
+              );
+            })}
+          </div>
+        )}
+        <Link href="/questions/ask" className="fixed bottom-8 right-8 z-50 w-14 h-14 rounded-full bg-rose-600 text-white shadow-xl hover:bg-rose-700 active:scale-110 transition-all flex items-center justify-center text-2xl">+</Link>
+      </div>
+    </div>
+  );
+}
+
+```
+
+---
+
+### 📂 src\components\qa/
+
+#### <span id="src\components\qa\imageuploader-jsx">35. `src\components\qa\ImageUploader.jsx`</span>
+
+**Язык:** `jsx` | **Размер:** `3.6 KB`
+
+```jsx
+"use client";
+import { useState, useRef } from 'react';
+import { Upload, X, Image as ImageIcon, Loader2 } from 'lucide-react';
+
+export default function ImageUploader({ onImageUpload, maxImages = 3 }) {
+  const [images, setImages] = useState([]);
+  const [uploading, setUploading] = useState(false);
+  const [dragActive, setDragActive] = useState(false);
+  const inputRef = useRef(null);
+
+  const handleFiles = async (files) => {
+    const validFiles = Array.from(files).slice(0, maxImages - images.length);
+    
+    for (const file of validFiles) {
+      if (!file.type.startsWith('image/')) {
+        alert('Только изображения!');
+        continue;
+      }
+      if (file.size > 5 * 1024 * 1024) {
+        alert('Макс. 5MB');
+        continue;
+      }
+
+      setUploading(true);
+      const formData = new FormData();
+      formData.append('file', file);
+
+      try {
+        const res = await fetch('/api/upload', { method: 'POST', body: formData });
+        const data = await res.json();
+        
+        if (data.url) {
+          const newImg = { url: data.url, preview: URL.createObjectURL(file) };
+          setImages(prev => [...prev, newImg]);
+          onImageUpload?.(data.url);
+        } else {
+          alert(data.error || 'Ошибка загрузки');
+        }
+      } catch (err) {
+        alert('Ошибка сети');
+      }
+      setUploading(false);
+    }
+  };
+
+  const removeImage = (idx) => {
+    setImages(prev => prev.filter((_, i) => i !== idx));
+  };
+
+  return (
+    <div className="space-y-2">
+      <div
+        className={`border-2 border-dashed rounded-lg p-4 text-center cursor-pointer transition-colors ${
+          dragActive ? 'border-rose-500 bg-rose-50' : 'border-stone-300 hover:border-stone-400'
+        } ${images.length >= maxImages ? 'opacity-50 pointer-events-none' : ''}`}
+        onDragOver={(e) => { e.preventDefault(); setDragActive(true); }}
+        onDragLeave={() => setDragActive(false)}
+        onDrop={(e) => { e.preventDefault(); setDragActive(false); handleFiles(e.dataTransfer.files); }}
+        onClick={() => inputRef.current?.click()}
+      >
+        <input
+          ref={inputRef}
+          type="file"
+          accept="image/*"
+          multiple={maxImages > 1}
+          className="hidden"
+          onChange={(e) => handleFiles(e.target.files)}
+        />
+        {uploading ? (
+          <Loader2 className="mx-auto h-8 w-8 animate-spin text-rose-500" />
+        ) : (
+          <>
+            <Upload className="mx-auto h-8 w-8 text-stone-400 mb-2" />
+            <p className="text-sm text-stone-600">
+              Перетащите изображения или <span className="text-rose-600 font-medium">выберите</span>
+            </p>
+            <p className="text-xs text-stone-400 mt-1">JPEG, PNG, GIF, WebP • Макс. 5MB</p>
+          </>
+        )}
+      </div>
+
+      {/* Preview */}
+      {images.length > 0 && (
+        <div className="grid grid-cols-3 gap-2">
+          {images.map((img, idx) => (
+            <div key={idx} className="relative group">
+              <img src={img.preview} alt="" className="w-full h-24 object-cover rounded border" />
+              <button
+                onClick={() => removeImage(idx)}
+                className="absolute -top-1 -right-1 bg-red-500 text-white rounded-full p-0.5 opacity-0 group-hover:opacity-100 transition-opacity"
+              >
+                <X size={12} />
+              </button>
+            </div>
+          ))}
+        </div>
+      )}
+    </div>
+  );
+}
+
+```
+
+---
+
+#### <span id="src\components\qa\questioncard-jsx">36. `src\components\qa\QuestionCard.jsx`</span>
+
+**Язык:** `jsx` | **Размер:** `3.3 KB`
+
+```jsx
+'use client';
+import Link from 'next/link';
+import { Eye, MessageSquare, ThumbsUp, CheckCircle2 } from 'lucide-react';
+
+function timeAgo(date) {
+  const s = Math.floor((new Date() - new Date(date)) / 1000);
+  if (s < 60) return 'только что';
+  if (s < 3600) return Math.floor(s / 60) + ' мин.';
+  if (s < 86400) return Math.floor(s / 3600) + ' ч.';
+  return Math.floor(s / 86400) + ' д.';
+}
+
+export default function QuestionCard({ question }) {
+  return (
+    <Link href={`/questions/${question.slug}`} className="block group">
+      <div className="bg-white rounded-xl border border-stone-200 hover:border-rose-300 hover:shadow-md transition-all p-5">
+        <div className="flex gap-4">
+          {/* Голоса */}
+          <div className="flex flex-col items-center min-w-[50px] text-center">
+            <span className="text-xl font-bold text-stone-700">{question.voteCount}</span>
+            <span className="text-xs text-stone-500">голосов</span>
+            <span className="text-lg font-semibold text-stone-600 mt-2">{question._count.answers}</span>
+            <span className="text-xs text-stone-500">ответов</span>
+            {question.isAnswered && (
+              <CheckCircle2 size={18} className="text-green-600 mt-2" />
+            )}
+          </div>
+
+          {/* Контент */}
+          <div className="flex-1 min-w-0">
+            <h3 className="font-semibold text-stone-800 group-hover:text-rose-600 transition-colors line-clamp-2">
+              {question.title}
+            </h3>
+
+            {/* Теги */}
+            <div className="flex flex-wrap gap-1.5 mt-2">
+              {question.tags.map(({ tag }) => (
+                <span key={tag.id} className="px-2 py-0.5 text-xs rounded-full font-medium" style={{ backgroundColor: `${tag.color}20`, color: tag.color }}>
+                  {tag.name}
+                </span>
+              ))}
+              {question.difficulty && (
+                <span className="px-2 py-0.5 text-xs rounded-full bg-stone-100 text-stone-600">
+                  {question.difficulty === 'BEGINNER' ? '🟢 Начальный' : question.difficulty === 'INTERMEDIATE' ? '🟡 Средний' : '🔴 Продвинутый'}
+                </span>
+              )}
+            </div>
+
+            {/* Meta */}
+            <div className="flex items-center justify-between mt-3 text-xs text-stone-500">
+              <div className="flex items-center gap-3">
+                <span className="flex items-center gap-1">
+                  <Eye size={13} /> {question.views}
+                </span>
+                <span>•</span>
+                <span>{timeAgo(question.createdAt)}</span>
+              </div>
+              <div className="flex items-center gap-2">
+                <span className="font-medium text-stone-700">{question.author.name}</span>
+                <span className={`px-1.5 py-0.5 rounded text-[10px] font-bold ${
+                  question.author.badge === 'GOLD' ? 'bg-yellow-100 text-yellow-700' :
+                  question.author.badge === 'SILVER' ? 'bg-stone-200 text-stone-700' :
+                  'bg-orange-100 text-orange-700'
+                }`}>
+                  {question.author.badge}
+                </span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </Link>
+  );
+}
+
+```
+
+---
+
+#### <span id="src\components\qa\tagbadge-jsx">37. `src\components\qa\TagBadge.jsx`</span>
+
+**Язык:** `jsx` | **Размер:** `0.6 KB`
+
+```jsx
+import Link from 'next/link';
+
+export default function TagBadge({ tag, count }) {
+  return (
+    <Link href={`/questions?tag=${tag.slug}`} className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-sm font-medium transition-all hover:shadow-sm" style={{ backgroundColor: `${tag.color}15`, color: tag.color, border: `1px solid ${tag.color}30` }}>
+      <span className="w-2 h-2 rounded-full" style={{ backgroundColor: tag.color }} />
+      {tag.name}
+      {count !== undefined && (
+        <span className="text-xs opacity-60">×{count}</span>
+      )}
+    </Link>
+  );
+}
+
+```
+
+---
+
+### 📂 src\lib/
+
+#### <span id="src\lib\prisma-js">38. `src\lib\prisma.js`</span>
+
+**Язык:** `javascript` | **Размер:** `0.2 KB`
+
+```javascript
+import { PrismaClient } from "@prisma/client";
+
+const globalForPrisma = globalThis;
+export const prisma = globalForPrisma.prisma || new PrismaClient();
+
+if (process.env.NODE_ENV !== "production") globalForPrisma.prisma = prisma;
+
+```
+
+---
+
+#### <span id="src\lib\utils-js">39. `src\lib\utils.js`</span>
+
+**Язык:** `javascript` | **Размер:** `1.0 KB`
+
+```javascript
+export function slugify(text) {
+  return text
+    .toString()
+    .toLowerCase()
+    .trim()
+    .replace(/\s+/g, "-")
+    .replace(/[^\w\-]+/g, "")
+    .replace(/\-\-+/g, "-")
+    .replace(/^-+/, "")
+    .replace(/-+$/, "");
+}
+
+export async function generateUniqueSlug(prisma, baseSlug, model = "question") {
+  let slug = baseSlug;
+  let counter = 1;
+  
+  while (true) {
+    const exists = await prisma[model].findUnique({ where: { slug } });
+    if (!exists) return slug;
+    slug = `${baseSlug}-${counter++}`;
+  }
+}
+
+export function formatTimeAgo(date) {
+  const seconds = Math.floor((new Date() - new Date(date)) / 1000);
+  
+  if (seconds < 60) return "только что";
+  if (seconds < 3600) return `${Math.floor(seconds / 60)} мин. назад`;
+  if (seconds < 86400) return `${Math.floor(seconds / 3600)} ч. назад`;
+  if (seconds < 604800) return `${Math.floor(seconds / 86400)} д. назад`;
+  
+  return new Date(date).toLocaleDateString("ru-RU");
+}
+
+```
+
+---
+
+### 📂 src/
+
+#### <span id="src\proxy-ts">40. `src\proxy.ts`</span>
+
+**Язык:** `typescript` | **Размер:** `1.0 KB`
+
+```typescript
+import { NextResponse } from 'next/server'
+import type { NextRequest } from 'next/server'
+
+export default function proxy(request: NextRequest) {
+  const { pathname } = request.nextUrl
+  
+  // 🚫 Блокируем seed endpoints в production
+  if (pathname.startsWith('/api/seed') || pathname.startsWith('/api/qa-seed')) {
+    if (process.env.NODE_ENV === 'production') {
+      return NextResponse.json(
+        { error: 'Endpoint disabled in production' },
+        { status: 403 }
+      )
+    }
+  }
+  
+  // 🔒 Добавляем security headers
+  const response = NextResponse.next()
+  
+  response.headers.set('X-Frame-Options', 'DENY')
+  response.headers.set('X-Content-Type-Options', 'nosniff')
+  response.headers.set('Referrer-Policy', 'origin-when-cross-origin')
+  
+  return response
+}
+
+export const config = {
+  matcher: [
+    '/api/seed/:path*',
+    '/api/qa-seed/:path*',
+    '/api/upload/:path*',
+    '/((?!_next/static|_next/image|favicon.ico).*)',
+  ],
+}
+
+```
+
+---
+
+### 📂 Корневые файлы
+
+#### <span id="tailwind-config-js">41. `tailwind.config.js`</span>
+
+**Язык:** `javascript` | **Размер:** `1.8 KB`
+
+```javascript
+import tailwindcssAnimate from "tailwindcss-animate";
+
+/** @type {import('tailwindcss').Config} */
+const config = {
+  darkMode: "class",
+  content: [
+    "./src/pages/**/*.{js,jsx}",
+    "./src/components/**/*.{js,jsx}",
+    "./src/app/**/*.{js,jsx}",
+  ],
+  theme: {
+    extend: {
+      colors: {
+        background: 'hsl(var(--background))',
+        foreground: 'hsl(var(--foreground))',
+        card: {
+          DEFAULT: 'hsl(var(--card))',
+          foreground: 'hsl(var(--card-foreground))'
+        },
+        popover: {
+          DEFAULT: 'hsl(var(--popover))',
+          foreground: 'hsl(var(--popover-foreground))'
+        },
+        primary: {
+          DEFAULT: 'hsl(var(--primary))',
+          foreground: 'hsl(var(--primary-foreground))'
+        },
+        secondary: {
+          DEFAULT: 'hsl(var(--secondary))',
+          foreground: 'hsl(var(--secondary-foreground))'
+        },
+        muted: {
+          DEFAULT: 'hsl(var(--muted))',
+          foreground: 'hsl(var(--muted-foreground))'
+        },
+        accent: {
+          DEFAULT: 'hsl(var(--accent))',
+          foreground: 'hsl(var(--accent-foreground))'
+        },
+        destructive: {
+          DEFAULT: 'hsl(var(--destructive))',
+          foreground: 'hsl(var(--destructive-foreground))'
+        },
+        border: 'hsl(var(--border))',
+        input: 'hsl(var(--input))',
+        ring: 'hsl(var(--ring))',
+        chart: {
+          '1': 'hsl(var(--chart-1))',
+          '2': 'hsl(var(--chart-2))',
+          '3': 'hsl(var(--chart-3))',
+          '4': 'hsl(var(--chart-4))',
+          '5': 'hsl(var(--chart-5))'
+        }
+      },
+      borderRadius: {
+        lg: 'var(--radius)',
+        md: 'calc(var(--radius) - 2px)',
+        sm: 'calc(var(--radius) - 4px)'
+      }
+    }
+  },
+  plugins: [tailwindcssAnimate],
+};
+
+export default config;
+
+```
+
+---
+
+#### <span id="tailwind-config-ts">42. `tailwind.config.ts`</span>
+
+**Язык:** `typescript` | **Размер:** `1.7 KB`
+
+```typescript
+import type { Config } from "tailwindcss";
+import tailwindcssAnimate from "tailwindcss-animate";
+
+const config: Config = {
+    darkMode: "class",
+    content: [
+    "./pages/**/*.{js,ts,jsx,tsx,mdx}",
+    "./components/**/*.{js,ts,jsx,tsx,mdx}",
+    "./app/**/*.{js,ts,jsx,tsx,mdx}",
+  ],
+  theme: {
+  	extend: {
+  		colors: {
+  			background: 'hsl(var(--background))',
+  			foreground: 'hsl(var(--foreground))',
+  			card: {
+  				DEFAULT: 'hsl(var(--card))',
+  				foreground: 'hsl(var(--card-foreground))'
+  			},
+  			popover: {
+  				DEFAULT: 'hsl(var(--popover))',
+  				foreground: 'hsl(var(--popover-foreground))'
+  			},
+  			primary: {
+  				DEFAULT: 'hsl(var(--primary))',
+  				foreground: 'hsl(var(--primary-foreground))'
+  			},
+  			secondary: {
+  				DEFAULT: 'hsl(var(--secondary))',
+  				foreground: 'hsl(var(--secondary-foreground))'
+  			},
+  			muted: {
+  				DEFAULT: 'hsl(var(--muted))',
+  				foreground: 'hsl(var(--muted-foreground))'
+  			},
+  			accent: {
+  				DEFAULT: 'hsl(var(--accent))',
+  				foreground: 'hsl(var(--accent-foreground))'
+  			},
+  			destructive: {
+  				DEFAULT: 'hsl(var(--destructive))',
+  				foreground: 'hsl(var(--destructive-foreground))'
+  			},
+  			border: 'hsl(var(--border))',
+  			input: 'hsl(var(--input))',
+  			ring: 'hsl(var(--ring))',
+  			chart: {
+  				'1': 'hsl(var(--chart-1))',
+  				'2': 'hsl(var(--chart-2))',
+  				'3': 'hsl(var(--chart-3))',
+  				'4': 'hsl(var(--chart-4))',
+  				'5': 'hsl(var(--chart-5))'
+  			}
+  		},
+  		borderRadius: {
+  			lg: 'var(--radius)',
+  			md: 'calc(var(--radius) - 2px)',
+  			sm: 'calc(var(--radius) - 4px)'
+  		}
+  	}
+  },
+  plugins: [tailwindcssAnimate],
+};
+export default config;
+
+```
+
+---
+
+#### <span id="tsconfig-json">43. `tsconfig.json`</span>
+
+**Язык:** `json` | **Размер:** `0.7 KB`
+
+```json
+{
+  "compilerOptions": {
+    "target": "ES2017",
+    "lib": ["dom", "dom.iterable", "esnext"],
+    "allowJs": true,
+    "skipLibCheck": true,
+    "strict": false,
+    "noEmit": true,
+    "incremental": true,
+    "module": "esnext",
+    "esModuleInterop": true,
+    "moduleResolution": "bundler",
+    "resolveJsonModule": true,
+    "isolatedModules": true,
+    "jsx": "react-jsx",
+    "plugins": [{ "name": "next" }],
+    "baseUrl": ".",
+    "paths": {
+      "@/*": ["./src/*"]
+    }
+  },
+  "include": [
+    "next-env.d.ts",
+    ".next/types/**/*.ts",
+    ".next/dev/types/**/*.ts",
+    "**/*.mts",
+    "**/*.ts",
+    "**/*.tsx"
+  ],
+  "exclude": ["node_modules"]
+}
+
+```
+
+---

@@ -1,45 +1,73 @@
+import { NextResponse } from "next/server";
+import { auth } from "@/lib/auth";
 import { prisma } from "@/lib/prisma";
 
 export async function GET(request, { params }) {
+  const { id } = await params;
   try {
-    const { id } = await params;
-    
     const question = await prisma.question.findFirst({
-      where: {
-        OR: [
-          { slug: id },
-          { id: id }
-        ]
-      },
+      where: { OR: [{ id }, { slug: id }] },
       include: {
-        author: { select: { id: true, name: true, avatar: true, reputation: true, badge: true } },
-        category: true,
-        tags: { include: { tag: true } },
-        images: { orderBy: { order: "asc" } },
+        author: { select: { id: true, name: true, avatar: true } },
         answers: {
-          include: {
-            author: { select: { id: true, name: true, avatar: true, reputation: true, badge: true } },
-            images: { orderBy: { order: "asc" } },
-            _count: { select: { votes: true } }
-          },
-          orderBy: [{ isAccepted: "desc" }, { voteCount: "desc" }, { createdAt: "asc" }]
+          orderBy: [{ isAccepted: "desc" }, { voteCount: "desc" }],
+          include: { author: { select: { id: true, name: true, avatar: true } } },
         },
-        _count: { select: { answers: true, favorites: true, votes: true } }
-      }
+        tags: { include: { tag: true } },
+        _count: { select: { answers: true } },
+      },
     });
 
     if (!question) {
-      return Response.json({ error: "Вопрос не найден" }, { status: 404 });
+      return NextResponse.json({ error: "Не найден" }, { status: 404 });
     }
 
     await prisma.question.update({
       where: { id: question.id },
-      data: { views: { increment: 1 } }
+      data: { views: { increment: 1 } },
     });
 
-    return Response.json(question);
+    return NextResponse.json({ ...question, views: question.views + 1 });
   } catch (error) {
-    console.error("Error fetching question:", error);
-    return Response.json({ error: "Ошибка загрузки вопроса" }, { status: 500 });
+    console.error("GET question error:", error);
+    return NextResponse.json({ error: "Ошибка загрузки" }, { status: 500 });
+  }
+}
+
+export async function DELETE(request, { params }) {
+  const { id } = await params;
+  try {
+    const session = await auth();
+    if (!session?.user?.id) {
+      return NextResponse.json({ error: "Требуется авторизация" }, { status: 401 });
+    }
+
+    const question = await prisma.question.findFirst({
+      where: { OR: [{ id }, { slug: id }] },
+      select: { id: true, authorId: true },
+    });
+
+    if (!question) {
+      return NextResponse.json({ error: "Вопрос не найден" }, { status: 404 });
+    }
+
+    const isAdmin = session.user.role === "ADMIN";
+    if (!isAdmin && question.authorId !== session.user.id) {
+      return NextResponse.json({ error: "Доступ запрещён" }, { status: 403 });
+    }
+
+    await prisma.answerComment.deleteMany({ where: { answer: { questionId: question.id } } });
+    await prisma.vote.deleteMany({ where: { questionId: question.id } });
+    await prisma.vote.deleteMany({ where: { answer: { questionId: question.id } } });
+    await prisma.answerImage.deleteMany({ where: { answer: { questionId: question.id } } });
+    await prisma.questionImage.deleteMany({ where: { questionId: question.id } });
+    await prisma.questionTag.deleteMany({ where: { questionId: question.id } });
+    await prisma.answer.deleteMany({ where: { questionId: question.id } });
+    await prisma.question.delete({ where: { id: question.id } });
+
+    return NextResponse.json({ message: "Вопрос удалён" });
+  } catch (error) {
+    console.error("DELETE question error:", error);
+    return NextResponse.json({ error: "Ошибка удаления" }, { status: 500 });
   }
 }

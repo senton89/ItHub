@@ -13,7 +13,7 @@ function timeAgo(date) {
 export default function QuestionCard({ question }) {
   return (
     <Link href={`/questions/${question.slug}`} className="block group">
-      <div className="bg-white rounded-xl border border-stone-200 hover:border-rose-300 hover:shadow-md transition-all p-5">
+      <div className="bg-white rounded-xl border border-stone-200 hover:border-blue-300 hover:shadow-md transition-all p-5">
         <div className="flex gap-4">
           {/* Голоса */}
           <div className="flex flex-col items-center min-w-[50px] text-center">
@@ -28,7 +28,7 @@ export default function QuestionCard({ question }) {
 
           {/* Контент */}
           <div className="flex-1 min-w-0">
-            <h3 className="font-semibold text-stone-800 group-hover:text-rose-600 transition-colors line-clamp-2">
+            <h3 className="font-semibold text-stone-800 group-hover:text-blue-600 transition-colors line-clamp-2">
               {question.title}
             </h3>
 

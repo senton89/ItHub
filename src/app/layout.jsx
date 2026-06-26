@@ -1,7 +1,8 @@
 import "./globals.css";
+import Providers from "@/components/providers";
 
 export const metadata = {
-  title: "IThub — Справочник IT-ресурсов",
+  title: "FixLib — Библиотека решений",
   description: "Аккуратная коллекция инструментов, платформ и материалов для разработчиков",
   keywords: ["IT", "ресурсы", "разработчики", "справочник", "инструменты"],
 };
@@ -10,7 +11,7 @@ export default function RootLayout({ children }) {
   return (
     <html lang="ru" suppressHydrationWarning>
       <body className="antialiased bg-background text-foreground" style={{ fontFamily: "'Inter', system-ui, -apple-system, sans-serif" }}>
-        {children}
+        <Providers>{children}</Providers>
       </body>
     </html>
   );

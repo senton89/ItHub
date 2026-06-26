@@ -1,74 +1,65 @@
-// ============================================================
-// API ROUTE: КАТЕГОРИИ
-// ============================================================
-// Обрабатывает запросы к /api/categories
-// Поддерживает: GET (получить все) и POST (создать новую)
-// ============================================================
+import { NextResponse } from "next/server";
+import { auth } from "@/lib/auth";
+import { prisma } from "@/lib/prisma";
 
-import { PrismaClient } from "@prisma/client";
-
-const prisma = globalThis.__prisma || new PrismaClient();
-if (process.env.NODE_ENV !== "production") globalThis.__prisma = prisma;
-
-// ------------------ GET /api/categories ------------------
-export async function GET() {
+export async function GET(request) {
   try {
-    // Получаем все категории с подсчётом ресурсов в каждой
-    const categories = await prisma.category.findMany({
-      include: {
-        // _count — специальное поле Prisma для подсчёта связанных записей
-        _count: {
-          select: { resources: true }, // Считаем ресурсы в категории
-        },
-      },
-      orderBy: {
-        name: "asc", // Сортировка по имени (алфавит)
-      },
-    });
+    const { searchParams } = new URL(request.url);
+    const session = await auth();
+    const isAdmin = session?.user?.role === "ADMIN";
+    const showAll = searchParams.get("all") === "true";
 
-    return new Response(JSON.stringify(categories), {
-      status: 200,
-      headers: { "Content-Type": "application/json" },
+    const categories = await prisma.category.findMany({
+      where: isAdmin && showAll ? {} : { status: "APPROVED" },
+      orderBy: { order: "asc" },
+      include: { _count: { select: { resources: true } } },
     });
+    return NextResponse.json(categories);
   } catch (error) {
-    console.error("Error fetching categories:", error);
-    return new Response(JSON.stringify({ error: "Ошибка при получении категорий" }), {
-      status: 500,
-      headers: { "Content-Type": "application/json" },
-    });
+    console.error("GET /api/categories error:", error);
+    return NextResponse.json({ error: "Ошибка загрузки" }, { status: 500 });
   }
 }
 
-// ------------------ POST /api/categories ------------------
 export async function POST(request) {
   try {
+    const session = await auth();
+    if (!session?.user?.id) {
+      return NextResponse.json({ error: "Требуется авторизация" }, { status: 401 });
+    }
+
     const body = await request.json();
     const { name, description, color } = body;
 
-    if (!name) {
-      return new Response(JSON.stringify({ error: "Название обязательно" }), {
-        status: 400,
-        headers: { "Content-Type": "application/json" },
-      });
+    if (!name || typeof name !== "string" || name.trim().length < 2) {
+      return NextResponse.json({ error: "Название обязательно (мин. 2 символа)" }, { status: 400 });
     }
+
+    const slug = name.trim().toLowerCase().replace(/\s+/g, "-").replace(/[^a-zа-яё0-9-]/g, "");
+
+    const existing = await prisma.category.findUnique({ where: { slug } });
+    if (existing) {
+      return NextResponse.json({ error: "Категория с таким названием уже существует" }, { status: 409 });
+    }
+
+    const isAdmin = session.user.id === "admin" || false;
 
     const category = await prisma.category.create({
       data: {
-        name,
-        description: description || null,
-        color: color || "#64748b", // Цвет по умолчанию
+        name: name.trim(),
+        slug,
+        description: description?.trim() || null,
+        color: color || "#6366f1",
+        status: isAdmin ? "APPROVED" : "PENDING",
       },
     });
 
-    return new Response(JSON.stringify(category), {
-      status: 201,
-      headers: { "Content-Type": "application/json" },
-    });
+    return NextResponse.json(
+      { message: isAdmin ? "Категория создана" : "Категория отправлена на модерацию", category },
+      { status: 201 }
+    );
   } catch (error) {
-    console.error("Error creating category:", error);
-    return new Response(JSON.stringify({ error: "Ошибка при создании категории" }), {
-      status: 500,
-      headers: { "Content-Type": "application/json" },
-    });
+    console.error("POST /api/categories error:", error);
+    return NextResponse.json({ error: "Ошибка при создании" }, { status: 500 });
   }
 }

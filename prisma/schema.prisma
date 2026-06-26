@@ -17,8 +17,10 @@ model Category {
   color       String     @default("#64748b")
   icon        String?
   order       Int        @default(0)
+  status      String   @default("APPROVED")
   resources   Resource[]
   questions   Question[]
+  terms       Term[]
   createdAt   DateTime   @default(now())
   updatedAt   DateTime   @updatedAt
   @@map("categories")
@@ -34,7 +36,8 @@ model Resource {
   category    Category   @relation(fields: [categoryId], references: [id])
   tags        String?
   isFeatured  Boolean    @default(false)
-  viewCount   Int        @default(0)
+  status      String   @default("PENDING")
+  viewCount   Int      @default(0)
   favorites   ResourceFavorite[]
   createdAt   DateTime   @default(now())
   updatedAt   DateTime   @updatedAt
@@ -49,6 +52,8 @@ model Term {
   examples      String?
   relatedTerms  String?
   categoryId    String?
+  category      Category? @relation(fields: [categoryId], references: [id])
+  status        String   @default("APPROVED")
   viewCount     Int      @default(0)
   createdAt     DateTime @default(now())
   updatedAt     DateTime @updatedAt
@@ -59,6 +64,8 @@ model User {
   id          String   @id @default(cuid())
   email       String   @unique
   name        String?
+  password    String?
+  role        String   @default("USER")
   avatar      String?
   bio         String?
   reputation  Int      @default(1)

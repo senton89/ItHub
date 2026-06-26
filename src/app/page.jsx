@@ -9,16 +9,17 @@
 
 // ------------------ ИМПОРТЫ ------------------
 // Импортируем хуки React для управления состоянием и жизненным циклом
-import { useState, useEffect, useCallback } from "react";
+import { useState, useEffect, useCallback, useRef } from "react";
 
 // Импортируем компонент Link для навигации между страницами без перезагрузки
 import Link from "next/link";
 
 // Импортируем иконки из библиотеки lucide-react
-import { Search, ExternalLink, Plus, X, Loader2, BookOpen, Folder } from "lucide-react";
+import { Search, ExternalLink, Plus, X, Loader2, BookOpen, Folder, Shield } from "lucide-react";
 
 // Импортируем компоненты для анимаций
 import { motion, AnimatePresence } from "framer-motion";
+import { useSession, signOut } from "next-auth/react";
 
 // ------------------ КОМПОНЕНТ HEADER ------------------
 // Шапка сайта с навигацией
@@ -29,6 +30,7 @@ function Header() {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [searchQuery, setSearchQuery] = useState("");
   const [showSearch, setShowSearch] = useState(false);
+  const { data: session } = useSession();
 
   // Массив ссылок навигации
   const navLinks = [
@@ -62,19 +64,16 @@ function Header() {
           <div className="flex items-center gap-4">
             {/* Link — компонент Next.js для навигации */}
             {/* href="/" — ссылка на главную страницу */}
-            <Link href="/" className="text-xl font-medium tracking-tight">
-              {/* IT — обычный текст */}
-              IT
-              {/* span — встроенный контейнер для стилизации части текста */}
-              {/* text-rose-600 — розовый цвет текста */}
-              <span className="text-rose-600">hub</span>
+            <Link href="/" className="text-xl font-bold tracking-tight">
+              Fix
+              <span className="text-blue-600">Lib</span>
             </Link>
             {/* Вертикальная черта-разделитель */}
             {/* hidden sm:block — скрыт на маленьких экранах, виден на sm и выше */}
             <div className="hidden sm:block w-px h-4 bg-black/10" />
             {/* Подзаголовок */}
             <span className="hidden sm:block text-xs text-stone-400">
-              Справочник IT-ресурсов
+              Библиотека решений
             </span>
           </div>
 
@@ -115,7 +114,7 @@ function Header() {
                 value={searchQuery}
                 onChange={(e) => setSearchQuery(e.target.value)}
                 placeholder="Поиск вопросов..."
-                className="px-3 py-1.5 border border-stone-200 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-rose-500 w-48"
+                className="px-3 py-1.5 border border-stone-200 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-blue-500 w-48"
                 autoFocus
               />
               <button type="submit" className="p-1.5 hover:bg-stone-100 rounded-lg"><Search size={16} /></button>
@@ -127,6 +126,34 @@ function Header() {
             </button>
           )}
 
+          {/* Авторизация */}
+          <div className="hidden md:flex items-center gap-2">
+            {session ? (
+              <>
+                <span className="text-sm text-stone-600">
+                  {session.user?.name || session.user?.email}
+                </span>
+                {session.user?.role === "ADMIN" && (
+                  <a href="/admin" className="p-1.5 text-blue-600 hover:text-blue-800 transition" title="Панель администратора">
+                    <Shield className="w-4 h-4" />
+                  </a>
+                )}
+                <button
+                  onClick={() => signOut({ callbackUrl: "/" })}
+                  className="text-sm text-stone-500 hover:text-stone-800 transition"
+                >
+                  Выйти
+                </button>
+              </>
+            ) : (
+              <a
+                href="/login"
+                className="text-sm font-medium text-stone-600 hover:text-stone-900 transition"
+              >
+                Войти
+              </a>
+            )}
+          </div>
 
           {/* Кнопка мобильного меню */}
           {/* md:hidden — видна только на мобильных */}
@@ -224,6 +251,7 @@ function Modal({ isOpen, onClose, title, children, modalKey = "default" }) {
 
 // ------------------ КОМПОНЕНТ ДОБАВЛЕНИЯ РЕСУРСА ------------------
 function AddResourceModal({ isOpen, onClose, categories, onSuccess }) {
+  const { data: session } = useSession();
   // Состояния для полей формы
   const [name, setName] = useState("");           // Название ресурса
   const [description, setDescription] = useState(""); // Описание
@@ -304,7 +332,7 @@ function AddResourceModal({ isOpen, onClose, categories, onSuccess }) {
             onChange={(e) => setName(e.target.value)}
             placeholder="Название ресурса"
             required // Обязательное поле
-            className="w-full px-3 py-2 border border-stone-200 rounded-md text-sm focus:outline-none focus:ring-2 focus:ring-rose-500"
+            className="w-full px-3 py-2 border border-stone-200 rounded-md text-sm focus:outline-none focus:ring-2 focus:ring-blue-500"
           />
         </div>
 
@@ -320,7 +348,7 @@ function AddResourceModal({ isOpen, onClose, categories, onSuccess }) {
             placeholder="Краткое описание ресурса"
             rows={3}
             required
-            className="w-full px-3 py-2 border border-stone-200 rounded-md text-sm focus:outline-none focus:ring-2 focus:ring-rose-500"
+            className="w-full px-3 py-2 border border-stone-200 rounded-md text-sm focus:outline-none focus:ring-2 focus:ring-blue-500"
           />
         </div>
 
@@ -334,7 +362,7 @@ function AddResourceModal({ isOpen, onClose, categories, onSuccess }) {
             onChange={(e) => setUrl(e.target.value)}
             placeholder="https://example.com"
             type="url" // Тип для валидации URL
-            className="w-full px-3 py-2 border border-stone-200 rounded-md text-sm focus:outline-none focus:ring-2 focus:ring-rose-500"
+            className="w-full px-3 py-2 border border-stone-200 rounded-md text-sm focus:outline-none focus:ring-2 focus:ring-blue-500"
           />
         </div>
 
@@ -374,7 +402,7 @@ function AddResourceModal({ isOpen, onClose, categories, onSuccess }) {
           <button
             type="submit" // type="submit" отправляет форму
             disabled={isLoading} // Отключена во время загрузки
-            className="flex-1 py-2.5 bg-rose-600 text-white rounded-md text-sm hover:bg-rose-700 transition-colors disabled:opacity-50"
+            className="flex-1 py-2.5 bg-blue-600 text-white rounded-md text-sm hover:bg-blue-700 transition-colors disabled:opacity-50"
           >
             {isLoading ? "Сохранение..." : "Добавить"}
           </button>
@@ -386,6 +414,7 @@ function AddResourceModal({ isOpen, onClose, categories, onSuccess }) {
 
 // ------------------ КОМПОНЕНТ ДОБАВЛЕНИЯ ТЕРМИНА ------------------
 function AddTermModal({ isOpen, onClose, onSuccess }) {
+  const { data: session } = useSession();
   // Состояния формы
   const [term, setTerm] = useState("");           // Термин
   const [definition, setDefinition] = useState(""); // Определение
@@ -434,7 +463,7 @@ function AddTermModal({ isOpen, onClose, onSuccess }) {
             onChange={(e) => setTerm(e.target.value)}
             placeholder="API, CI/CD, REST..."
             required
-            className="w-full px-3 py-2 border border-stone-200 rounded-md text-sm focus:outline-none focus:ring-2 focus:ring-rose-500"
+            className="w-full px-3 py-2 border border-stone-200 rounded-md text-sm focus:outline-none focus:ring-2 focus:ring-blue-500"
           />
         </div>
 
@@ -448,7 +477,7 @@ function AddTermModal({ isOpen, onClose, onSuccess }) {
             placeholder="Чёткое определение термина..."
             rows={4}
             required
-            className="w-full px-3 py-2 border border-stone-200 rounded-md text-sm focus:outline-none focus:ring-2 focus:ring-rose-500"
+            className="w-full px-3 py-2 border border-stone-200 rounded-md text-sm focus:outline-none focus:ring-2 focus:ring-blue-500"
           />
         </div>
 
@@ -463,7 +492,7 @@ function AddTermModal({ isOpen, onClose, onSuccess }) {
           <button
             type="submit"
             disabled={isLoading}
-            className="flex-1 py-2.5 bg-rose-600 text-white rounded-md text-sm hover:bg-rose-700 transition-colors disabled:opacity-50"
+            className="flex-1 py-2.5 bg-blue-600 text-white rounded-md text-sm hover:bg-blue-700 transition-colors disabled:opacity-50"
           >
             {isLoading ? "Сохранение..." : "Добавить"}
           </button>
@@ -477,6 +506,7 @@ function AddTermModal({ isOpen, onClose, onSuccess }) {
 // export default — делает компонент доступным для импорта в других файлах
 // Это обязательное требование для страниц Next.js
 export default function Home() {
+  const { data: session } = useSession();
   // Состояния для хранения данных
   const [resources, setResources] = useState([]);   // Массив ресурсов
   const [categories, setCategories] = useState([]); // Массив категорий
@@ -486,6 +516,45 @@ export default function Home() {
   // Состояния для модальных окон
   const [isResourceModalOpen, setIsResourceModalOpen] = useState(false);
   const [isTermModalOpen, setIsTermModalOpen] = useState(false);
+  const [showAllResources, setShowAllResources] = useState(false);
+
+  const catScrollRef = useRef(null);
+
+  // Бесшовная прокрутка карусели через requestAnimationFrame
+  useEffect(() => {
+    const el = catScrollRef.current;
+    if (!el || categories.length === 0) return;
+
+    let paused = false;
+    const onEnter = () => { paused = true; };
+    const onLeave = () => { paused = false; };
+    el.addEventListener("mouseenter", onEnter);
+    el.addEventListener("mouseleave", onLeave);
+
+    let rafId;
+    let acc = 0;
+    const step = () => {
+      if (!paused) {
+        acc += 0.2;
+        if (acc >= 1) {
+          el.scrollLeft += Math.floor(acc);
+          acc -= Math.floor(acc);
+        }
+        const oneSet = el.scrollWidth / 3;
+        if (el.scrollLeft >= oneSet) {
+          el.scrollLeft -= oneSet;
+        }
+      }
+      rafId = requestAnimationFrame(step);
+    };
+    rafId = requestAnimationFrame(step);
+
+    return () => {
+      cancelAnimationFrame(rafId);
+      el.removeEventListener("mouseenter", onEnter);
+      el.removeEventListener("mouseleave", onLeave);
+    };
+  }, [categories.length]);
 
   // useCallback — хук для мемоизации функций
   // Функция не пересоздаётся при каждом рендере
@@ -508,9 +577,9 @@ export default function Home() {
       ]);
 
       // Сохраняем данные в состояние
-      setResources(resourcesData);
-      setCategories(categoriesData);
-      setTerms(termsData);
+      setResources(Array.isArray(resourcesData) ? resourcesData : []);
+      setCategories(Array.isArray(categoriesData) ? categoriesData : []);
+      setTerms(Array.isArray(termsData) ? termsData : []);
     } catch (error) {
       console.error("Error fetching data:", error);
     } finally {
@@ -555,7 +624,7 @@ export default function Home() {
         className="fixed inset-0 z-0"
         style={{
           // inline-стили для градиента
-          background: `linear-gradient(135deg, rgba(250, 249, 247, 0.92) 0%, rgba(250, 249, 247, 0.85) 50%, rgba(250, 249, 247, 0.95) 100%), url('/bg.jpg')`,
+          background: `linear-gradient(135deg, rgba(250, 249, 247, 0.92) 0%, rgba(250, 249, 247, 0.85) 50%, rgba(250, 249, 247, 0.95) 100%), linear-gradient(to bottom right, #f8fafc, #e2e8f0)`,
           backgroundSize: "cover",
           backgroundPosition: "center",
         }}
@@ -578,10 +647,8 @@ export default function Home() {
               animate={{ opacity: 1, y: 0 }}    // Конечное состояние: видимый, на месте
               className="text-4xl md:text-5xl lg:text-6xl font-light tracking-tight mb-6"
             >
-              Каталог
-              <br />
-              {/* span для стилизации части текста */}
-              <span className="text-stone-400">IT-ресурсов</span>
+              Каталог{" "}
+              <span className="text-stone-400">решений</span>
             </motion.h1>
 
             {/* Описание */}
@@ -591,7 +658,7 @@ export default function Home() {
               transition={{ delay: 0.1 }} // Задержка анимации
               className="text-stone-500 max-w-2xl text-base md:text-lg leading-relaxed mb-8"
             >
-              Аккуратная коллекция инструментов, платформ и материалов для разработчиков.
+              Полезные ресурсы, термины и ответы на вопросы из разных областей.
               Каждый ресурс проверен и классифицирован.
             </motion.p>
           </section>
@@ -603,33 +670,26 @@ export default function Home() {
               Категории
             </h2>
 
-            {/* Сетка категорий */}
-            {/* grid — CSS Grid */}
-            {/* grid-cols-2 — 2 колонки на мобильных */}
-            {/* md:grid-cols-4 — 4 колонки на средних экранах */}
-            <div className="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-5 gap-4">
-              {categories.map((category, index) => (
-                // Анимированная карточка категории
-                <motion.button
-                  key={category.id}
-                  initial={{ opacity: 0, y: 20 }}
-                  animate={{ opacity: 1, y: 0 }}
-                  transition={{ delay: index * 0.05 }} // Каскадная анимация
-                  className="text-left p-4 hover:bg-stone-100 transition-colors rounded-lg group"
+            {/* Карусель категорий — бесшовный rAF-цикл */}
+            <div
+              ref={catScrollRef}
+              className="flex gap-4 py-2 px-1 overflow-hidden"
+            >
+              {Array(3).fill(categories).flat().map((category, index) => (
+                <div
+                  key={category.id + '-' + index}
+                  className="flex-shrink-0 w-44 text-left p-4 hover:bg-stone-100 transition-colors rounded-lg group cursor-pointer"
                 >
-                  {/* Порядковый номер */}
                   <div className="text-2xl font-light font-mono text-stone-300 mb-2">
-                    {String(index + 1).padStart(2, "0")}
+                    {String((index % categories.length) + 1).padStart(2, "0")}
                   </div>
-                  {/* Название категории */}
-                  <div className="font-medium text-sm mb-1 group-hover:text-rose-600 transition-colors">
+                  <div className="font-medium text-sm mb-1 group-hover:text-blue-600 transition-colors truncate">
                     {category.name}
                   </div>
-                  {/* Количество ресурсов */}
                   <div className="text-xs text-stone-400">
                     {category._count?.resources || 0} ресурсов
                   </div>
-                </motion.button>
+                </div>
               ))}
             </div>
           </section>
@@ -640,12 +700,10 @@ export default function Home() {
           {/* Секция ресурсов */}
           <section className="px-4 md:px-8 lg:px-16 py-12">
             <h2 className="text-xs font-medium tracking-widest uppercase text-stone-400 mb-8">
-              Ресурсы
+              Ресурсы ({resources.length})
             </h2>
 
-            {/* Условный рендеринг: загрузка или список */}
             {isLoading ? (
-              // Скелетон загрузки
               <div className="space-y-4">
                 {[1, 2, 3].map((i) => (
                   <div key={i} className="animate-pulse border-t border-black/5 py-6">
@@ -655,9 +713,8 @@ export default function Home() {
                 ))}
               </div>
             ) : (
-              // Список ресурсов
               <div className="divide-y divide-black/5">
-                {resources.map((resource, index) => (
+                {(showAllResources ? resources : resources.slice(0, 6)).map((resource, index) => (
                   <motion.article
                     key={resource.id}
                     initial={{ opacity: 0, y: 20 }}
@@ -667,32 +724,27 @@ export default function Home() {
                   >
                     <div className="flex flex-col md:flex-row md:items-start justify-between px-4 gap-4">
                       <div className="flex-1">
-                        {/* Метка категории */}
                         <div className="flex items-center gap-2 mb-2">
-                          <span className="text-xs px-2 py-0.5 bg-rose-50 text-rose-600 font-medium uppercase tracking-wide rounded">
+                          <span className="text-xs py-0.5 bg-blue-50 text-blue-600 font-medium uppercase tracking-wide rounded">
                             {resource.category?.name}
                           </span>
-                          {/* Ссылка на внешний ресурс */}
                           {resource.url && (
                             <a
                               href={resource.url}
-                              target="_blank" // Открыть в новой вкладке
-                              rel="noopener noreferrer" // Безопасность
-                              className="text-xs text-stone-400 hover:text-rose-600 transition-colors flex items-center gap-1"
+                              target="_blank"
+                              rel="noopener noreferrer"
+                              className="text-xs text-stone-400 hover:text-blue-600 transition-colors flex items-center gap-1"
                             >
                               <ExternalLink className="w-3 h-3" />
                               сайт
                             </a>
                           )}
                         </div>
-                        {/* Название ресурса */}
                         <h3 className="text-lg font-medium mb-2">{resource.name}</h3>
-                        {/* Описание */}
                         <p className="text-sm text-stone-500 max-w-2xl">
                           {resource.description}
                         </p>
                       </div>
-                      {/* Дата добавления */}
                       <div className="text-right text-stone-400 text-xs">
                         {formatDate(resource.createdAt)}
                       </div>
@@ -702,12 +754,22 @@ export default function Home() {
               </div>
             )}
 
-            {/* Сообщение если ресурсов нет */}
-            {!isLoading && resources.length === 0 && (
-              <div className="text-center py-12 text-stone-400">
-                Ресурсы не найдены. Добавьте первый ресурс!
-              </div>
-            )}
+                {!isLoading && resources.length === 0 && (
+                  <div className="text-center py-12 text-stone-400">
+                    Ресурсы не найдены. Добавьте первый ресурс!
+                  </div>
+                )}
+
+                {resources.length > 6 && (
+                  <div className="py-4 text-center">
+                    <button
+                      onClick={() => setShowAllResources(!showAllResources)}
+                      className="text-sm text-blue-600 hover:text-blue-700 transition-colors"
+                    >
+                      {showAllResources ? "Свернуть" : `Показать все ресурсы (${resources.length})`}
+                    </button>
+                  </div>
+                )}
           </section>
 
           {/* Разделитель */}
@@ -721,8 +783,7 @@ export default function Home() {
 
             {/* Сетка терминов */}
             <div className="grid md:grid-cols-2 gap-8">
-              {/* Показываем только первые 6 терминов */}
-              {terms.slice(0, 6).map((term, index) => (
+              {terms.map((term, index) => (
                 <motion.div
                   key={term.id}
                   initial={{ opacity: 0, y: 20 }}
@@ -733,7 +794,6 @@ export default function Home() {
                   <div className="text-xl font-medium mb-2 text-stone-800">
                     {term.term}
                   </div>
-                  {/* line-clamp-2 — ограничение в 2 строки */}
                   <p className="text-sm text-stone-500 line-clamp-2">
                     {term.definition}
                   </p>
@@ -741,12 +801,11 @@ export default function Home() {
               ))}
             </div>
 
-            {/* Ссылка на полный справочник */}
             {terms.length > 0 && (
-              <div className="mt-8">
+              <div className="mt-4">
                 <Link
                   href="/dictionary"
-                  className="text-sm text-rose-600 hover:text-rose-700 transition-colors"
+                  className="text-sm text-blue-600 hover:text-blue-700 transition-colors"
                 >
                   Открыть полный справочник →
                 </Link>
@@ -759,7 +818,7 @@ export default function Home() {
         <footer className="mt-auto border-t border-black/5 px-4 md:px-8 lg:px-16 py-6 bg-white/50">
           <div className="flex flex-col md:flex-row items-center justify-between gap-4">
             <div className="font-medium tracking-tight">
-              IT<span className="text-rose-600">hub</span>
+              Fix<span className="text-blue-600">Lib</span>
             </div>
             <div className="flex items-center gap-6">
               <Link href="/dictionary" className="text-xs text-stone-400 hover:text-stone-600 transition-colors">
@@ -774,13 +833,21 @@ export default function Home() {
       </div>
 
       {/* Плавающая кнопка добавления */}
-      {/* fixed bottom-6 right-6 — позиционирование в правом нижнем углу */}
-      <button
-        onClick={() => setIsResourceModalOpen(true)}
-        className="fixed bottom-6 right-6 z-50 w-14 h-14 rounded-full bg-rose-600 text-white shadow-lg hover:bg-rose-700 transition-colors flex items-center justify-center"
-      >
-        <Plus className="w-6 h-6" />
-      </button>
+      {session ? (
+        <button
+          onClick={() => setIsResourceModalOpen(true)}
+          className="fixed bottom-6 right-6 z-50 w-14 h-14 rounded-full bg-blue-600 text-white shadow-lg hover:bg-blue-700 transition-colors flex items-center justify-center"
+        >
+          <Plus className="w-6 h-6" />
+        </button>
+      ) : (
+        <Link
+          href="/login"
+          className="fixed bottom-6 right-6 z-50 w-14 h-14 rounded-full bg-blue-600 text-white shadow-lg hover:bg-blue-700 transition-colors flex items-center justify-center"
+        >
+          <Plus className="w-6 h-6" />
+        </Link>
+      )}
 
       {/* Модальные окна */}
       <AddResourceModal

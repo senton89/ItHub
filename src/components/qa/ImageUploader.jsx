@@ -51,7 +51,7 @@ export default function ImageUploader({ onImageUpload, maxImages = 3 }) {
     <div className="space-y-2">
       <div
         className={`border-2 border-dashed rounded-lg p-4 text-center cursor-pointer transition-colors ${
-          dragActive ? 'border-rose-500 bg-rose-50' : 'border-stone-300 hover:border-stone-400'
+          dragActive ? 'border-blue-500 bg-blue-50' : 'border-stone-300 hover:border-stone-400'
         } ${images.length >= maxImages ? 'opacity-50 pointer-events-none' : ''}`}
         onDragOver={(e) => { e.preventDefault(); setDragActive(true); }}
         onDragLeave={() => setDragActive(false)}
@@ -67,12 +67,12 @@ export default function ImageUploader({ onImageUpload, maxImages = 3 }) {
           onChange={(e) => handleFiles(e.target.files)}
         />
         {uploading ? (
-          <Loader2 className="mx-auto h-8 w-8 animate-spin text-rose-500" />
+          <Loader2 className="mx-auto h-8 w-8 animate-spin text-blue-500" />
         ) : (
           <>
             <Upload className="mx-auto h-8 w-8 text-stone-400 mb-2" />
             <p className="text-sm text-stone-600">
-              Перетащите изображения или <span className="text-rose-600 font-medium">выберите</span>
+              Перетащите изображения или <span className="text-blue-600 font-medium">выберите</span>
             </p>
             <p className="text-xs text-stone-400 mt-1">JPEG, PNG, GIF, WebP • Макс. 5MB</p>
           </>
