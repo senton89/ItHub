@@ -1,4 +1,8 @@
 :81 {
+	request_body {
+		max_size 50MB
+	}
+
 	@transform_port_query {
 		query XTransformPort=*
 	}

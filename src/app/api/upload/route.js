@@ -3,10 +3,20 @@ import path from "path";
 import { v4 as uuidv4 } from "uuid";
 
 const ALLOWED_TYPES = ["image/jpeg", "image/png", "image/gif", "image/webp", "image/svg+xml"];
-const MAX_SIZE = 5 * 1024 * 1024; // 5MB
+const MAX_SIZE = 50 * 1024 * 1024; // 50MB
 
 export async function POST(request) {
   try {
+    // Check if we're on Vercel (ephemeral filesystem)
+    const isVercel = process.env.VERCEL === "1";
+
+    if (isVercel) {
+      return Response.json(
+        { error: "File uploads are not supported on Vercel. Please use an external storage service." },
+        { status: 501 }
+      );
+    }
+
     const formData = await request.formData();
     const file = formData.get("file");
 
@@ -19,7 +29,7 @@ export async function POST(request) {
     }
 
     if (file.size > MAX_SIZE) {
-      return Response.json({ error: "Файл слишком большой (макс. 5MB)" }, { status: 400 });
+      return Response.json({ error: "Файл слишком большой (макс. 50MB)" }, { status: 400 });
     }
 
     const bytes = await file.arrayBuffer();

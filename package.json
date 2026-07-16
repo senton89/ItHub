@@ -1,5 +1,5 @@
 {
-  "name": "ithub-aggregator",
+  "name": "fixlib",
   "version": "1.0.0",
   "private": true,
   "scripts": {
@@ -12,7 +12,7 @@
   },
   "dependencies": {
     "@hookform/resolvers": "^5.1.1",
-    "@prisma/client": "^6.11.1",
+    "@prisma/client": "^6.19.3",
     "@radix-ui/react-label": "^2.1.7",
     "@radix-ui/react-slot": "^1.2.3",
     "bcryptjs": "^3.0.3",

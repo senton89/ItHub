@@ -15,7 +15,7 @@ import { useState, useEffect, useCallback, useRef } from "react";
 import Link from "next/link";
 
 // Импортируем иконки из библиотеки lucide-react
-import { Search, ExternalLink, Plus, X, Loader2, BookOpen, Folder, Shield } from "lucide-react";
+import { Search, ExternalLink, Plus, X, Loader2, BookOpen, Folder, Shield, Menu } from "lucide-react";
 
 // Импортируем компоненты для анимаций
 import { motion, AnimatePresence } from "framer-motion";
@@ -162,7 +162,7 @@ function Header() {
             className="md:hidden p-2 text-stone-600"
           >
             {/* Условный рендеринг иконки */}
-            {isMenuOpen ? <X className="w-5 h-5" /> : <Search className="w-5 h-5" />}
+            {isMenuOpen ? <X className="w-5 h-5" /> : <Menu className="w-5 h-5" />}
           </button>
         </div>
 
@@ -203,6 +203,34 @@ function Header() {
                     </Link>
                   )
                 ))}
+                <div className="pt-4 border-t border-black/5 space-y-2">
+                  {session ? (
+                    <>
+                      <div className="py-2 text-sm text-stone-600">
+                        {session.user?.name || session.user?.email}
+                      </div>
+                      {session.user?.role === "ADMIN" && (
+                        <a href="/admin" className="block py-2 text-sm text-blue-600 hover:text-blue-800 transition">
+                          Панель администратора
+                        </a>
+                      )}
+                      <button
+                        onClick={() => signOut({ callbackUrl: "/" })}
+                        className="block w-full text-left py-2 text-sm text-stone-500 hover:text-stone-800 transition"
+                      >
+                        Выйти
+                      </button>
+                    </>
+                  ) : (
+                    <a
+                      href="/login"
+                      onClick={() => setIsMenuOpen(false)}
+                      className="block py-2 text-sm font-medium text-stone-600 hover:text-stone-900 transition"
+                    >
+                      Войти
+                    </a>
+                  )}
+                </div>
               </div>
             </motion.nav>
           )}
