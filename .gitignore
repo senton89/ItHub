@@ -45,3 +45,6 @@ Thumbs.db
 
 # CRITICAL - Config with secrets
 .config.json
+.env.vercel
+.env*.local
+.config
