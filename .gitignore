@@ -48,3 +48,13 @@ Thumbs.db
 .env.vercel
 .env*.local
 .config
+
+# local artifacts
+*.db
+*.log
+.accesslog
+.stats
+.config_backup
+.mimocode/
+project_codebase.md
+_set_admin.js
